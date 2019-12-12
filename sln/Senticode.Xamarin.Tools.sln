@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Senticode.Base", "..\src\Senticode.Base\Senticode.Base.csproj", "{F12CED6D-28A3-4FDF-9EEA-1779308AA39A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Senticode.Xamarin.Tools.Core", "..\src\Senticode.XFT.Core\Senticode.Xamarin.Tools.Core.csproj", "{5173F3B9-606F-4224-8B72-4F4029D9DCA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Senticode.Xamarin.Tools.MVVM", "..\src\Senticode.XFT.MVVM\Senticode.Xamarin.Tools.MVVM.csproj", "{D91249C8-1C85-484A-AF3B-FE2FDE1EA785}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Senticode.Xamarin.Tools.UI", "..\src\Senticode.XFT.UI\Senticode.Xamarin.Tools.UI.csproj", "{6E6A0C2D-591B-4785-9D7B-840452F398FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Staging|Any CPU = Staging|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F12CED6D-28A3-4FDF-9EEA-1779308AA39A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12CED6D-28A3-4FDF-9EEA-1779308AA39A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12CED6D-28A3-4FDF-9EEA-1779308AA39A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12CED6D-28A3-4FDF-9EEA-1779308AA39A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12CED6D-28A3-4FDF-9EEA-1779308AA39A}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
+		{F12CED6D-28A3-4FDF-9EEA-1779308AA39A}.Staging|Any CPU.Build.0 = Staging|Any CPU
+		{5173F3B9-606F-4224-8B72-4F4029D9DCA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5173F3B9-606F-4224-8B72-4F4029D9DCA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5173F3B9-606F-4224-8B72-4F4029D9DCA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5173F3B9-606F-4224-8B72-4F4029D9DCA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5173F3B9-606F-4224-8B72-4F4029D9DCA0}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
+		{5173F3B9-606F-4224-8B72-4F4029D9DCA0}.Staging|Any CPU.Build.0 = Debug|Any CPU
+		{D91249C8-1C85-484A-AF3B-FE2FDE1EA785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91249C8-1C85-484A-AF3B-FE2FDE1EA785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D91249C8-1C85-484A-AF3B-FE2FDE1EA785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D91249C8-1C85-484A-AF3B-FE2FDE1EA785}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D91249C8-1C85-484A-AF3B-FE2FDE1EA785}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91249C8-1C85-484A-AF3B-FE2FDE1EA785}.Staging|Any CPU.Build.0 = Debug|Any CPU
+		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Staging|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0910006-EF82-4DD6-A8B5-1E96718E61DD}
+	EndGlobalSection
+EndGlobal
