@@ -203,3 +203,44 @@ job('SXT_NIGHTLY_BUILD') {
         }
     }	
 }
+
+job('SXT_PUBLISH_NUGETS') {	
+	label('node-winserver19')
+	scm {
+        git {
+		    remote {			   
+               url('https://github.com/Senticode/Senticode.Xamarin.Tools.git')
+               credentials('github')
+			}   
+			branch('master')	             
+		    extensions {               
+				wipeOutWorkspace()
+				cloneOptions {					 
+					noTags(true)
+                }
+				userIdentity {
+                    name('buildrobot')
+					email('buildrobot@senticode.com')
+                }   
+			}            
+		}	  	
+    }
+	steps {
+		batchFile($/${nuget} restore sln\Senticode.Xamarin.Tools.sln/$)
+		powerShell(readFileFromWorkspace($/ci\batchs\get_nugets_version.ps1/$))
+		environmentVariables {
+            propertiesFile('env.properties')             
+        }        	
+		powerShell(readFileFromWorkspace($/ci\batchs\create_nugets.ps1/$))			
+	}	
+	publishers {		
+        nugetPublisher {
+			doNotFailIfNoPackagesArePublished(false)
+			name('senticode.tools')
+			nugetPublicationName('nuget.org')
+			packagesExclusionPattern('')
+			packagesPattern('*.nupkg')
+			publishPath('')
+		}
+    }		
+}
