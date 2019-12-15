@@ -228,9 +228,17 @@ job('SXT_PUBLISH_NUGETS') {
 	steps {
 		batchFile($/${nuget} restore sln\Senticode.Xamarin.Tools.sln/$)
 		powerShell(readFileFromWorkspace($/ci\batchs\get_nugets_version.ps1/$))
+		powerShell(readFileFromWorkspace($/ci\batchs\change_assemblyinfo.ps1/$))
 		environmentVariables {
             propertiesFile('env.properties')             
-        }        	
+        }  
+      	msBuild {
+			msBuildInstallation(msbuild)
+			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
+			args('/p:Configuration=Release')
+			args('/p:SignAssembly=true')
+			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
+		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\create_nugets.ps1/$))			
 	}	
 	publishers {		
