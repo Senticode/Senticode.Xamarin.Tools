@@ -8,8 +8,4 @@ namespace Senticode.Xamarin.Tools.Core.Abstractions.StateMachine
     {
      
     }
-
-
-
-
 }

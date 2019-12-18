@@ -82,9 +82,8 @@ namespace Senticode.Base.Services
                     {
                         service.Initialize();
                     }
-
-                    base.Add(service);
                 }
+                base.Add(service);
             }
         }
     }

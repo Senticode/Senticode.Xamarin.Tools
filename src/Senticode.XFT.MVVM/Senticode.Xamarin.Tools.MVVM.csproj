@@ -40,8 +40,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Unity.Container" Version="5.11.4" />
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
+    <PackageReference Include="Unity.Container" Version="5.9.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.0.0.425677" />
   </ItemGroup>
 
   <ItemGroup>
