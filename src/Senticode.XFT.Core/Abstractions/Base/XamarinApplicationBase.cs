@@ -28,12 +28,15 @@ namespace Senticode.Xamarin.Tools.Core.Abstractions.Base
         /// <param name="initializer"></param>
         private void InternalInitialize(IPlatformInitializer initializer)
         {
-            initializer.Container.RegisterType<TLifeTimeManager>()
-                .RegisterType<AppLifeTimeManagerBase<TAppSettings, TAppCommands>, TLifeTimeManager>();
+            if (!initializer.Container.IsRegistered<TLifeTimeManager>())
+            {
+                initializer.Container.RegisterType<TLifeTimeManager>()
+                    .RegisterType<AppLifeTimeManagerBase<TAppSettings, TAppCommands>, TLifeTimeManager>();
 
-            initializer.Container
-                .RegisterInstance(AppLifeTimeManager)
-                .RegisterInstance<AppLifeTimeManagerBase<TAppSettings, TAppCommands>>(AppLifeTimeManager);
+                initializer.Container
+                    .RegisterInstance(AppLifeTimeManager)
+                    .RegisterInstance<AppLifeTimeManagerBase<TAppSettings, TAppCommands>>(AppLifeTimeManager);
+            }
         }
 
         protected override void OnStart()
@@ -105,17 +108,20 @@ namespace Senticode.Xamarin.Tools.Core.Abstractions.Base
         /// <param name="initializer"></param>
         private void InternalInitialize(IPlatformInitializer initializer)
         {
-            initializer.Container.RegisterType<TAppSettings>()
-                .RegisterType<TAppCommands>();
+            if (!initializer.Container.IsRegistered<TAppSettings>() && !initializer.Container.IsRegistered<TAppCommands>())
+            {
+                initializer.Container.RegisterType<TAppSettings>()
+                    .RegisterType<TAppCommands>();
 
-            initializer.Container
-                .RegisterInstance(AppSettings)
-                .RegisterInstance(AppCommands)
-                .RegisterInstance<AppSettingsBase>(AppSettings)
-                .RegisterInstance<AppCommandsBase<TAppSettings>>(AppCommands)
-                .RegisterInstance<AppCommandsBase>(AppCommands);
+                initializer.Container
+                    .RegisterInstance(AppSettings)
+                    .RegisterInstance(AppCommands)
+                    .RegisterInstance<AppSettingsBase>(AppSettings)
+                    .RegisterInstance<AppCommandsBase<TAppSettings>>(AppCommands)
+                    .RegisterInstance<AppCommandsBase>(AppCommands);
 
-            AppCommands.RegisterTypes(initializer.Container);
+                AppCommands.RegisterTypes(initializer.Container);
+            }
         }
     }
 
