@@ -1,0 +1,2 @@
+$nuget = resolve-path "$env:SENTICODE_CI_TOOLS\common\nuget\*\nuget.exe" | Select -ExpandProperty Path
+& $nuget pack src\Senticode.Base\Senticode.Base.csproj -Version $env:ASSEMBLY_VERSION -Properties Configuration=Release -IncludeReferencedProjects -OutputDirectory .

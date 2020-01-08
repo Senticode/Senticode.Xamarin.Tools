@@ -144,7 +144,11 @@ job('SXT_NIGHTLY_BUILD') {
         changeAsmVer {
             versionPattern('${ASSEMBLY_VERSION}')
 			assemblyFile($/sln\SharedAssemblyInfo.cs/$)
-        }     
+        }
+		changeAsmVer {
+            versionPattern('${BASE_VERSION}')
+			assemblyFile($/sln\BaseAssemblyInfo.cs/$)
+        }  
         batchFile($/${nuget} restore %WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
         msBuild {
 			msBuildInstallation(msbuild)
@@ -240,6 +244,55 @@ job('SXT_PUBLISH_NUGETS') {
 			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
 		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\create_nugets.ps1/$))			
+	}	
+	publishers {		
+        nugetPublisher {
+			doNotFailIfNoPackagesArePublished(false)
+			name('senticode.tools')
+			nugetPublicationName('nuget.org')
+			packagesExclusionPattern('')
+			packagesPattern('*.nupkg')
+			publishPath('')
+		}
+    }		
+}
+
+job('SXT_PUBLISH_BASE_NUGET') {	
+	label('node-winserver19')
+	scm {
+        git {
+		    remote {			   
+               url('https://github.com/Senticode/Senticode.Xamarin.Tools.git')
+               credentials('github')
+			}   
+			branch('master')	             
+		    extensions {               
+				wipeOutWorkspace()
+				cloneOptions {					 
+					noTags(true)
+                }
+				userIdentity {
+                    name('buildrobot')
+					email('buildrobot@senticode.com')
+                }   
+			}            
+		}	  	
+    }
+	steps {
+		batchFile($/${nuget} restore sln\Senticode.Xamarin.Tools.sln/$)
+		powerShell(readFileFromWorkspace($/ci\batchs\get_base_nuget_version.ps1/$))
+		powerShell(readFileFromWorkspace($/ci\batchs\change_assemblyinfo.ps1/$))
+		environmentVariables {
+            propertiesFile('env.properties')             
+        }  
+      	msBuild {
+			msBuildInstallation(msbuild)
+			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
+			args('/p:Configuration=Release')
+			args('/p:SignAssembly=true')
+			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
+		}		
+		powerShell(readFileFromWorkspace($/ci\batchs\create_base_nuget.ps1/$))			
 	}	
 	publishers {		
         nugetPublisher {
