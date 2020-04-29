@@ -47,7 +47,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
         public void Dispose()
         {
             Page.Appearing -= OnAppearing;
-            Page.Appearing -= OnDisappearing;
+            Page.Disappearing -= OnDisappearing;
             Page = null;
         }
 
