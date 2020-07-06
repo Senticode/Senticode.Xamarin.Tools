@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Senticode.Xamarin.Tools.MVV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Senticode.Xamarin.Tools.UI", "..\src\Senticode.XFT.UI\Senticode.Xamarin.Tools.UI.csproj", "{6E6A0C2D-591B-4785-9D7B-840452F398FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Senticode.Database.Tools", "..\src\Senticode.Database.Tools\Senticode.Database.Tools.csproj", "{59855B80-64B3-4F86-BDA5-5C7499781ECE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,12 @@ Global
 		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E6A0C2D-591B-4785-9D7B-840452F398FB}.Staging|Any CPU.Build.0 = Debug|Any CPU
+		{59855B80-64B3-4F86-BDA5-5C7499781ECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59855B80-64B3-4F86-BDA5-5C7499781ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59855B80-64B3-4F86-BDA5-5C7499781ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59855B80-64B3-4F86-BDA5-5C7499781ECE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59855B80-64B3-4F86-BDA5-5C7499781ECE}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
+		{59855B80-64B3-4F86-BDA5-5C7499781ECE}.Staging|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

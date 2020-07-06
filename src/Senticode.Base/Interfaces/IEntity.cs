@@ -1,7 +1,23 @@
-﻿namespace Senticode.Base.Interfaces
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Senticode.Base.Interfaces
 {
-    public interface IEntity
+
+    public interface IEntity<T> where T : struct
     {
-        int Id { get; set; }
+        [Key] T Id { get; set; }
+    }
+
+    [Obsolete("Should use IEntity<T>.")]
+    public interface IEntity: IEntity<int>
+    {
+
+    }
+
+    [Obsolete("Should use IEntity<T>.")]
+    public interface IUniqueEntity: IEntity<Guid>
+    {
+
     }
 }

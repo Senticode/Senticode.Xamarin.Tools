@@ -13,6 +13,8 @@ namespace Senticode.Base
         public bool IsSuccessful => Exception == null;
 
         public Exception Exception { get; set; }
+
+        public static Result Successful { get; } = new Result();
     }
 
     public class Result<T> : Result, IResult<T>
