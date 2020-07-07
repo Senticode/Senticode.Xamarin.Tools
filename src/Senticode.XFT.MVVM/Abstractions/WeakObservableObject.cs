@@ -19,7 +19,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
         /// <summary>
         ///     Occurs when property changes.
         /// </summary>
-        public override event PropertyChangedEventHandler PropertyChanged
+        public new event PropertyChangedEventHandler PropertyChanged
         {
             add => PropertyChangedWeakEventManager.AddHandler(ref _changedEventHandlers, value);
             remove => PropertyChangedWeakEventManager.RemoveHandler(_changedEventHandlers, value);
@@ -41,7 +41,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
         /// <summary>
         ///     Occurs when property is changing.
         /// </summary>
-        public override event PropertyChangingEventHandler PropertyChanging
+        public new event PropertyChangingEventHandler PropertyChanging
         {
             add => PropertyChangingWeakEventManager.AddHandler(ref _changingEventHandlers, value);
             remove => PropertyChangingWeakEventManager.RemoveHandler(_changingEventHandlers, value);

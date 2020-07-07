@@ -6,7 +6,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Interfaces
     ///     Interface for Observable collection with possibility to add ranges of items.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IObservableRangeCollection<T>
+    public interface IObservableRangeCollection<in T>
     {
         /// <summary>
         ///     Adds new elements at the end of the collection.

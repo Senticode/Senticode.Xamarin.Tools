@@ -9,7 +9,7 @@ namespace Senticode.Base.Interfaces
         Exception Exception { get; }
     }
 
-    public interface IResult<T> : IResult
+    public interface IResult<out T> : IResult
     {
         T Object { get; }
     }

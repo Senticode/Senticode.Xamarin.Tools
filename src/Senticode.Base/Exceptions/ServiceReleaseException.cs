@@ -2,6 +2,7 @@
 
 namespace Senticode.Base.Exceptions
 {
+    [Serializable]
     public class ServiceReleaseException : Exception
     {
         public ServiceReleaseException(Exception exception, Type serviceType) : base(

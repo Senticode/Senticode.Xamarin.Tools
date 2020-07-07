@@ -46,16 +46,16 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
         }
         #endregion
 
-        protected override void OnAttachedTo(Entry entry)
+        protected override void OnAttachedTo(Entry bindable)
         {
-            entry.TextChanged += OnEntryTextChanged;
-            base.OnAttachedTo(entry);
+            bindable.TextChanged += OnEntryTextChanged;
+            base.OnAttachedTo(bindable);
         }
 
-        protected override void OnDetachingFrom(Entry entry)
+        protected override void OnDetachingFrom(Entry bindable)
         {
-            entry.TextChanged -= OnEntryTextChanged;
-            base.OnDetachingFrom(entry);
+            bindable.TextChanged -= OnEntryTextChanged;
+            base.OnDetachingFrom(bindable);
         }
 
         protected void SetPositions()
@@ -79,37 +79,39 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
 
         private void OnEntryTextChanged(object sender, TextChangedEventArgs args)
         {
-            if (sender is Entry entry)
+            if (!(sender is Entry entry))
             {
-                var text = entry.Text;
+                return;
+            }
 
-                if (string.IsNullOrWhiteSpace(text) || _positions == null)
-                {
-                    return;
-                }
+            var text = entry.Text;
 
-                if (text.Length > Mask.Length)
-                {
-                    entry.Text = text.Remove(text.Length - 1);
-                    return;
-                }
+            if (string.IsNullOrWhiteSpace(text) || _positions == null)
+            {
+                return;
+            }
 
-                foreach (var position in _positions)
+            if (text.Length > Mask.Length)
+            {
+                entry.Text = text.Remove(text.Length - 1);
+                return;
+            }
+
+            foreach (var position in _positions)
+            {
+                if (text.Length >= position.Key + 1)
                 {
-                    if (text.Length >= position.Key + 1)
+                    var value = position.Value.ToString();
+                    if (text.Substring(position.Key, 1) != value)
                     {
-                        var value = position.Value.ToString();
-                        if (text.Substring(position.Key, 1) != value)
-                        {
-                            text = text.Insert(position.Key, value);
-                        }
+                        text = text.Insert(position.Key, value);
                     }
                 }
+            }
 
-                if (entry.Text != text)
-                {
-                    entry.Text = text;
-                }
+            if (entry.Text != text)
+            {
+                entry.Text = text;
             }
         }
     }

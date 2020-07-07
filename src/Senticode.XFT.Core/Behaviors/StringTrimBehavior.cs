@@ -7,9 +7,9 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
     /// <summary>
     ///     Behavior to limit number of characters in an entry.
     /// </summary>
-    public class StringTrimBhavior : Behavior<Entry>
+    public class StringTrimBehavior : Behavior<Entry>
     {
-        public StringTrimBhavior()
+        public StringTrimBehavior()
         {
             MaxValue = 0;
         }

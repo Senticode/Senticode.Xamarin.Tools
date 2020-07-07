@@ -14,8 +14,10 @@ namespace Senticode.Xamarin.Tools.Core.Abstractions.StateMachine
 
         public void Dispose()
         {
-            _transformFunc = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
 
         public void Transform(T state)
         {
@@ -23,7 +25,15 @@ namespace Senticode.Xamarin.Tools.Core.Abstractions.StateMachine
             {
                 state.Index++;
                 state.DateTime = DateTime.UtcNow;
-               _transformFunc.Invoke(state);
+                _transformFunc.Invoke(state);
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _transformFunc = null;
             }
         }
     }

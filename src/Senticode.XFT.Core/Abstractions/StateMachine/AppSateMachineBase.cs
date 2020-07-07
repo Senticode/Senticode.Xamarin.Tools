@@ -7,7 +7,7 @@ namespace Senticode.Xamarin.Tools.Core.Abstractions.StateMachine
     public class AppSateMachineBase<TState> : IStateMachine<TState, IStateTransformer<TState>>
         where TState : AppStateBase, new()
     {
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         public event PropertyChangedEventHandler PropertyChanged;
 

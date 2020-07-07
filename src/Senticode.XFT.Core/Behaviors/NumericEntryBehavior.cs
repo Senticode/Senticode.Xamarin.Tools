@@ -96,13 +96,9 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
                         return;
                     }
 
-                    if ((MaxValue > 0 && double.TryParse(textChangedEventArgs.NewTextValue, out var value)))
+                    if ((MaxValue > 0 && double.TryParse(textChangedEventArgs.NewTextValue, out var value)) && value > MaxValue)
                     {
-                        if (value > MaxValue)
-                        {
-                            ((Entry)sender).Text = textChangedEventArgs.OldTextValue;
-                        }
-
+                        ((Entry)sender).Text = textChangedEventArgs.OldTextValue;
                     }
                 }
             }

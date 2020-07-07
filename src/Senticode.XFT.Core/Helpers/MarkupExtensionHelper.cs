@@ -18,15 +18,7 @@ namespace Senticode.Xamarin.Tools.Core.Helpers
         /// <returns>Returns binding source if found, otherwise, null.</returns>
         public static object ExtractMember(BindableObject target, Binding binding)
         {
-            object container;
-            if (binding.Source == null)
-            {
-                container = target.BindingContext;
-            }
-            else
-            {
-                container = target.BindingContext;
-            }
+            var container = target.BindingContext;
 
             if (container == null)
             {

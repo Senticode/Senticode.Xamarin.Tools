@@ -27,16 +27,23 @@ namespace Senticode.Xamarin.Tools.Core.Animations
         /// </summary>
         public async Task Play(View sender)
         {
-            if (!(sender is Frame br))
-            {
-                throw new ArgumentException("BlinkingAnimation supported yet only for Frame.");
-            }
+            var br = GetFrame(sender);
 
             while (true)
             {
                 await Task.Delay(400);
                 await br.ColorTo(Color.FromHex(ColorFrom), Color.FromHex(ColorTo), c => br.BackgroundColor = c, 150);
             }
+        }
+
+        private Frame GetFrame(View sender)
+        {
+            if (!(sender is Frame br))
+            {
+                throw new ArgumentException("BlinkingAnimation supported yet only for Frame.");
+            }
+
+            return br;
         }
 
         #region Implementation of IMarkupExtension

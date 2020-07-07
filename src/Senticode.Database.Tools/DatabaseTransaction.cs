@@ -17,11 +17,6 @@ namespace Senticode.Database.Tools
             _connectionManager = connectionManager;
         }
 
-        public void Dispose()
-        {
-            _connectionManager.ReleaseDbContext(TransactionId, Config);
-        }
-
 
         public Guid TransactionId => _transactionId;
 
@@ -35,6 +30,20 @@ namespace Senticode.Database.Tools
             catch (Exception ex)
             {
                 return new Result(ex);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _connectionManager.ReleaseDbContext(TransactionId, Config);
             }
         }
     }

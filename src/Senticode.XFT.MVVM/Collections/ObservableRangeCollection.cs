@@ -13,7 +13,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
         private const string _INDEXER = "Item[]";
         private readonly object _locker = new object();
 
-        public ObservableRangeCollection():base()
+        public ObservableRangeCollection()
         {
         }
 
@@ -114,65 +114,16 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
                     var newArray = newItems as T[] ?? newItems.ToArray();
                     var oldList = new List<T>();
                     var newList = new List<T>();
-                    int i;
                     SuspendChangeNotifications();
 
                     //Replace
-                    for (i = 0; i < oldArray.Length; i++)
-                    {
-                        var oldItem = oldArray[i];
-                        oldList.Add(oldItem);
-                        if (i < newArray.Length)
-                        {
-                            var newItem = newArray[i];
-                            var index = Items.IndexOf(oldItem);
-                            if (index >= 0)
-                            {
-                                Items.RemoveAt(index);
-                                Items.Insert(index, newItem);
-                            }
-                            else
-                            {
-                                Items.Add(newItem);
-                            }
-
-                            newList.Add(newItem);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
+                    var i = ReplaceElements(oldArray, oldList, newArray, newList);
 
                     //Remove remains old items
-                    if (i < oldArray.Length)
-                    {
-                        var remainsItems = new T[oldArray.Length - i];
-                        for (int j = 0; j < remainsItems.Length; j++)
-                        {
-                            remainsItems[j] = oldArray[i + j];
-                        }
-
-                        foreach (var item in remainsItems)
-                        {
-                            Remove(item);
-                        }
-                    }
+                    RemoveRemainsOldElements(i, oldArray);
 
                     //Add remains new items 
-                    if (i < newArray.Length)
-                    {
-                        var remainsItems = new T[newArray.Length - i];
-                        for (int j = 0; j < remainsItems.Length; j++)
-                        {
-                            remainsItems[j] = newArray[i + j];
-                        }
-
-                        foreach (var item in remainsItems)
-                        {
-                            Items.Add(item);
-                        }
-                    }
+                    AddRemainsNewElements(i, newArray);
 
                     NotifyChanges(
                         new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newList, oldList),
@@ -183,6 +134,72 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
                     AddRange(newItems);
                 }
             }
+        }
+
+        private void AddRemainsNewElements(int i, T[] newArray)
+        {
+            if (i < newArray.Length)
+            {
+                var remainsItems = new T[newArray.Length - i];
+                for (var j = 0; j < remainsItems.Length; j++)
+                {
+                    remainsItems[j] = newArray[i + j];
+                }
+
+                foreach (var item in remainsItems)
+                {
+                    Items.Add(item);
+                }
+            }
+        }
+
+        private void RemoveRemainsOldElements(int i, T[] oldArray)
+        {
+            if (i < oldArray.Length)
+            {
+                var remainsItems = new T[oldArray.Length - i];
+                for (var j = 0; j < remainsItems.Length; j++)
+                {
+                    remainsItems[j] = oldArray[i + j];
+                }
+
+                foreach (var item in remainsItems)
+                {
+                    Remove(item);
+                }
+            }
+        }
+
+        private int ReplaceElements(T[] oldArray, List<T> oldList, T[] newArray, List<T> newList)
+        {
+            int i;
+            for (i = 0; i < oldArray.Length; i++)
+            {
+                var oldItem = oldArray[i];
+                oldList.Add(oldItem);
+                if (i < newArray.Length)
+                {
+                    var newItem = newArray[i];
+                    var index = Items.IndexOf(oldItem);
+                    if (index >= 0)
+                    {
+                        Items.RemoveAt(index);
+                        Items.Insert(index, newItem);
+                    }
+                    else
+                    {
+                        Items.Add(newItem);
+                    }
+
+                    newList.Add(newItem);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return i;
         }
 
         /// <summary>
@@ -203,6 +220,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
                 {
                     Items.Add(i);
                 }
+
                 NotifyChanges(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }

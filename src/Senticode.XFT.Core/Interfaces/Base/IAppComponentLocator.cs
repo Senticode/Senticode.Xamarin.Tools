@@ -2,17 +2,17 @@
 
 namespace Senticode.Xamarin.Tools.Core.Interfaces.Base
 {
-    public interface IAppComponentLocator<TAppSettings, TAppCommands, TLifeTimeManager>: IAppComponentLocator<TAppSettings, TAppCommands>
+    public interface IAppComponentLocator<out TAppSettings, out TAppCommands, out TLifeTimeManager>: IAppComponentLocator<TAppSettings, TAppCommands>
     {
         TLifeTimeManager AppLifeTimeManager { get; }
     }
 
-    public interface IAppComponentLocator<TAppSettings, TAppCommands>: IAppComponentLocator<TAppSettings>
+    public interface IAppComponentLocator<out TAppSettings, out TAppCommands>: IAppComponentLocator<TAppSettings>
     {
         TAppCommands AppCommands { get; }
     }
     
-    public interface IAppComponentLocator<TAppSettings> : IAppComponentLocator
+    public interface IAppComponentLocator<out TAppSettings> : IAppComponentLocator
     {
         TAppSettings AppSettings { get; }
     }

@@ -8,7 +8,7 @@ namespace Senticode.Xamarin.Tools.Core
     /// <summary>
     ///     Class that provides global access to IoC container, ResourseManager and EventAggregator.
     /// </summary>
-    public class ServiceLocator
+    public static class ServiceLocator
     {
         private static Lazy<IEventAggregator> _eventAggregator = new Lazy<IEventAggregator>(() => new EventAggregator());
 

@@ -11,7 +11,12 @@ namespace Senticode.Xamarin.Tools.Core.Converters
     public class SelectedToColorConverter : ValueConverterBase
     {
         /// <summary>
-        ///     Returns transparent color.
+        ///     Color which returns when value is true.
+        /// </summary>
+        public Color Color { get; set; } = Color.Transparent;
+
+        /// <summary>
+        ///     Returns Color value = when true or transparent color when value = false.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <param name="targetType">The type to which to convert the value.</param>
@@ -20,12 +25,12 @@ namespace Senticode.Xamarin.Tools.Core.Converters
         /// <returns>Object.</returns>
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool) value ? Color.Transparent : Color.Transparent; //Trust me, that is needed.
+            return (bool) value ? Color : Color.Transparent;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return value is Color color && color == Color;
         }
     }
 }

@@ -22,7 +22,6 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
     [ContentProperty(nameof(Bindings))]
     public class MultiBinding : WeakMarkupExtensionBase, IMarkupExtension<Binding>, IMultiBinding
     {
-        private static CultureInfo _cultureInfo;
 
         private static readonly Lazy<ResourceManager> ResManager =
             new Lazy<ResourceManager>(() => ServiceLocator.LocalizationManager);
@@ -151,7 +150,6 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
 
         private void UpdateProperty(CultureInfo culture)
         {
-            _cultureInfo = culture;
             SetValue();
         }
 
@@ -164,12 +162,7 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
 
             try
             {
-                if (_cultureInfo == null)
-                {
-                    _cultureInfo = Localize.Value.CultureContext;
-                }
-
-                var translate = ResManager.Value.GetString(resourceKey, _cultureInfo) ?? resourceKey;
+                var translate = ResManager.Value.GetString(resourceKey, Localize.Value.CultureContext) ?? resourceKey;
                 return translate;
             }
             catch (FileNotFoundException ex)

@@ -76,12 +76,9 @@ namespace Senticode.Base.Services
         {
             lock (_locker)
             {
-                if (IsInitialized)
+                if (IsInitialized && !service.IsInitialized)
                 {
-                    if (!service.IsInitialized)
-                    {
-                        service.Initialize();
-                    }
+                    service.Initialize();
                 }
                 base.Add(service);
             }

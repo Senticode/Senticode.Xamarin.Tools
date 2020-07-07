@@ -12,15 +12,15 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
     /// <remarks>ContentView with reference to its parent.</remarks>
     public abstract class ViewBase : ContentView, IDisposable
     {
+        /// <summary>
+        ///     Page WeakReferenceProperty data.
+        /// </summary>
+        private readonly WeakReference<Page> _page = new WeakReference<Page>(default);
+
         private bool _isAppeared;
         private bool _isInitialized;
 
         private MasterDetailPage _masterDetailPage;
-
-        /// <summary>
-        ///     Page WeakReferenceProperty data.
-        /// </summary>
-        private readonly WeakReference<Page> _page = new WeakReference<Page>(default(Page));
 
         private IViewModel _vm;
 
@@ -42,27 +42,16 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
             set => _page.SetTarget(value);
         }
 
-        #region IDisposable
-
-        public void Dispose()
-        {
-            Page.Appearing -= OnAppearing;
-            Page.Disappearing -= OnDisappearing;
-            Page = null;
-        }
-
-        #endregion
-
         ~ViewBase()
         {
             MemoryInfo.Remove(this);
         }
 
-        /// <summary>Indicates that the <see cref = "T:Xamarin.Forms.Page" /> is about to appear.</summary>
+        /// <summary>Indicates that the <see cref="T:Xamarin.Forms.Page" /> is about to appear.</summary>
         /// <remarks>To be added.</remarks>
         public event EventHandler Appearing;
 
-        /// <summary>Indicates that the <see cref = "T:Xamarin.Forms.Page" /> is about to cease displaying.</summary>
+        /// <summary>Indicates that the <see cref="T:Xamarin.Forms.Page" /> is about to cease displaying.</summary>
         /// <remarks>To be added.</remarks>
         public event EventHandler Disappearing;
 
@@ -175,5 +164,25 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
                 _vm.IsBusy = false;
             }
         }
+
+        #region IDisposable
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Page.Appearing -= OnAppearing;
+                Page.Disappearing -= OnDisappearing;
+                Page = null;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

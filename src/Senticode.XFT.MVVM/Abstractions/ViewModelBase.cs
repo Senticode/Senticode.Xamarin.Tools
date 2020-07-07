@@ -19,7 +19,8 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
     /// <summary>
     ///     View model base for MVVM implementations.
     /// </summary>
-    public abstract class ViewModelBase<TCommands, TSettings> : ViewModelBase, IAppComponentLocator<TSettings, TCommands>
+    public abstract class ViewModelBase<TCommands, TSettings> : ViewModelBase,
+        IAppComponentLocator<TSettings, TCommands>
         where TSettings : AppSettingsBase
         where TCommands : AppCommandsBase<TSettings>
     {
@@ -59,27 +60,13 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
                 .Select(x => x.Name)
                 .ToHashSet();
             ValidateCommand = new Command(() => OnValidate());
-            _title = this.GetType().Name;
+            _title = GetType().Name;
         }
 
         /// <summary>
         ///     Gets the Container property.
         /// </summary>
         public IUnityContainer Container => ServiceLocator.Container;
-
-        #region IDisposable
-
-        public virtual void Dispose()
-        {
-            foreach (var model in _models)
-            {
-                model.PropertyChanged -= OnModelPropertyChanged;
-            }
-
-            _models.Clear();
-        }
-
-        #endregion
 
 
         /// <summary>
@@ -243,6 +230,29 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
         {
             IsValid = Errors.Count == 0;
             return IsValid;
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                foreach (var model in _models)
+                {
+                    model.PropertyChanged -= OnModelPropertyChanged;
+                }
+
+                _models.Clear();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

@@ -11,12 +11,11 @@ namespace Senticode.Xamarin.Tools.Core.Events.Managers
     {
         public const int DefaultListSize = 2;
 
-        private static readonly SynchronizationContext SyncContext = SynchronizationContext.Current;
-
         /// <summary>
         ///     Invokes the handlers
         /// </summary>
         /// <param name = "sender"></param>
+        /// <param name="args"></param>
         /// <param name = "handlers"></param>
         public static void CallHandlers(object sender, TArgs args, List<WeakReference> handlers)
         {
@@ -42,9 +41,9 @@ namespace Senticode.Xamarin.Tools.Core.Events.Managers
         {
             if (eventHandler != null)
             {
-                if (SyncContext != null)
+                if (SynchronizationContext.Current != null)
                 {
-                    SyncContext.Post(o => eventHandler(sender, args), null);
+                    SynchronizationContext.Current.Post(o => eventHandler(sender, args), null);
                 }
                 else
                 {
@@ -53,7 +52,7 @@ namespace Senticode.Xamarin.Tools.Core.Events.Managers
             }
         }
 
-        private static int CleanupOldHandlers(List<WeakReference> handlers, EventHandler<TArgs>[] callees, int count)
+        private static int CleanupOldHandlers(List<WeakReference> handlers, EventHandler<TArgs>[] callers, int count)
         {
             for (var i = handlers.Count - 1; i >= 0; i--)
             {
@@ -65,7 +64,7 @@ namespace Senticode.Xamarin.Tools.Core.Events.Managers
                 }
                 else
                 {
-                    callees[count] = handler;
+                    callers[count] = handler;
                     count++;
                 }
             }

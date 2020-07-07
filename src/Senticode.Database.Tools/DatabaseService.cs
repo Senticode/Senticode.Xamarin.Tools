@@ -143,24 +143,24 @@ namespace Senticode.Database.Tools
                     {
                         await db.SaveChangesAsync();
                     }
+
+                    return new Result<T>(entity);
                 }
-                else
+
+                using (var db = _connectionManager.GetDbContext(Config))
                 {
-                    using (var db = _connectionManager.GetDbContext(Config))
+                    if (!entity.Id.Equals(default(TKey)))
                     {
-                        if (!entity.Id.Equals(default(TKey)))
+                        var findResult = await db.Set<T>().FindAsync(entity.Id);
+
+                        if (findResult != null)
                         {
-                            var findResult = await db.Set<T>().FindAsync(entity.Id);
-
-                            if (findResult != null)
-                            {
-                                return await UpdateAsync(entity);
-                            }
+                            return await UpdateAsync(entity);
                         }
-
-                        await db.Set<T>().AddAsync(entity);
-                        await db.SaveChangesAsync();
                     }
+
+                    await db.Set<T>().AddAsync(entity);
+                    await db.SaveChangesAsync();
                 }
 
                 return new Result<T>(entity);
@@ -171,16 +171,16 @@ namespace Senticode.Database.Tools
             }
         }
 
-        public async Task<IResult<IEnumerable<T>>> SaveAsync(IEnumerable<T> items, bool withStrongContext = false)
+        public async Task<IResult<IEnumerable<T>>> SaveAsync(IEnumerable<T> entities, bool withStrongContext = false)
         {
-            if (items == null)
+            if (entities == null)
             {
-                return new Result<IEnumerable<T>>(new ArgumentNullException(nameof(items)));
+                return new Result<IEnumerable<T>>(new ArgumentNullException(nameof(entities)));
             }
 
             try
             {
-                var enumeratedItems = items as T[] ?? items.ToArray();
+                var enumeratedItems = entities as T[] ?? entities.ToArray();
 
                 if (withStrongContext)
                 {

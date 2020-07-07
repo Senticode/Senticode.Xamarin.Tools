@@ -18,6 +18,9 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
             if (serviceProvider == null) throw new ArgumentNullException(nameof(serviceProvider));
 
             var pvt = serviceProvider.GetService(typeof(IProvideValueTarget));
+
+            if (pvt == null) throw new ArgumentException("serviceProvider does not provide an IProvideValueTarget");
+            
             var properties = pvt.GetType().GetProperties();
             IEnumerable<object> parentObjects = null;
             foreach (var property in properties)
@@ -28,8 +31,7 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
                     break;
                 }
             }
-
-            if (pvt == null) throw new ArgumentException("serviceProvider does not provide an IProvideValueTarget");
+            
             if (parentObjects == null) return null;
 
             var enumerable = parentObjects as object[] ?? parentObjects.ToArray();

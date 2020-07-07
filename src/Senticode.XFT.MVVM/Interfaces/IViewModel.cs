@@ -23,13 +23,13 @@ namespace Senticode.Xamarin.Tools.MVVM.Interfaces
         ///     This method can be used to trigger lazy initialization of the view model properties.
         ///     It is called when the event BindingContextChanged of ViewBase.
         /// </summary>
-        Task OnInitializedAsync(object sender, ViewBaseEventArgs e);
+        Task OnInitializedAsync(object sender, ViewBaseEventArgs eventArgs);
 
         /// <summary>
         ///     This method can be used to trigger manage completion of the view model process.
         ///     It is called when the event BindingContextChanged of ViewBase.
         /// </summary>
-        Task OnClosedAsync(object sender, ViewBaseEventArgs e);
+        Task OnClosedAsync(object sender, ViewBaseEventArgs eventArgs);
 
 
         /// <summary>

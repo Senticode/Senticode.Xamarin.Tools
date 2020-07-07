@@ -24,59 +24,18 @@ namespace Senticode.Xamarin.Tools.MVVM.Extensions
                         case NotifyCollectionChangedAction.Reset:
                             outCollection.ReplaceAll(collection.Select(translator).ToList());
                             break;
-
                         case NotifyCollectionChangedAction.Add:
-                            if (args.NewItems.Cast<T>() is IEnumerable<T> newItems)
-                            {
-                                try
-                                {
-                                    outCollection.AddRange(newItems.Select(translator).ToList());
-                                }
-                                catch
-                                {
-                                    //next
-                                }
-                            }
-
+                            OnAdd(translator, args, outCollection);
                             break;
-
                         case NotifyCollectionChangedAction.Remove:
-                            if (args.OldItems.Cast<T>() is IEnumerable<T> oldItems)
-                            {
-                                try
-                                {
-                                    outCollection.RemoveRange(oldItems.Select(translator).ToList());
-                                }
-                                catch
-                                {
-                                    //next
-                                }
-                            }
-
+                            OnRemove(translator, args, outCollection);
                             break;
-
                         case NotifyCollectionChangedAction.Replace:
-                            try
-                            {
-                                if (args.OldItems.Cast<T>() is IEnumerable<T> oldReplacedItems &&
-                                    args.NewItems.Cast<T>() is IEnumerable<T> newReplacedItems)
-                                {
-                                    outCollection.ReplaceRange(newReplacedItems.Select(translator).ToList(),
-                                        oldReplacedItems.Select(translator).ToList());
-                                }
-                            }
-                            catch
-                            {
-                                //next
-                            }
-
+                            OnReplace(translator, args, outCollection);
                             break;
-
                         case NotifyCollectionChangedAction.Move:
-                            //TODO implement this
-                            outCollection.ReplaceAll(collection.Select(translator).ToList());
+                            OnMove(collection, translator, outCollection);
                             break;
-
                         default:
                             outCollection.ReplaceAll(collection.Select(translator).ToList());
                             break;
@@ -85,6 +44,63 @@ namespace Senticode.Xamarin.Tools.MVVM.Extensions
             };
 
             return result;
+        }
+
+        private static void OnMove<TOut, T>(ObservableRangeCollection<T> collection, Func<T, TOut> translator,
+            ObservableRangeCollection<TOut> outCollection)
+        {
+            //TODO implement this
+            outCollection.ReplaceAll(collection.Select(translator).ToList());
+        }
+
+        private static void OnReplace<TOut, T>(Func<T, TOut> translator, NotifyCollectionChangedEventArgs args,
+            ObservableRangeCollection<TOut> outCollection)
+        {
+            try
+            {
+                if (args.OldItems.Cast<T>() is IEnumerable<T> oldReplacedItems &&
+                    args.NewItems.Cast<T>() is IEnumerable<T> newReplacedItems)
+                {
+                    outCollection.ReplaceRange(newReplacedItems.Select(translator).ToList(),
+                        oldReplacedItems.Select(translator).ToList());
+                }
+            }
+            catch
+            {
+                //next
+            }
+        }
+
+        private static void OnRemove<TOut, T>(Func<T, TOut> translator, NotifyCollectionChangedEventArgs args,
+            ObservableRangeCollection<TOut> outCollection)
+        {
+            if (args.OldItems.Cast<T>() is IEnumerable<T> oldItems)
+            {
+                try
+                {
+                    outCollection.RemoveRange(oldItems.Select(translator).ToList());
+                }
+                catch
+                {
+                    //next
+                }
+            }
+        }
+
+        private static void OnAdd<TOut, T>(Func<T, TOut> translator, NotifyCollectionChangedEventArgs args,
+            ObservableRangeCollection<TOut> outCollection)
+        {
+            if (args.NewItems.Cast<T>() is IEnumerable<T> newItems)
+            {
+                try
+                {
+                    outCollection.AddRange(newItems.Select(translator).ToList());
+                }
+                catch
+                {
+                    //next
+                }
+            }
         }
 
         public static ObservableRangeCollection<TOut> ToSynchronizedCollection<T, TOut>(

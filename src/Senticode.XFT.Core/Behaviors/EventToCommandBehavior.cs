@@ -10,22 +10,29 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
     /// </summary>
     public class EventToCommandBehavior : BehaviorBase<View>
     {
-        Delegate _eventHandler;
+        public static readonly BindableProperty EventNameProperty = BindableProperty.Create(nameof(EventName),
+            typeof(string), typeof(EventToCommandBehavior), null, propertyChanged: OnEventNameChanged);
 
-        public static readonly BindableProperty EventNameProperty = BindableProperty.Create(nameof(EventName), typeof(string), typeof(EventToCommandBehavior), null, propertyChanged: OnEventNameChanged);
-        public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(EventToCommandBehavior), null);
-        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(EventToCommandBehavior), null);
-        public static readonly BindableProperty InputConverterProperty = BindableProperty.Create(nameof(Converter), typeof(IValueConverter), typeof(EventToCommandBehavior), null);
+        public static readonly BindableProperty CommandProperty =
+            BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(EventToCommandBehavior));
+
+        public static readonly BindableProperty CommandParameterProperty =
+            BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(EventToCommandBehavior));
+
+        public static readonly BindableProperty InputConverterProperty =
+            BindableProperty.Create(nameof(Converter), typeof(IValueConverter), typeof(EventToCommandBehavior));
+
+        private Delegate _eventHandler;
 
         public string EventName
         {
-            get => (string)GetValue(EventNameProperty);
+            get => (string) GetValue(EventNameProperty);
             set => SetValue(EventNameProperty, value);
         }
 
         public ICommand Command
         {
-            get => (ICommand)GetValue(CommandProperty);
+            get => (ICommand) GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
 
@@ -37,7 +44,7 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
 
         public IValueConverter Converter
         {
-            get => (IValueConverter)GetValue(InputConverterProperty);
+            get => (IValueConverter) GetValue(InputConverterProperty);
             set => SetValue(InputConverterProperty, value);
         }
 
@@ -49,11 +56,11 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
 
         protected override void OnDetachingFrom(View bindable)
         {
-            DeregisterEvent(EventName);
+            UnRegisterEvent(EventName);
             base.OnDetachingFrom(bindable);
         }
 
-        void RegisterEvent(string name)
+        private void RegisterEvent(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -65,12 +72,13 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
             {
                 throw new ArgumentException($"EventToCommandBehavior: Can't register the '{EventName}' event.");
             }
+
             var methodInfo = typeof(EventToCommandBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent));
             _eventHandler = methodInfo.CreateDelegate(eventInfo.EventHandlerType, this);
             eventInfo.AddEventHandler(AssociatedObject, _eventHandler);
         }
 
-        void DeregisterEvent(string name)
+        private void UnRegisterEvent(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -81,16 +89,18 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
             {
                 return;
             }
+
             var eventInfo = AssociatedObject.GetType().GetRuntimeEvent(name);
             if (eventInfo == null)
             {
                 throw new ArgumentException($"EventToCommandBehavior: Can't de-register the '{EventName}' event.");
             }
+
             eventInfo.RemoveEventHandler(AssociatedObject, _eventHandler);
             _eventHandler = null;
         }
 
-        void OnEvent(object sender, object eventArgs)
+        private void OnEvent(object eventArgs)
         {
             if (Command == null)
             {
@@ -117,18 +127,18 @@ namespace Senticode.Xamarin.Tools.Core.Behaviors
             }
         }
 
-        static void OnEventNameChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnEventNameChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var behavior = (EventToCommandBehavior)bindable;
+            var behavior = (EventToCommandBehavior) bindable;
             if (behavior.AssociatedObject == null)
             {
                 return;
             }
 
-            var oldEventName = (string)oldValue;
-            var newEventName = (string)newValue;
+            var oldEventName = (string) oldValue;
+            var newEventName = (string) newValue;
 
-            behavior.DeregisterEvent(oldEventName);
+            behavior.UnRegisterEvent(oldEventName);
             behavior.RegisterEvent(newEventName);
         }
     }

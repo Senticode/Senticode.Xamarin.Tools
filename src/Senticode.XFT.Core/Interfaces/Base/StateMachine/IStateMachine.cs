@@ -2,7 +2,7 @@
 
 namespace Senticode.Xamarin.Tools.Core.Interfaces.Base.StateMachine
 {
-    public interface IStateMachine<TState, TTransformer> : IStateMachine<TState>
+    public interface IStateMachine<TState, in TTransformer> : IStateMachine<TState>
         where TState : IState
         where TTransformer : IStateTransformer<TState>
     {

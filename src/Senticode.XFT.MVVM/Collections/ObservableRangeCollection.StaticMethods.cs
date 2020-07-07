@@ -24,88 +24,121 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
             var reference = new WeakReference<ObservableRangeCollection<TOut>>(result);
             myCollection.CollectionChanged += (sender, args) =>
             {
-                if (reference.TryGetTarget(out var outCollection))
+                if (!reference.TryGetTarget(out var outCollection))
                 {
-                    lock (_lockerSync)
+                    return;
+                }
+
+                lock (_lockerSync)
+                {
+                    switch (args.Action)
                     {
-                        switch (args.Action)
-                        {
-                            case NotifyCollectionChangedAction.Reset:
-                                outCollection.ReplaceAll(myCollection.Select(translator).ToList());
-                                break;
-                            case NotifyCollectionChangedAction.Add:
-                                if (args.NewItems.Cast<T>() is IEnumerable<T> newItems)
-                                {
-                                    try
-                                    {
-                                        outCollection.AddRange(newItems.Select(translator).ToList());
-                                        break;
-                                    }
-                                    catch
-                                    {
-                                        //next
-                                    }
-                                }
-
-                                foreach (var caster in args.NewItems)
-                                {
-                                    if (caster is IEnumerable<T> items)
-                                    {
-                                        outCollection.AddRange(items.Select(translator).ToList());
-                                    }
-                                }
-
-                                break;
-                            case NotifyCollectionChangedAction.Remove:
-                                if (args.OldItems.Cast<T>() is IEnumerable<T> oldItems)
-                                {
-                                    try
-                                    {
-                                        outCollection.RemoveRange(oldItems.Select(translator).ToList());
-                                        break;
-                                    }
-                                    catch
-                                    {
-                                        //next
-                                    }
-                                }
-                                foreach (var caster in args.OldItems)
-                                {
-                                    if (caster is IEnumerable<T> items)
-                                    {
-                                        outCollection.RemoveRange(items.Select(translator).ToList());
-                                    }
-                                }
-                                break;
-                            case NotifyCollectionChangedAction.Replace:
-                                try
-                                {
-                                    if (args.OldItems.Cast<T>() is IEnumerable<T> oldReplacedItems &&
-                                        args.NewItems.Cast<T>() is IEnumerable<T> newReplacedItems)
-                                    {
-                                        outCollection.ReplaceRange(newReplacedItems.Select(translator).ToList(),
-                                            oldReplacedItems.Select(translator).ToList());
-                                        break;
-                                    }
-                                }
-                                catch
-                                {
-                                    //next
-                                }
-                                outCollection.ReplaceAll(myCollection.Select(translator).ToList());
-                                break;
-                            case NotifyCollectionChangedAction.Move:
-                                //TODO implement this
-                                outCollection.ReplaceAll(myCollection.Select(translator).ToList());
-                                break;
-                            default:
-                                outCollection.ReplaceAll(myCollection.Select(translator).ToList());
-                                break;
-                        }
+                        case NotifyCollectionChangedAction.Reset:
+                            OnReset(myCollection, translator, outCollection);
+                            break;
+                        case NotifyCollectionChangedAction.Add:
+                            OnAdd(translator, args, outCollection);
+                            break;
+                        case NotifyCollectionChangedAction.Remove:
+                            OnRemove(translator, args, outCollection);
+                            break;
+                        case NotifyCollectionChangedAction.Replace:
+                            OnReplace(myCollection, translator, args, outCollection);
+                            break;
+                        case NotifyCollectionChangedAction.Move:
+                            OnMove(myCollection, translator, outCollection);
+                            break;
+                        default:
+                            outCollection.ReplaceAll(myCollection.Select(translator).ToList());
+                            break;
                     }
                 }
             };
             return result;
+        }
+
+        private static void OnMove<TOut>(ObservableRangeCollection<T> myCollection, Func<T, TOut> translator,
+            ObservableRangeCollection<TOut> outCollection)
+        {
+            //TODO implement this
+            outCollection.ReplaceAll(myCollection.Select(translator).ToList());
+        }
+
+        private static void OnReplace<TOut>(ObservableRangeCollection<T> myCollection, Func<T, TOut> translator,
+            NotifyCollectionChangedEventArgs args, ObservableRangeCollection<TOut> outCollection)
+        {
+            try
+            {
+                if (args.OldItems.Cast<T>() is IEnumerable<T> oldReplacedItems &&
+                    args.NewItems.Cast<T>() is IEnumerable<T> newReplacedItems)
+                {
+                    outCollection.ReplaceRange(newReplacedItems.Select(translator).ToList(),
+                        oldReplacedItems.Select(translator).ToList());
+                    return;
+                }
+            }
+            catch
+            {
+                //next
+            }
+
+            outCollection.ReplaceAll(myCollection.Select(translator).ToList());
+        }
+
+        private static void OnRemove<TOut>(Func<T, TOut> translator, NotifyCollectionChangedEventArgs args,
+            ObservableRangeCollection<TOut> outCollection)
+        {
+            if (args.OldItems.Cast<T>() is IEnumerable<T> oldItems)
+            {
+                try
+                {
+                    outCollection.RemoveRange(oldItems.Select(translator).ToList());
+                    return;
+                }
+                catch
+                {
+                    //next
+                }
+            }
+
+            foreach (var caster in args.OldItems)
+            {
+                if (caster is IEnumerable<T> items)
+                {
+                    outCollection.RemoveRange(items.Select(translator).ToList());
+                }
+            }
+        }
+
+        private static void OnAdd<TOut>(Func<T, TOut> translator, NotifyCollectionChangedEventArgs args,
+            ObservableRangeCollection<TOut> outCollection)
+        {
+            if (args.NewItems.Cast<T>() is IEnumerable<T> newItems)
+            {
+                try
+                {
+                    outCollection.AddRange(newItems.Select(translator).ToList());
+                    return;
+                }
+                catch
+                {
+                    //next
+                }
+            }
+
+            foreach (var caster in args.NewItems)
+            {
+                if (caster is IEnumerable<T> items)
+                {
+                    outCollection.AddRange(items.Select(translator).ToList());
+                }
+            }
+        }
+
+        private static void OnReset<TOut>(ObservableRangeCollection<T> myCollection, Func<T, TOut> translator,
+            ObservableRangeCollection<TOut> outCollection)
+        {
+            outCollection.ReplaceAll(myCollection.Select(translator).ToList());
         }
     }
 }
