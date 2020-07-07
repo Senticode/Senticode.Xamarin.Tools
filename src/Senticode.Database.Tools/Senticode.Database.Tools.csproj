@@ -2,7 +2,40 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\sln\.sonarlint\sxtcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>RELEASE</DefineConstants>
+	<OutputPath>..\..\out\_release\</OutputPath>
+    <IntermediateOutputPath>..\..\out\_obj\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG</DefineConstants>
+	<OutputPath>..\..\out\_debug\</OutputPath>
+    <IntermediateOutputPath>..\..\out\_obj\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\..\sln\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+    <Compile Include="..\..\sln\SharedInternalsVisibleTo.cs" Link="Properties\SharedInternalsVisibleTo.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\sln\.sonarlint\sxt\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.0" />

@@ -24,8 +24,7 @@
   </PropertyGroup>
 
   <PropertyGroup>    
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>         
+    <CodeAnalysisRuleSet>..\..\sln\.sonarlint\sxtcsharp.ruleset</CodeAnalysisRuleSet>         
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +36,10 @@
   <ItemGroup>
     <Compile Include="..\..\sln\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
     <Compile Include="..\..\sln\SharedInternalsVisibleTo.cs" Link="Properties\SharedInternalsVisibleTo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\sln\.sonarlint\sxt\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
   
   <ItemGroup>

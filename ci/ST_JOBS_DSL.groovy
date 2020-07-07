@@ -47,7 +47,7 @@ job('SXT_NEW_RELEASE') {
 			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
 			args('/p:Configuration=Debug')
 		}		
-		powerShell(readFileFromWorkspace($/ci\batchs\change_assemblyinfo.ps1/$))
+		powerShell(readFileFromWorkspace($/ci\batchs\change_assemblyinfo.ps1/$))		
 		msBuild {
 			msBuildInstallation(msbuild)
 			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
@@ -62,6 +62,7 @@ job('SXT_NEW_RELEASE') {
         s3Upload {
             profileName('Administrator')
             dontWaitForConcurrentBuildCompletion(false)
+			dontSetBuildResultOnFailure(true)
             consoleLogLevel('INFO')
             pluginFailureResultConstraint('UNSTABLE')
             entries {
@@ -155,14 +156,19 @@ job('SXT_NIGHTLY_BUILD') {
 			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
 			args('/p:Configuration=Debug')
 		} 		
-		powerShell(readFileFromWorkspace($/ci\batchs\change_assemblyinfo.ps1/$))					
+		powerShell(readFileFromWorkspace($/ci\batchs\change_assemblyinfo.ps1/$))
+		msBuildSQRunnerBegin {
+			projectKey('SXT')
+			projectName('Senticode.Xamarin.Tools')
+		}
 		msBuild {
 			msBuildInstallation(msbuild)
 			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
 			args('/p:Configuration=Release')
 			args('/p:SignAssembly=true')
 			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
-		}		
+		}
+		msBuildSQRunnerEnd()
 		powerShell(readFileFromWorkspace($/ci\batchs\copy_artifacts.ps1/$))
 		powerShell(readFileFromWorkspace($/ci\batchs\git_push.ps1/$))		
     }	
@@ -170,6 +176,7 @@ job('SXT_NIGHTLY_BUILD') {
         s3Upload {
             profileName('Administrator')
             dontWaitForConcurrentBuildCompletion(false)
+			dontSetBuildResultOnFailure(true)
             consoleLogLevel('INFO')
             pluginFailureResultConstraint('UNSTABLE')
             entries {
