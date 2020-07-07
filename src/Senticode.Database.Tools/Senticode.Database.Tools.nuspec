@@ -4,7 +4,7 @@
         <id>Senticode.Database.Tools</id>  
 		<version>1.0.0.1</version>
         <title>Senticode.Xamarin.Tools</title>
-        <authors>Senticode Ltd., Eugene Malaschuk</authors>
+        <authors>Senticode LLC, Eugene Malaschuk</authors>
         <owners>Senticode</owners>  		
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<licenseUrl>https://github.com/Senticode/Senticode.Xamarin.Tools/blob/dev/LICENSE</licenseUrl>        
