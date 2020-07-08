@@ -40,7 +40,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.5" />
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1080" />
   </ItemGroup>
 
   <ItemGroup>
