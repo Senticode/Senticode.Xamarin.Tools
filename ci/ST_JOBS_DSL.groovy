@@ -151,24 +151,24 @@ job('SXT_NIGHTLY_BUILD') {
 			assemblyFile($/sln\BaseAssemblyInfo.cs/$)
         }  
         batchFile($/${nuget} restore %WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
-        msBuild {
-			msBuildInstallation(msbuild)
-			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
-			args('/p:Configuration=Debug')
-		} 		
-		powerShell(readFileFromWorkspace($/ci\batchs\change_assemblyinfo.ps1/$))
 		msBuildSQRunnerBegin {
 			projectKey('SXT')
 			projectName('Senticode.Xamarin.Tools')
 		}
+        msBuild {
+			msBuildInstallation(msbuild)
+			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
+			args('/p:Configuration=Debug')
+		} 
+		msBuildSQRunnerEnd()		
+		powerShell(readFileFromWorkspace($/ci\batchs\change_assemblyinfo.ps1/$))		
 		msBuild {
 			msBuildInstallation(msbuild)
 			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
 			args('/p:Configuration=Release')
 			args('/p:SignAssembly=true')
 			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
-		}
-		msBuildSQRunnerEnd()
+		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\copy_artifacts.ps1/$))
 		powerShell(readFileFromWorkspace($/ci\batchs\git_push.ps1/$))		
     }	
@@ -223,7 +223,7 @@ job('SXT_PUBLISH_NUGETS') {
                url('https://github.com/Senticode/Senticode.Xamarin.Tools.git')
                credentials('github')
 			}   
-			branch('master')	             
+			branch('dev')	             
 		    extensions {               
 				wipeOutWorkspace()
 				cloneOptions {					 
@@ -272,7 +272,7 @@ job('SXT_PUBLISH_BASE_NUGET') {
                url('https://github.com/Senticode/Senticode.Xamarin.Tools.git')
                credentials('github')
 			}   
-			branch('master')	             
+			branch('dev')	             
 		    extensions {               
 				wipeOutWorkspace()
 				cloneOptions {					 

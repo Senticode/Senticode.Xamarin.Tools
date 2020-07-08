@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Senticode.Xamarin.Tools.Core</id>
+    <version>0.0.0.13</version>
+    <title>Senticode.Xamarin.Tools</title>
+    <authors>Senticode LLC, Eugene Malaschuk</authors>
+    <owners>Senticode</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Senticode/Senticode.Xamarin.Tools/blob/dev/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Senticode/Senticode.Xamarin.Tools</projectUrl>
+    <iconUrl>https://senticode.by/img/senticodeicons/senticode_mediumtile_150x150.png</iconUrl>
+    <description>The tools provide components for MVVM architecture in Xamarin.Forms applications</description>
+    <tags>senticode net netcore netstandard xamarin.forms mvvm</tags>
+    <dependencies>
+      <dependency id="Senticode.Base" version="1.0.0.10" exclude="Build,Analyzers" />
+    </dependencies>
+  </metadata>
+</package>
