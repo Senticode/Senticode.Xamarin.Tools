@@ -30,8 +30,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     if (includes == null || includes?.Length == 0)
                     {
@@ -48,7 +48,7 @@ namespace Senticode.Database.Tools
                     return new Result<T>(await query.FirstOrDefaultAsync(x => x.Id.Equals(id)));
                 }
 
-                using (var db = _connectionManager.GetDbContext(Config))
+                using (var db = _connectionManager.GetDbContext())
                 {
                     if (includes == null || includes?.Length == 0)
                     {
@@ -79,8 +79,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     IQueryable<T> query = db.Set<T>();
                     query = includes.Aggregate(query, (current, include) => current.Include(include));
@@ -93,7 +93,7 @@ namespace Senticode.Database.Tools
                     return new Result<IEnumerable<T>>(await query.ToListAsync());
                 }
 
-                using (var db = _connectionManager.GetDbContext(Config))
+                using (var db = _connectionManager.GetDbContext())
                 {
                     IQueryable<T> query = db.Set<T>();
                     query = includes.Aggregate(query, (current, include) => current.Include(include));
@@ -124,8 +124,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     if (!entity.Id.Equals(default(TKey)))
                     {
@@ -147,7 +147,7 @@ namespace Senticode.Database.Tools
                     return new Result<T>(entity);
                 }
 
-                using (var db = _connectionManager.GetDbContext(Config))
+                using (var db = _connectionManager.GetDbContext())
                 {
                     if (!entity.Id.Equals(default(TKey)))
                     {
@@ -185,8 +185,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     await db.Set<T>().AddRangeAsync(enumeratedItems);
 
@@ -197,7 +197,7 @@ namespace Senticode.Database.Tools
                 }
                 else
                 {
-                    using (var db = _connectionManager.GetDbContext(Config))
+                    using (var db = _connectionManager.GetDbContext())
                     {
                         await db.Set<T>().AddRangeAsync(enumeratedItems);
                         await db.SaveChangesAsync();
@@ -224,8 +224,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     db.Set<T>().Remove(entity);
 
@@ -236,7 +236,7 @@ namespace Senticode.Database.Tools
                 }
                 else
                 {
-                    using (var db = _connectionManager.GetDbContext(Config))
+                    using (var db = _connectionManager.GetDbContext())
                     {
                         db.Set<T>().Remove(entity);
                         await db.SaveChangesAsync();
@@ -258,8 +258,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     var dbSet = db.Set<T>();
                     var foundObj = await dbSet.FindAsync(id);
@@ -278,7 +278,7 @@ namespace Senticode.Database.Tools
                 }
                 else
                 {
-                    using (var db = _connectionManager.GetDbContext(Config))
+                    using (var db = _connectionManager.GetDbContext())
                     {
                         var dbSet = db.Set<T>();
                         var foundObj = await dbSet.FindAsync(id);
@@ -313,8 +313,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     var dbSet = db.Set<T>();
                     dbSet.RemoveRange(entities);
@@ -326,7 +326,7 @@ namespace Senticode.Database.Tools
                 }
                 else
                 {
-                    using (var db = _connectionManager.GetDbContext(Config))
+                    using (var db = _connectionManager.GetDbContext())
                     {
                         var dbSet = db.Set<T>();
                         dbSet.RemoveRange(entities);
@@ -349,8 +349,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     var dbSet = db.Set<T>();
                     dbSet.RemoveRange(dbSet.ToList());
@@ -362,7 +362,7 @@ namespace Senticode.Database.Tools
                 }
                 else
                 {
-                    using (var db = _connectionManager.GetDbContext(Config))
+                    using (var db = _connectionManager.GetDbContext())
                     {
                         var dbSet = db.Set<T>();
                         dbSet.RemoveRange(dbSet.ToList());
@@ -390,8 +390,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     db.Set<T>().Update(entity);
 
@@ -402,7 +402,7 @@ namespace Senticode.Database.Tools
                 }
                 else
                 {
-                    using (var db = _connectionManager.GetDbContext(Config))
+                    using (var db = _connectionManager.GetDbContext())
                     {
                         db.Set<T>().Update(entity);
                         await db.SaveChangesAsync();
@@ -429,8 +429,8 @@ namespace Senticode.Database.Tools
                 if (withStrongContext)
                 {
                     var db = _transactionId != Guid.Empty
-                        ? _connectionManager.GetDbContext(_transactionId, Config)
-                        : _connectionManager.GetDbStrongContext(Config);
+                        ? _connectionManager.GetDbContext(_transactionId)
+                        : _connectionManager.GetDbStrongContext();
 
                     db.Set<T>().UpdateRange(entities);
 
@@ -441,7 +441,7 @@ namespace Senticode.Database.Tools
                 }
                 else
                 {
-                    using (var db = _connectionManager.GetDbContext(Config))
+                    using (var db = _connectionManager.GetDbContext())
                     {
                         db.Set<T>().UpdateRange(entities);
                         await db.SaveChangesAsync();
@@ -466,22 +466,5 @@ namespace Senticode.Database.Tools
 
         #endregion
 
-        #region Config
-
-        public string Config { get; private protected set; }
-
-        public IDatabaseService<T, TKey> SetConfig(string config = null, bool newInstance = false)
-        {
-            Config = config;
-            if (newInstance)
-            {
-                var service = new DatabaseService<T, TKey>(_connectionManager) {Config = config};
-                return service;
-            }
-
-            return this;
-        }
-
-        #endregion
     }
 }

@@ -24,7 +24,7 @@ namespace Senticode.Database.Tools
         {
             try
             {
-                await _connectionManager.GetDbContext(TransactionId, Config).SaveChangesAsync();
+                await _connectionManager.GetDbContext(TransactionId).SaveChangesAsync();
                 return Result.Successful;
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace Senticode.Database.Tools
         {
             if (disposing)
             {
-                _connectionManager.ReleaseDbContext(TransactionId, Config);
+                _connectionManager.ReleaseDbContext(TransactionId);
             }
         }
     }

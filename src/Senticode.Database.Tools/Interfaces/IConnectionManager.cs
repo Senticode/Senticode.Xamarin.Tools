@@ -14,36 +14,32 @@ namespace Senticode.Database.Tools.Interfaces
         /// <summary>
         ///     This method gets context which you can use into using-block as Disposable.
         /// </summary>
-        /// <param name="config"></param>
         /// <returns></returns>
-        DbContext GetDbContext(string config = null);
+        DbContext GetDbContext();
 
         /// <summary>
         ///     This method gets DbContext which you must not Dispose. This is singleton for DBContext.
         /// </summary>
-        /// <param name="config"></param>
         /// <returns></returns>
-        DbContext GetDbStrongContext(string config = null);
+        DbContext GetDbStrongContext();
 
         /// <summary>
         ///     This method gets DbContext for dedicated transaction with specified TransactionId.
         /// </summary>
         /// <param name="transactionId"></param>
-        /// <param name="config"></param>
         /// <returns></returns>
-        DbContext GetDbContext(Guid transactionId, string config = null);
+        DbContext GetDbContext(Guid transactionId);
 
         /// <summary>
         ///     Release DbContext for dedicated transaction with specified TransactionId.
         ///     This method also call <see cref="DbContext.Dispose" />.
         /// </summary>
         /// <param name="transactionId"></param>
-        /// <param name="config"></param>
-        void ReleaseDbContext(Guid transactionId, string config);
+        void ReleaseDbContext(Guid transactionId);
 
         /// <summary>
         ///     Creates new DbContext for dedicated transaction with specified Transaction Id.
-        ///     Then the created DbContext can be obtained by the <see cref="IConnectionManager.GetDbContext(Guid, string)" />
+        ///     Then the created DbContext can be obtained by the <see cref="IConnectionManager.GetDbContext(Guid)" />
         ///     method using the TransactionId that is returned by this method.
         /// </summary>
         Guid CreateNewTransaction();

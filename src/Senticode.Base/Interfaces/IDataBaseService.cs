@@ -15,14 +15,6 @@ namespace Senticode.Base.Interfaces
     {
         IDatabaseTransaction<T, TKey> StartNewTransaction();
 
-        #region Config
-
-        string Config { get; }
-
-        IDatabaseService<T, TKey> SetConfig(string config = null, bool newInstance = false);
-
-        #endregion
-
         #region CRUD operations
 
         Task<IResult<T>> FindAsync(TKey id, bool withStrongContext = false, params string[] includes);
