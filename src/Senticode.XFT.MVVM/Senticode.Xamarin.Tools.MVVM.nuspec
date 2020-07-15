@@ -13,8 +13,8 @@
         <description>The tools provide components for MVVM architecture in Xamarin.Forms applications</description>        
         <tags>senticode net netcore netstandard xamarin.forms mvvm</tags>   
 		    <dependencies>
-          <dependency id="Senticode.Base" version="1.0.0.10" exclude="Build,Analyzers" />
-          <dependency id="Senticode.Xamarin.Tools.Core" version="1.0.0.10" exclude="Build,Analyzers" />
+          <dependency id="Senticode.Base" version="1.0.0.13" exclude="Build,Analyzers" />
+          <dependency id="Senticode.Xamarin.Tools.Core" version="1.0.0.13" exclude="Build,Analyzers" />
         </dependencies>
     </metadata> 	
 </package>
