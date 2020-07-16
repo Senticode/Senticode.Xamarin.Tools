@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>RELEASE</DefineConstants>
+	<OutputPath>..\..\out\_release\</OutputPath>
+    <IntermediateOutputPath>..\..\out\_obj\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG</DefineConstants>
+	<OutputPath>..\..\out\_debug\</OutputPath>
+    <IntermediateOutputPath>..\..\out\_obj\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="TestData\Test.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TestData\Test.config" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Senticode.XFT.Core\Senticode.Xamarin.Tools.Core.csproj" />
+  </ItemGroup>
+
+</Project>

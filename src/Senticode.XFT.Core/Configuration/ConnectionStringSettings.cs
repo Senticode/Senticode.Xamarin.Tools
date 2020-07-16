@@ -5,8 +5,8 @@ namespace Senticode.Xamarin.Tools.Core.Configuration
     [XmlRoot("add")]
     public class ConnectionStringSettings
     {
-        [XmlAttribute("name")] public string Name { get; internal set; }
-        [XmlAttribute("connectionString")] public string ConnectionString { get; internal set; }
-        [XmlAttribute("providerName")] public string ProviderName { get; internal set; }
+        [XmlAttribute("name")] public string Name { get; set; }
+        [XmlAttribute("connectionString")] public string ConnectionString { get; set; }
+        [XmlAttribute("providerName")] public string ProviderName { get; set; }
     }
 }

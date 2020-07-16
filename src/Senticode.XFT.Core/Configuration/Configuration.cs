@@ -16,7 +16,7 @@ namespace Senticode.Xamarin.Tools.Core.Configuration
         public List<Setting> Settings { get; set; }
 
         [XmlArray("connectionStrings")]
-        [XmlArrayItem(typeof(Setting), ElementName = "add")]
+        [XmlArrayItem(typeof(ConnectionStringSettings), ElementName = "add")]
         public List<ConnectionStringSettings> ConnectionStrings { get; set; }
     }
 }
