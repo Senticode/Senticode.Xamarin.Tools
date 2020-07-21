@@ -56,7 +56,7 @@ job('SXT_NEW_RELEASE') {
 			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
 		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\copy_artifacts.ps1/$))
-		powerShell(readFileFromWorkspace($/ci\batchs\update_nuspec.ps1/$))
+		powerShell(readFileFromWorkspace($/ci\batchs\change_nuspec.ps1/$))
 		powerShell(readFileFromWorkspace($/ci\batchs\git_push_release.ps1/$))			
 	}	
 	publishers {		
@@ -171,7 +171,7 @@ job('SXT_NIGHTLY_BUILD') {
 			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
 		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\copy_artifacts.ps1/$))
-		powerShell(readFileFromWorkspace($/ci\batchs\update_nuspec.ps1/$))
+		powerShell(readFileFromWorkspace($/ci\batchs\change_nuspec.ps1/$))
 		powerShell(readFileFromWorkspace($/ci\batchs\git_push.ps1/$))		
     }	
     publishers {		
