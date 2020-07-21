@@ -56,6 +56,7 @@ job('SXT_NEW_RELEASE') {
 			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
 		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\copy_artifacts.ps1/$))
+		powerShell(readFileFromWorkspace($/ci\batchs\update_nuspec.ps1/$))
 		powerShell(readFileFromWorkspace($/ci\batchs\git_push_release.ps1/$))			
 	}	
 	publishers {		
@@ -170,6 +171,7 @@ job('SXT_NIGHTLY_BUILD') {
 			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
 		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\copy_artifacts.ps1/$))
+		powerShell(readFileFromWorkspace($/ci\batchs\update_nuspec.ps1/$))
 		powerShell(readFileFromWorkspace($/ci\batchs\git_push.ps1/$))		
     }	
     publishers {		
@@ -246,9 +248,7 @@ job('SXT_PUBLISH_NUGETS') {
       	msBuild {
 			msBuildInstallation(msbuild)
 			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
-			args('/p:Configuration=Release')
-			args('/p:SignAssembly=true')
-			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
+			args('/p:Configuration=Release')			
 		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\create_nugets.ps1/$))			
 	}	
@@ -295,9 +295,7 @@ job('SXT_PUBLISH_BASE_NUGET') {
       	msBuild {
 			msBuildInstallation(msbuild)
 			buildFile($/%WORKSPACE%\sln\Senticode.Xamarin.Tools.sln/$)
-			args('/p:Configuration=Release')
-			args('/p:SignAssembly=true')
-			args($//p:AssemblyOriginatorKeyFile=C:\jenkins\sgKey.snk/$)
+			args('/p:Configuration=Release')			
 		}		
 		powerShell(readFileFromWorkspace($/ci\batchs\create_base_nuget.ps1/$))			
 	}	

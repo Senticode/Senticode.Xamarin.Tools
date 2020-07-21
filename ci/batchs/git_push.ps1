@@ -4,6 +4,8 @@ $env:GIT_REDIRECT_STDERR = '2>&1' # ignores error messages from "git checkout" a
 $message = "Version updated to $env:ASSEMBLY_VERSION"
 git add sln\SharedAssemblyInfo.cs
 git add sln\BaseAssemblyInfo.cs
+git add src\Senticode.XFT.MVVM\Senticode.Xamarin.Tools.MVVM.nuspec
+git add src\Senticode.XFT.Core\Senticode.Xamarin.Tools.Core.nuspec
 git commit -m $message
 git push
 
