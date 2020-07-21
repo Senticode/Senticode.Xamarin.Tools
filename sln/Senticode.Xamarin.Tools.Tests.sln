@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Senticode.Database.Tools", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C03DB242-7A89-495C-B676-BAEDB9B0D142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Senticode.Xamarin.Tools.Core.Tests", "..\tests\Senticode.Xamarin.Tools.Core.Tests\Senticode.Xamarin.Tools.Core.Tests.csproj", "{33BE04FA-D03D-4563-9122-89F519446BBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Senticode.Xamarin.Tools.Core.Tests", "..\tests\Senticode.Xamarin.Tools.Core.Tests\Senticode.Xamarin.Tools.Core.Tests.csproj", "{33BE04FA-D03D-4563-9122-89F519446BBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Senticode.Database.Tools.Tests", "..\tests\Senticode.Database.Tools.Tests\Senticode.Database.Tools.Tests.csproj", "{DF0D39F7-F482-46AF-B012-E0B06FF3F75B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,12 +62,19 @@ Global
 		{33BE04FA-D03D-4563-9122-89F519446BBB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{33BE04FA-D03D-4563-9122-89F519446BBB}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
 		{33BE04FA-D03D-4563-9122-89F519446BBB}.Staging|Any CPU.Build.0 = Debug|Any CPU
+		{DF0D39F7-F482-46AF-B012-E0B06FF3F75B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF0D39F7-F482-46AF-B012-E0B06FF3F75B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF0D39F7-F482-46AF-B012-E0B06FF3F75B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF0D39F7-F482-46AF-B012-E0B06FF3F75B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF0D39F7-F482-46AF-B012-E0B06FF3F75B}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF0D39F7-F482-46AF-B012-E0B06FF3F75B}.Staging|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{33BE04FA-D03D-4563-9122-89F519446BBB} = {C03DB242-7A89-495C-B676-BAEDB9B0D142}
+		{DF0D39F7-F482-46AF-B012-E0B06FF3F75B} = {C03DB242-7A89-495C-B676-BAEDB9B0D142}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0910006-EF82-4DD6-A8B5-1E96718E61DD}

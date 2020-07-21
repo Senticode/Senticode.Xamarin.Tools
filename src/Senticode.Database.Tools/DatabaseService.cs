@@ -38,11 +38,11 @@ namespace Senticode.Database.Tools
                         return new Result<T>(await db.Set<T>().FindAsync(id));
                     }
 
-                    var query = db.Set<T>();
+                    IQueryable<T> query = db.Set<T>();
 
                     foreach (var include in includes)
                     {
-                        query = (DbSet<T>) query.Include(include);
+                        query = query.Include(include);
                     }
 
                     return new Result<T>(await query.FirstOrDefaultAsync(x => x.Id.Equals(id)));
@@ -55,11 +55,11 @@ namespace Senticode.Database.Tools
                         return new Result<T>(await db.Set<T>().FindAsync(id));
                     }
 
-                    var query = db.Set<T>();
+                    IQueryable<T> query = db.Set<T>();
 
                     foreach (var include in includes)
                     {
-                        query = (DbSet<T>) query.Include(include);
+                        query = query.Include(include);
                     }
 
                     return new Result<T>(await query.FirstOrDefaultAsync(x => x.Id.Equals(id)));
