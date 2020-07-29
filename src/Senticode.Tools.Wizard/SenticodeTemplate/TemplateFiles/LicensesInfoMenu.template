@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<abstractions:ViewBase xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
+                       xmlns:menu="clr-namespace:$projectname$.ViewModels.Menu;assembly=$projectname$"
+                       xmlns:menuElements="clr-namespace:$projectname$.Views.Menu.MenuElements;assembly=$projectname$"
+                       xmlns:markupExtensions="clr-namespace:Senticode.Xamarin.Tools.Core.MarkupExtensions;assembly=Senticode.Xamarin.Tools.Core"
+                       xmlns:strings="clr-namespace:$projectname$.Resources;assembly=$projectname$"
+                       xmlns:controls="clr-namespace:$projectname$.Staff.Controls;assembly=$projectname$"
+                       mc:Ignorable="d"
+                       x:Class="$projectname$.Views.Menu.LicensesInfoMenu"
+                       x:Name="Root"
+                       x:DataType="{x:Type menu:LicensesMenuViewModel}"
+                       Style="{StaticResource MenuContainerStyle}">
+    <abstractions:ViewBase.Resources>
+        <ResourceDictionary />
+    </abstractions:ViewBase.Resources>
+    <abstractions:ViewBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!--Title-->
+            <menuElements:TitleMenuRegion Grid.Row="0" PreviousMenu="About" />
+            <!--Main region-->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0"
+                       Margin="20,20,20,0"
+                       FontSize="18"
+                       Text="LicenseInfoIntro" />
+                <CollectionView Grid.Row="1"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                x:DataType="{x:Type menu:LicensesMenuViewModel}"
+                                ItemsSource="{Binding Licenses}" Margin="20">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type menu:LicenseInfoViewModel}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="1" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       FontAttributes="Bold"
+                                       Text="{Binding Name}"
+                                       LineBreakMode="TailTruncation"
+                                       HorizontalOptions="FillAndExpand" />
+                                <controls:LinkLabel Grid.Row="1"
+                                                    Text="{Binding UriText}"
+                                                    Uri="{Binding Uri}" />
+                                <StackLayout Grid.Row="2"
+                                             Orientation="Horizontal">
+                                    <Label
+                                        Text="Version"
+                                        WidthRequest="100" />
+                                    <Label Margin="5,0"
+                                           Text="{Binding Version}" />
+                                </StackLayout>
+
+                                <StackLayout Grid.Row="3"
+                                             Orientation="Horizontal">
+                                    <Label
+                                        Text="License"
+                                        WidthRequest="100" />
+                                    <controls:LinkLabel Margin="5,0"
+                                                        Text="{Binding LicenseType}"
+                                                        Uri="{Binding LicenseUri}" />
+                                </StackLayout>
+                                <BoxView Grid.Row="4"
+                                         Color="Black"
+                                         Margin="5,0"
+                                         HeightRequest="1" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Grid>
+    </abstractions:ViewBase.Content>
+</abstractions:ViewBase>

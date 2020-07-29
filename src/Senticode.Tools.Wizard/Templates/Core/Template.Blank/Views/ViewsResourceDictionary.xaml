@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="Template.Blank.Views.ViewsResourceDictionary">
+    <Style x:Key="TextLabelStyle" TargetType="Label">
+        <Style.Setters>
+            <Setter Property="Margin" Value="10,0,0,0"></Setter>
+            <Setter Property="TextColor" Value="{StaticResource GlobalMainBlue}"></Setter>
+            <Setter Property="VerticalOptions" Value="Center"></Setter>
+            <Setter Property="FontAttributes" Value="Bold"></Setter>
+        </Style.Setters>
+    </Style>
+    <Style x:Key="ValueLabelStyle" TargetType="Label">
+        <Style.Setters>
+            <Setter Property="TextColor" Value="{StaticResource GlobalMainGray}"></Setter>
+            <Setter Property="VerticalOptions" Value="Center"></Setter>
+            <Setter Property="FontAttributes" Value="Bold"></Setter>
+            <Setter Property="LineBreakMode" Value="TailTruncation"></Setter>
+            <Setter Property="Margin" Value="0,0,5,0"></Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

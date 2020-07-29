@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  $projectname$:
+    image: ${DOCKER_REGISTRY-}$projectname$
+    build:
+      context: .
+      dockerfile: src/Web/$projectpath$/Dockerfile

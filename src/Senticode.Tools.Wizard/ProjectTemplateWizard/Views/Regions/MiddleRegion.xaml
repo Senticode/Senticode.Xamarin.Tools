@@ -1,0 +1,259 @@
+﻿<UserControl x:Class="ProjectTemplateWizard.Views.Regions.MiddleRegion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:ProjectTemplateWizard.Converters"
+             xmlns:main="clr-namespace:ProjectTemplateWizard.ViewModels.Main"
+             xmlns:controls="clr-namespace:ProjectTemplateWizard.Views.Controls"
+             mc:Ignorable="d"
+             x:ClassModifier="internal">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/RootDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <CollectionViewSource Source="{Binding Modules, Mode=OneTime}"
+                                  x:Key="ModuleCollectionSource" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <d:UserControl.DataContext>
+        <main:MainViewModel />
+    </d:UserControl.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="{StaticResource OuterSpacing}" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="{StaticResource OuterSpacing}" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Content="Architecture pattern" />
+            <Label Grid.Row="0"
+                   Grid.Column="2"
+                   Content="Modules" />
+            <Border Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource RadioGroupBorder}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <RadioButton Grid.Row="0"
+                                 Content="Basic"
+                                 GroupName="ArchitecturePattern"
+                                 IsChecked="True" />
+                    <RadioButton Grid.Row="1"
+                                 Content="Modular design"
+                                 GroupName="ArchitecturePattern"
+                                 IsChecked="{Binding IsModularDesign, Mode=TwoWay}" />
+                </Grid>
+            </Border>
+            <Grid Grid.Row="1"
+                  Grid.Column="2"
+                  IsEnabled="{Binding IsModularDesign, Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{StaticResource InnerSpacing}" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <ContentControl
+                        MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource AncestorType=Grid}}"
+                        MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource AncestorType=Grid}}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Border>
+                                            <ScrollViewer>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <ListBox Grid.Row="0"
+                                                             BorderThickness="0"
+                                                             SelectedItem="{Binding SelectedModule, Mode=TwoWay}"
+                                                             ItemsSource="{Binding Source={StaticResource ModuleCollectionSource}, Mode=OneTime}"
+                                                             ItemTemplate="{StaticResource ModuleTemplate}"
+                                                             Template="{StaticResource NoScrollItemsControlTemplate}">
+                                                        <ListBox.ItemContainerStyle>
+                                                            <Style TargetType="ListBoxItem">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger
+                                                                        Binding="{Binding Name, Converter={converters:StringTrimmingConverter}}"
+                                                                        Value="{x:Null}">
+                                                                        <Setter Property="ToolTip"
+                                                                                Value="Enter valid module name." />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ListBox.ItemContainerStyle>
+                                                    </ListBox>
+                                                    <ListBox Grid.Row="1"
+                                                             BorderThickness="0"
+                                                             IsSynchronizedWithCurrentItem="False"
+                                                             ItemsSource="{Binding SpecialModules, Mode=OneTime}"
+                                                             ItemTemplate="{StaticResource SpecificModuleTemplate}"
+                                                             Template="{StaticResource NoScrollItemsControlTemplate}">
+                                                        <ListBox.ItemContainerStyle>
+                                                            <Style TargetType="ListBoxItem">
+                                                                <Setter Property="ToolTipService.ShowOnDisabled"
+                                                                        Value="True" />
+                                                                <Setter Property="ToolTip"
+                                                                        Value="{Binding Description, Mode=OneWay, Converter={converters:StringTrimmingConverter}}" />
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsApplied}"
+                                                                                 Value="False">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ListBox.ItemContainerStyle>
+                                                    </ListBox>
+                                                </Grid>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsModuleEditModeOn}" Value="True">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="{StaticResource InnerSpacing}" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <TextBox Grid.Row="0"
+                                                             Text="{Binding SelectedModule.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <Border Grid.Row="2"
+                                                            Grid.Column="0">
+                                                        <Border.Style>
+                                                            <Style BasedOn="{StaticResource RadioGroupBorder}"
+                                                                   TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger
+                                                                        Binding="{Binding IsWebBackendIncluded}"
+                                                                        Value="False">
+                                                                        <Setter Property="IsEnabled" Value="False" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <RadioButton Grid.Row="0"
+                                                                         Content="Xamarin"
+                                                                         GroupName="ModuleType"
+                                                                         IsChecked="{Binding SelectedModule.IsXamarinModule, Mode=TwoWay}" />
+                                                            <RadioButton Grid.Row="1"
+                                                                         Content="Web"
+                                                                         GroupName="ModuleType"
+                                                                         IsChecked="{Binding SelectedModule.IsWebModule, Mode=TwoWay}" />
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="{StaticResource InnerSpacing}" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="{StaticResource InnerSpacing}" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0"
+                            Content="Add"
+                            Command="{Binding AddModuleCommand, Mode=OneTime}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsModuleEditModeOn}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Grid.Row="2"
+                            Content="Remove"
+                            Command="{Binding DeleteModuleCommand, Mode=OneTime}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedModule}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <ToggleButton Grid.Row="4"
+                                  Content="Edit"
+                                  IsChecked="{Binding IsModuleEditModeOn, Mode=TwoWay}">
+                        <ToggleButton.Style>
+                            <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedModule}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"
+                   Content="Assets"
+                   Style="{StaticResource BoldLabel}" />
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{StaticResource OuterSpacing}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <controls:AssetPicker Grid.Column="0"
+                                      DataContext="{Binding IconPickerViewModel}" />
+                <controls:AssetPicker Grid.Column="2"
+                                      DataContext="{Binding SplashScreenImagePickerViewModel}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,146 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:ProjectTemplateWizard.Converters"
+                    xmlns:viewModels="clr-namespace:ProjectTemplateWizard.ViewModels">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Styles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="ModuleTemplate" DataType="viewModels:ModuleViewModel">
+        <TextBlock>
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                    <Setter Property="Text">
+                        <Setter.Value>
+                            <MultiBinding StringFormat="{}{0} ({1})">
+                                <Binding Path="Name" Mode="OneWay" Converter="{converters:StringTrimmingConverter}" />
+                                <Binding Path="ModuleType" Mode="OneWay" />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Name, Converter={converters:StringTrimmingConverter}}"
+                                     Value="{x:Null}">
+                            <Setter Property="Foreground"
+                                    Value="{StaticResource AlertBrush}" />
+                            <Setter Property="Text">
+                                <Setter.Value>
+                                    <Binding Path="ModuleType" StringFormat="{}- ({0})" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SpecificModuleTemplate"
+                  DataType="viewModels:SpecificModuleViewModel">
+        <TextBlock Style="{StaticResource {x:Type TextBlock}}">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} ({1})">
+                    <Binding Path="Name" Mode="OneWay" />
+                    <Binding Path="ModuleType" Mode="OneWay" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </DataTemplate>
+
+    <ControlTemplate x:Key="NoScrollItemsControlTemplate"
+                     TargetType="ItemsControl">
+        <ItemsPresenter Style="{StaticResource {x:Type ItemsPresenter}}" />
+    </ControlTemplate>
+
+    <DataTemplate x:Key="EnumDisplayNameTemplate">
+        <TextBlock Text="{Binding Converter={converters:EnumNameConverter}, Mode=OneWay}"
+                   Style="{StaticResource {x:Type TextBlock}}" />
+    </DataTemplate>
+
+    <Style TargetType="RadioButton" x:Key="ProjectTemplateTypeRadioButtonStyle">
+        <Setter Property="GroupName" Value="ProjectTemplateType" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Grid VerticalAlignment="Center"
+                          Margin="3 0 3 0"
+                          Width="80"
+                          Style="{StaticResource {x:Type Grid}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0"
+                               x:Name="Glyph">
+                            <Label.Style>
+                                <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                    <Setter Property="BorderThickness" Value="1" />
+                                    <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Grid.Row="0"
+                               Content="C#">
+                            <Label.Style>
+                                <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Grid.Row="1"
+                               x:Name="OptionName"
+                               HorizontalContentAlignment="Center"
+                               Content="{TemplateBinding Content}"
+                               Style="{StaticResource {x:Type Label}}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Glyph" Property="Background"
+                                    Value="{StaticResource ButtonBackgroundBrush}" />
+                            <Setter TargetName="Glyph" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="2"
+                                                      RenderingBias="Quality"
+                                                      ShadowDepth="2"
+                                                      Direction="-45" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}" x:Key="UnderlinedLabel">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <Label Style="{StaticResource {x:Type Label}}">
+                        <TextBlock TextDecorations="Underline"
+                                   Text="{TemplateBinding Content}"
+                                   Style="{StaticResource {x:Type TextBlock}}" />
+                    </Label>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ToggleButton" BasedOn="{StaticResource IconButtonStyle}" x:Key="ColorPickerButtonStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Padding="6"
+                            Style="{StaticResource {x:Type Border}}"
+                            Width="{StaticResource ControlHeight}"
+                            Height="{StaticResource ControlHeight}"
+                            Background="{StaticResource ButtonBackgroundBrush}">
+                        <Image Source="{Binding Source={StaticResource PaletteIcon}, Mode=OneTime}"
+                               Style="{StaticResource {x:Type Image}}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<abstractions:ViewBase xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:menu="clr-namespace:Template.MasterDetail.ViewModels.Menu;assembly=Template.MasterDetail"
+                       xmlns:menuElements="clr-namespace:Template.MasterDetail.Views.Menu.MenuElements;assembly=Template.MasterDetail"
+                       xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
+                       xmlns:ui="clr-namespace:Senticode.Xamarin.Tools.UI;assembly=Senticode.Xamarin.Tools.UI"
+                       xmlns:controls="clr-namespace:Template.MasterDetail.Staff.Controls;assembly=Template.MasterDetail"
+                       xmlns:animations="clr-namespace:Template.MasterDetail.Views.Animations;assembly=Template.MasterDetail"
+                       xmlns:markupExtensions="clr-namespace:Senticode.Xamarin.Tools.Core.MarkupExtensions;assembly=Senticode.Xamarin.Tools.Core"
+                       xmlns:models="clr-namespace:Template.MasterDetail.Models;assembly=Template.MasterDetail"
+                       mc:Ignorable="d"
+                       x:Class="Template.MasterDetail.Views.Menu.LanguageMenu"
+                       x:Name="Root"
+                       x:DataType="{x:Type menu:LanguageMenuViewModel}"
+                       Style="{StaticResource MenuContainerStyle}">
+    <abstractions:ViewBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!--Title-->
+            <menuElements:TitleMenuRegion Grid.Row="0" />
+            <!--Main region-->
+            <ui:ItemsStackLayout Grid.Row="1" ItemsSource="{Binding Languages}"
+                                 Margin="10">
+                <ui:ItemsStackLayout.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type models:LanguageObject}">
+                        <Frame HeightRequest="40"
+                               BorderColor="#DBDBDB"
+                               HasShadow="False"
+                               Margin="0"
+                               Padding="0"
+                               x:Name="Item"
+                               CornerRadius="0"
+                               HorizontalOptions="Fill"
+                               BackgroundColor="{StaticResource GlobalWhite}">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    BindingContext="{Binding Source={x:Reference Root}, Path=BindingContext}"
+                                    Command="{markupExtensions:AnimationCommand Binding={Binding SetLanguageCommand},
+                                                    StartAnimation={animations:StartMenuItemPushAnimation View={Binding Source={x:Reference Name=Item}}},
+                                                    EndAnimation={animations:EndMenuItemPushAnimation View={Binding Source={x:Reference Name=Item}}}}"
+                                    CommandParameter="{Binding Source={x:Reference Name=Item}, Path=BindingContext.Culture}" />
+                            </Frame.GestureRecognizers>
+                            <Grid HeightRequest="44">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="56" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <RadioButton HeightRequest="40"
+                                             WidthRequest="40"
+                                             Grid.Column="0"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             IsChecked="{Binding IsChecked}" />
+                                <Label Margin="0"
+                                       Text="{Binding Title}"
+                                       Grid.Column="1"
+                                       VerticalTextAlignment="Center" TextColor="Black" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </ui:ItemsStackLayout.ItemTemplate>
+            </ui:ItemsStackLayout>
+        </Grid>
+    </abstractions:ViewBase.Content>
+</abstractions:ViewBase>

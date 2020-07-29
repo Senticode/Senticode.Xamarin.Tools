@@ -1,0 +1,70 @@
+﻿<Window x:Class="ProjectTemplateWizard.Views.ProjectTemplateDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:views="clr-namespace:ProjectTemplateWizard.Views"
+        xmlns:main="clr-namespace:ProjectTemplateWizard.ViewModels.Main"
+        mc:Ignorable="d"
+        SnapsToDevicePixels="True"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="New Cross Platform App With Senticode Tools"
+        x:Name="Root">
+
+    <d:Windwo.DataContext>
+        <main:MainViewModel />
+    </d:Windwo.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/RootDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border BorderThickness="0 1 0 0"
+            Padding="{StaticResource OuterSpacingThickness}"
+            Background="{StaticResource MainBackgroundBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="{StaticResource OuterSpacing}" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <views:MainView Grid.Row="0" />
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="{StaticResource OuterSpacing}" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1"
+                        x:Name="SubmitButton"
+                        Content="OK"
+                        Command="{Binding SubmitDialogCommand, Mode=OneTime}"
+                        CommandParameter="{Binding ElementName=Root}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAnyPlatformSelected}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="ToolTip" Value="Select any platform." />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Column="3"
+                        x:Name="CancelButton"
+                        Content="Cancel"
+                        Command="{Binding CloseDialogCommand, Mode=OneTime}"
+                        CommandParameter="{Binding ElementName=Root}" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

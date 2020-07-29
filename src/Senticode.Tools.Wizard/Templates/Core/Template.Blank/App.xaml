@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<base:XamarinApplicationBase x:TypeArguments="mobile:AppSettings, mobile:AppCommands, mobile:AppLifeTimeManager"
+                             xmlns="http://xamarin.com/schemas/2014/forms"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:mobile="clr-namespace:Template.Blank;assembly=Template.Blank"
+                             xmlns:base="clr-namespace:Senticode.Xamarin.Tools.Core.Abstractions.Base;assembly=Senticode.Xamarin.Tools.Core"
+                             xmlns:me="clr-namespace:Template.Blank.Staff.MarkupExtensions;assembly=Template.Blank"
+                             mc:Ignorable="d"
+                             x:Class="Template.Blank.App">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--Global Colors-->
+            <Color x:Key="GlobalWhite">White</Color>
+            <Color x:Key="GlobalBlack">Black</Color>
+            <Color x:Key="GlobalMainBlue">#004481</Color>
+            <Color x:Key="GlobalMainGray">#535353</Color>
+            <Color x:Key="GlobalRed">#DA0046</Color>
+            <Color x:Key="GlobalPink">#FFC5D7</Color>
+            <Color x:Key="GlobalGround">#DDD9C3</Color>
+            <Color x:Key="GlobalDarkGray">#f5f7fa</Color>
+            <Color x:Key="GlobalLightGray">#E7E9ED</Color>
+            <Color x:Key="GlobalGreen">#009B5A</Color>
+            <Color x:Key="Transparent">Transparent</Color>
+
+            <!--Target Colors-->
+            <Color x:Key="MainBackgroundColor">White</Color>
+            <Color x:Key="MenuItemActiveForegroundColor">#2962FF</Color>
+            <Color x:Key="MenuItemForegroundColor">Black</Color>
+
+            <!--Global Styles-->
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource GlobalLightGray}" />
+                <Setter Property="BarTextColor" Value="{StaticResource GlobalMainBlue}" />
+            </Style>
+
+
+            <OnPlatform x:Key="GenericTopContainerMargins" Default="0" x:TypeArguments="Thickness">
+                <On Platform="iOS">
+                    <me:OniPhoneXExtension x:TypeArguments="Thickness"
+                                           Default="0,20,0,0"
+                                           XValue="0,32,0,0" />
+                </On>
+            </OnPlatform>
+
+            <OnPlatform x:Key="GenericTopContainerPadding" Default="0" x:TypeArguments="Thickness">
+                <On Platform="iOS">
+                    <me:OniPhoneXExtension x:TypeArguments="Thickness"
+                                           Default="0,0,0,0"
+                                           XValue="0,0,0,32" />
+                </On>
+            </OnPlatform>
+
+
+            <OnPlatform x:Key="GenericTopDialogContainerPadding" Default="0" x:TypeArguments="Thickness">
+                <On Platform="iOS">
+                    <me:OniPhoneXExtension x:TypeArguments="Thickness"
+                                           Default="0,20,0,0"
+                                           XValue="0,32,0,32" />
+                </On>
+            </OnPlatform>
+
+            <Style x:Key="MenuContainerStyle" TargetType="ContentView">
+                <Setter Property="Margin" Value="{StaticResource GenericTopContainerMargins}" />
+                <Setter Property="Padding" Value="{StaticResource GenericTopContainerPadding}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource GlobalWhite}" />
+            </Style>
+
+            <Style x:Key="DialogContainerStyle" TargetType="ContentView">
+                <Setter Property="Padding" Value="{StaticResource GenericTopDialogContainerPadding}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource GlobalMainBlue}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</base:XamarinApplicationBase>

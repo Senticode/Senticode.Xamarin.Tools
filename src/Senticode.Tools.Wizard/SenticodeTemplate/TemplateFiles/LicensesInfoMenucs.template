@@ -1,0 +1,13 @@
+﻿using Xamarin.Forms.Xaml;
+
+namespace $projectname$.Views.Menu
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class LicensesInfoMenu 
+    {
+        public LicensesInfoMenu()
+        {
+            InitializeComponent();
+        }
+    }
+}

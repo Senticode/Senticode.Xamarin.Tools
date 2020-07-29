@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTemplateWizard", "..\..\src\Senticode.Tools.Wizard\ProjectTemplateWizard\ProjectTemplateWizard.csproj", "{46DDFF31-5B20-4A51-8CFF-50DC10421B15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenticodeTemplate", "..\..\src\Senticode.Tools.Wizard\SenticodeTemplate\SenticodeTemplate.csproj", "{247D5A7A-707F-47CC-8416-D0C35126FF36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46DDFF31-5B20-4A51-8CFF-50DC10421B15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46DDFF31-5B20-4A51-8CFF-50DC10421B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46DDFF31-5B20-4A51-8CFF-50DC10421B15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46DDFF31-5B20-4A51-8CFF-50DC10421B15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{247D5A7A-707F-47CC-8416-D0C35126FF36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{247D5A7A-707F-47CC-8416-D0C35126FF36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{247D5A7A-707F-47CC-8416-D0C35126FF36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{247D5A7A-707F-47CC-8416-D0C35126FF36}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CFF4C31-C554-4AC5-BB45-BE011FA41876}
+	EndGlobalSection
+EndGlobal

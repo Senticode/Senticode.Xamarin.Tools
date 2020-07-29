@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <Brush x:Key="AlertBrush">Red</Brush>
+    <Brush x:Key="BorderBrush">Black</Brush>
+    <Brush x:Key="TextBoxBackgroundBrush">White</Brush>
+    <Brush x:Key="MainBackgroundBrush">WhiteSmoke</Brush>
+    <Brush x:Key="ButtonBackgroundBrush">#E2E2E2</Brush>
+    <system:Double x:Key="ControlHeight">32</system:Double>
+    <system:Double x:Key="ButtonWidth">100</system:Double>
+    <GridLength x:Key="OuterSpacing">18</GridLength>
+    <GridLength x:Key="InnerSpacing">6</GridLength>
+    <Thickness x:Key="OuterSpacingThickness">18</Thickness>
+    <system:String x:Key="SearchIcon">pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/Resources/search50.png</system:String>
+    <system:String x:Key="PaletteIcon">pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/Resources/palette50.png</system:String>
+    <system:String x:Key="TransparencyBackgroundImage">pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/Resources/transparency100.png</system:String>
+</ResourceDictionary>

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>RELEASE</DefineConstants>
+    <OutputPath>..\..\..\..\out\release\mobile\</OutputPath>
+    <IntermediateOutputPath>..\..\..\..\out\obj\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG</DefineConstants>
+    <OutputPath>..\..\..\..\out\debug\mobile\</OutputPath>
+    <IntermediateOutputPath>..\..\..\..\out\obj\</IntermediateOutputPath>
+  </PropertyGroup>  
+
+  <ItemGroup>
+    <PackageReference Include="Senticode.Base" Version="1.0.0.15" />
+    <PackageReference Include="Senticode.Xamarin.Tools.MVVM" Version="1.0.0.15" />
+    <PackageReference Include="Unity" Version="5.11.7" />
+  </ItemGroup>
+
+</Project>

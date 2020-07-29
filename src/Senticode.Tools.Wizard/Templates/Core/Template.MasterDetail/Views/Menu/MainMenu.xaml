@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<abstractions:ViewBase xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
+                       xmlns:ui="clr-namespace:Senticode.Xamarin.Tools.UI;assembly=Senticode.Xamarin.Tools.UI"
+                       xmlns:viewModels="clr-namespace:Template.MasterDetail.ViewModels.Menu;assembly=Template.MasterDetail"
+                       xmlns:markupExtensions="clr-namespace:Senticode.Xamarin.Tools.Core.MarkupExtensions;assembly=Senticode.Xamarin.Tools.Core"
+                       xmlns:menuElements="clr-namespace:Template.MasterDetail.Views.Menu.MenuElements;assembly=Template.MasterDetail"
+                       mc:Ignorable="d"
+                       x:Class="Template.MasterDetail.Views.Menu.MainMenu"
+                       x:Name="Root"
+                       x:DataType="{x:Type viewModels:MainMenuViewModel}"
+                       Style="{StaticResource MenuContainerStyle}">
+    <abstractions:ViewBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <menuElements:MenuResourceDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </abstractions:ViewBase.Resources>
+    <abstractions:ViewBase.Content>
+        <Grid BackgroundColor="{StaticResource MainBackgroundColor}"
+              RowSpacing="0"
+              ColumnSpacing="0" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" BackgroundColor="{StaticResource GlobalLightGray}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="1" Text="{markupExtensions:Localize Binding={Binding Title}}"
+                       TextColor="{StaticResource GlobalMainBlue}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="FillAndExpand"
+                       FontAttributes="Bold"
+                       FontSize="20" Margin="10,0,0,0" />
+            </Grid>
+            <ui:ItemsStackLayout Grid.Row="1" ItemsSource="{Binding MenuItems}" Margin="0,10">
+                <ui:ItemsStackLayout.ItemTemplate>
+                    <DataTemplate>
+                        <menuElements:MenuItemView></menuElements:MenuItemView>
+                    </DataTemplate>
+                </ui:ItemsStackLayout.ItemTemplate>
+            </ui:ItemsStackLayout>
+            <Label Grid.Row="2" Text="{Binding Version, StringFormat='V: {0}'}" HorizontalOptions="Center" Margin="10"></Label>
+        </Grid>
+    </abstractions:ViewBase.Content>
+</abstractions:ViewBase>
