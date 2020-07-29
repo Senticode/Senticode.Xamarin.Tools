@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:markupExtensions="clr-namespace:Senticode.Xamarin.Tools.Core.MarkupExtensions;assembly=Senticode.Xamarin.Tools.Core"
+             xmlns:resources="clr-namespace:Template.MasterDetail.Resources;assembly=Template.MasterDetail"
+             xmlns:markupExtensions1="clr-namespace:Template.MasterDetail.Staff.MarkupExtensions;assembly=Template.MasterDetail"
+             mc:Ignorable="d"
+             x:Class="Template.MasterDetail.Views.Menu.MenuElements.TitleMenuRegion"
+             x:Name="Root" HeightRequest="56">
+    <ContentView.Content>
+        <Grid BackgroundColor="{StaticResource GlobalLightGray}"
+              BindingContext="{Binding Source={x:Reference Root}, Path=BindingContext}"
+              HeightRequest="70">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0"
+                   Source="{markupExtensions1:ImageResource Resources.Images.Arrow_left.png}"
+                   VerticalOptions="FillAndExpand"
+                   HorizontalOptions="Start"
+                   Margin="10">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer BindingContext="{Binding Path=AppCommands}"
+                                        Command="{markupExtensions:AnimationCommand Binding={Binding NavigateToMenuCommand}}"
+                                        CommandParameter="{Binding Source={x:Reference Name=Root}, Path=PreviousMenu}" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <Label Grid.Column="1"
+                   TextColor="{StaticResource GlobalMainBlue}"
+                   Text="{markupExtensions:Localize Binding={Binding Path=Title}}"
+                   VerticalTextAlignment="Center"
+                   VerticalOptions="Center"
+                   FontAttributes="Bold"
+                   FontSize="20"
+                   Margin="20,0,0,0" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

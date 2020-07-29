@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="ProjectTemplateWizard.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:regions="clr-namespace:ProjectTemplateWizard.Views.Regions"
+             xmlns:main="clr-namespace:ProjectTemplateWizard.ViewModels.Main"
+             mc:Ignorable="d"
+             x:ClassModifier="internal">
+
+    <d:UserControl.DataContext>
+        <main:MainViewModel />
+    </d:UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/RootDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource OuterSpacing}" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource OuterSpacing}" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <regions:TopRegion Grid.Row="0" />
+        <regions:MiddleRegion Grid.Row="2" />
+        <regions:BottomRegion Grid.Row="4" />
+    </Grid>
+</UserControl>

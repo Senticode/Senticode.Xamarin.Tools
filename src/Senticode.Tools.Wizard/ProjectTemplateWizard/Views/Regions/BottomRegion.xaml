@@ -1,0 +1,210 @@
+﻿<UserControl x:Class="ProjectTemplateWizard.Views.Regions.BottomRegion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:interfaces="clr-namespace:ProjectTemplateWizard.Abstractions.Interfaces"
+             xmlns:main="clr-namespace:ProjectTemplateWizard.ViewModels.Main"
+             mc:Ignorable="d"
+             x:ClassModifier="internal">
+
+    <d:UserControl.DataContext>
+        <main:MainViewModel />
+    </d:UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/RootDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <x:Array x:Key="XamarinDatabaseInfrastructureType" Type="interfaces:XamarinDatabaseInfrastructureType">
+                <interfaces:XamarinDatabaseInfrastructureType>SqLite</interfaces:XamarinDatabaseInfrastructureType>
+            </x:Array>
+            <x:Array x:Key="WebDatabaseInfrastructureType" Type="interfaces:WebDatabaseInfrastructureType">
+                <interfaces:WebDatabaseInfrastructureType>MsSql</interfaces:WebDatabaseInfrastructureType>
+                <interfaces:WebDatabaseInfrastructureType>PostgreSql</interfaces:WebDatabaseInfrastructureType>
+                <interfaces:WebDatabaseInfrastructureType>MySql</interfaces:WebDatabaseInfrastructureType>
+                <interfaces:WebDatabaseInfrastructureType>SqLite</interfaces:WebDatabaseInfrastructureType>
+            </x:Array>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="{StaticResource OuterSpacing}" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="{StaticResource OuterSpacing}" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="{StaticResource OuterSpacing}" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="{StaticResource OuterSpacing}" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!--PLATFORM-->
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               Content="Platform">
+            <Label.Style>
+                <Style TargetType="Label" BasedOn="{StaticResource BoldLabel}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAnyPlatformSelected}" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource AlertBrush}" />
+                            <Setter Property="ToolTip" Value="Select any platform." />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Content="Mobile"
+               Style="{StaticResource UnderlinedLabel}" />
+        <CheckBox Grid.Row="2"
+                  Grid.Column="0"
+                  Content="Android"
+                  IsChecked="{Binding IsAndroidPlatformSelected, Mode=TwoWay}" />
+        <CheckBox Grid.Row="3"
+                  Grid.Column="0"
+                  Content="iOS"
+                  IsChecked="{Binding IsIosPlatformSelected, Mode=TwoWay}" />
+        <CheckBox Grid.Row="4"
+                  Grid.Column="0"
+                  Content="UWP"
+                  IsChecked="{Binding IsUwpPlatformSelected, Mode=TwoWay}" />
+        <Label Grid.Row="5"
+               Grid.Column="0"
+               Content="Desktop"
+               Style="{StaticResource UnderlinedLabel}" />
+        <CheckBox Grid.Row="6"
+                  Grid.Column="0"
+                  Content="WPF"
+                  IsChecked="{Binding IsWpfPlatformSelected, Mode=TwoWay}" />
+        <CheckBox Grid.Row="7"
+                  Grid.Column="0"
+                  Content="GTK#"
+                  IsChecked="{Binding IsGtkSharpPlatformSelected, Mode=TwoWay}" />
+
+        <!--WEB BACKEND-->
+        <Label Grid.Row="0"
+               Grid.Column="2"
+               Content="Web Backend"
+               Style="{StaticResource BoldLabel}" />
+        <CheckBox Grid.Row="1"
+                  Grid.Column="2"
+                  Content="Include ASP.NET Core Web API project"
+                  IsChecked="{Binding IsWebBackendIncluded, Mode=TwoWay}" />
+        <CheckBox Grid.Row="2"
+                  Grid.Column="2"
+                  Content="Include Docker compose project"
+                  IsEnabled="{Binding IsWebBackendIncluded, Mode=OneWay}"
+                  IsChecked="{Binding IsDockerComposeIncluded, Mode=TwoWay}" />
+        <!--todo: enable this after functionality implemented-->
+        <!--<CheckBox Grid.Row="3"
+                  Grid.Column="2"
+                  Content="Include SignalR infrastructure"
+                  IsEnabled="{Binding IsWebBackendIncluded, Mode=OneWay}"
+                  IsChecked="{Binding SignalRModule.IsApplied, Mode=TwoWay}" />-->
+        <CheckBox Grid.Row="3"
+                  Grid.Column="2"
+                  Content="Include SignalR infrastructure"
+                  IsEnabled="False"
+                  IsChecked="{Binding SignalRModule.IsApplied, Mode=TwoWay}" />
+        <CheckBox Grid.Row="4"
+                  Grid.Column="2"
+                  Content="Include Swagger"
+                  IsEnabled="{Binding IsWebBackendIncluded, Mode=OneWay}"
+                  IsChecked="{Binding IsSwaggerIncluded, Mode=TwoWay}" />
+        <!--todo: enable this after functionality implemented-->
+        <!--<CheckBox Grid.Row="5"
+                  Grid.Column="2"
+                  Content="Include Microsoft Identity Server"
+                  IsEnabled="{Binding IsWebBackendIncluded, Mode=OneWay}"
+                  IsChecked="{Binding IsIdentityServerIncluded, Mode=TwoWay}" />-->
+        <CheckBox Grid.Row="5"
+                  Grid.Column="2"
+                  Content="Include Microsoft Identity Server"
+                  IsEnabled="False"
+                  IsChecked="{Binding IsIdentityServerIncluded, Mode=TwoWay}" />
+
+        <!--DATABASE-->
+        <Label Grid.Row="0"
+               Grid.Column="4"
+               Content="Database"
+               Style="{StaticResource BoldLabel}" />
+        <Label Grid.Row="1"
+               Grid.Column="4"
+               Content="Xamarin App"
+               Style="{StaticResource UnderlinedLabel}" />
+        <CheckBox Grid.Row="2"
+                  Grid.Column="4"
+                  Content="Include Database Infrastructure"
+                  IsChecked="{Binding DatabaseXamarinModule.IsApplied, Mode=TwoWay}" />
+        <ComboBox Grid.Row="3"
+                  Grid.Column="4"
+                  SelectedIndex="0"
+                  IsEnabled="{Binding DatabaseXamarinModule.IsApplied, Mode=OneWay}"
+                  SelectedItem="{Binding XamarinDatabaseInfrastructureType, Mode=TwoWay}"
+                  ItemsSource="{Binding Source={StaticResource XamarinDatabaseInfrastructureType}, Mode=OneTime}"
+                  ItemTemplate="{StaticResource EnumDisplayNameTemplate}" />
+        <Label Grid.Row="4"
+               Grid.Column="4"
+               Content="Web Backend"
+               Style="{StaticResource UnderlinedLabel}" />
+        <CheckBox Grid.Row="5"
+                  Grid.Column="4"
+                  Content="Include Database Infrastructure"
+                  IsEnabled="{Binding IsWebBackendIncluded, Mode=OneWay}"
+                  IsChecked="{Binding DatabaseWebModule.IsApplied, Mode=TwoWay}" />
+        <ComboBox Grid.Row="6"
+                  Grid.Column="4"
+                  SelectedIndex="0"
+                  IsEnabled="{Binding DatabaseWebModule.IsApplied, Mode=OneWay}"
+                  SelectedItem="{Binding WebDatabaseInfrastructureType, Mode=TwoWay}"
+                  ItemsSource="{Binding Source={StaticResource WebDatabaseInfrastructureType}, Mode=OneTime}"
+                  ItemTemplate="{StaticResource EnumDisplayNameTemplate}" />
+
+        <!--TESTS-->
+        <Label Grid.Row="0"
+               Grid.Column="6"
+               Content="Unit Tests"
+               Style="{StaticResource BoldLabel}" />
+        <CheckBox Grid.Row="1"
+                  Grid.Column="6"
+                  Content="Include NUnit + Moq"
+                  IsChecked="{Binding IsNUnitIncluded, Mode=TwoWay}" />
+
+        <!--OTHERS-->
+        <Label Grid.Row="0"
+               Grid.Column="8"
+               Content="Others"
+               Style="{StaticResource BoldLabel}" />
+        <CheckBox Grid.Row="1"
+                  Grid.Column="8"
+                  Content="Include Readme"
+                  IsEnabled="True"
+                  IsChecked="{Binding IsReadmeIncluded, Mode=TwoWay}" />
+        <CheckBox Grid.Row="2"
+                  Grid.Column="8"
+                  Content="Integrate versioning system"
+                  IsEnabled="True"
+                  IsChecked="{Binding IsVersioningSystemIncluded, Mode=TwoWay}" />
+        <CheckBox Grid.Row="3"
+                  Grid.Column="8"
+                  Content="Include Licenses Info Page"
+                  IsEnabled="True"
+                  IsChecked="{Binding IsLicensesInfoPageIncluded, Mode=TwoWay}" />
+    </Grid>
+</UserControl>

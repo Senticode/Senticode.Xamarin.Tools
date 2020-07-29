@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<abstractions:ViewBase xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
+                       xmlns:menuElements="clr-namespace:Template.MasterDetail.Views.Menu.MenuElements;assembly=Template.MasterDetail"
+                       xmlns:menu="clr-namespace:Template.MasterDetail.ViewModels.Menu;assembly=Template.MasterDetail"
+                       x:Class="Template.MasterDetail.Views.Menu.AboutMenu"
+                       x:Name="Root"
+                       x:DataType="{x:Type menu:AboutMenuViewModel}"
+                       Style="{StaticResource MenuContainerStyle}">
+    <abstractions:ViewBase.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--Title-->
+            <menuElements:TitleMenuRegion Grid.Row="0" />
+            <!--Main region-->
+            
+        </Grid>
+    </abstractions:ViewBase.Content>
+</abstractions:ViewBase>

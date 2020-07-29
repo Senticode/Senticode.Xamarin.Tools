@@ -8,5 +8,5 @@ More information about the Senticode.Xamarin.Tools can be found on https://www.s
 
 ## Nuget versions
 
-| [Senticode.Base](https://www.nuget.org/packages/Senticode.Base/)  | [Senticode.Xamarin.Tools.UI](https://www.nuget.org/packages/Senticode.Xamarin.Tools.UI/) | [Senticode.Xamarin.Tools.MVVM](https://www.nuget.org/packages/Senticode.Xamarin.Tools.MVVM/) |
-| ------------- | ------------- | ------------- |
+| [Senticode.Base](https://www.nuget.org/packages/Senticode.Base/)  | [Senticode.Xamarin.Tools.UI](https://www.nuget.org/packages/Senticode.Xamarin.Tools.UI/) | [Senticode.Xamarin.Tools.MVVM](https://www.nuget.org/packages/Senticode.Xamarin.Tools.MVVM/) | [Senticode.Database.Tools](https://www.nuget.org/packages/Senticode.Database.Tools/) | [Senticode.Xamarin.Tools.Core](https://www.nuget.org/packages/Senticode.Xamarin.Tools.Core/) |
+| ------------- | ------------- | ------------- | ------------- | ------------- |

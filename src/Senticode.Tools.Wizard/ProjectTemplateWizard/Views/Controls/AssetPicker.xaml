@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="ProjectTemplateWizard.Views.Controls.AssetPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:ProjectTemplateWizard.ViewModels"
+             xmlns:converters="clr-namespace:ProjectTemplateWizard.Converters"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d">
+
+    <d:UserControl.DataContext>
+        <viewModels:AssetPickerViewModel />
+    </d:UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/RootDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource InnerSpacing}" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Title, Mode=OneTime}" />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="{StaticResource InnerSpacing}" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Command="{Binding PickAssetCommand, Mode=OneTime}"
+                    ToolTip="{Binding AssetPath, Mode=OneWay, Converter={converters:StringTrimmingConverter}}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid Style="{StaticResource {x:Type Grid}}">
+                                        <Grid.Background>
+                                            <ImageBrush Stretch="None"
+                                                        ImageSource="{Binding Source={StaticResource TransparencyBackgroundImage}, Mode=OneTime}" />
+                                        </Grid.Background>
+                                        <Grid Style="{StaticResource {x:Type Grid}}"
+                                              Background="{Binding SelectedColor, Mode=OneWay, Converter={converters:ColorToBrushConverter}}" />
+                                        <Border Style="{StaticResource {x:Type Border}}">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding AssetPath, Mode=OneWay}" />
+                                            </Border.Background>
+                                        </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="{StaticResource InnerSpacing}" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="{StaticResource InnerSpacing}" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0"
+                        ToolTip="Browse"
+                        Style="{StaticResource IconButtonStyle}"
+                        Command="{Binding PickAssetCommand, Mode=OneTime}">
+                    <Image Source="{Binding Source={StaticResource SearchIcon}, Mode=OneTime}" />
+                </Button>
+                <xctk:ColorPicker Grid.Row="2"
+                                  x:Name="ColorPicker"
+                                  ToolTip="Background color"
+                                  SnapsToDevicePixels="True"
+                                  SelectedColor="{Binding SelectedColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  ButtonStyle="{StaticResource ColorPickerButtonStyle}" />
+                <Grid Grid.Row="4"
+                      ToolTip="{Binding SelectedColorText, ElementName=ColorPicker, Mode=OneWay}">
+                    <Grid.Background>
+                        <ImageBrush Stretch="None"
+                                    ImageSource="{Binding Source={StaticResource TransparencyBackgroundImage}, Mode=OneTime}" />
+                    </Grid.Background>
+                    <Border
+                        Background="{Binding SelectedColor, Mode=OneWay, Converter={converters:ColorToBrushConverter}}" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
