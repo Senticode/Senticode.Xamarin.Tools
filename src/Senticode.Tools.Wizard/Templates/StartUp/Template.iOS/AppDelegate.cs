@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Foundation;
+using Template.MasterDetail;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;

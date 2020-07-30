@@ -7,13 +7,13 @@
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>RELEASE</DefineConstants>
-    <OutputPath>..\..\..\..\out\release\mobile-blank\</OutputPath>    
+    <OutputPath>..\..\..\..\..\out\_release\templates\mobile-blank\</OutputPath>    
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG</DefineConstants>
-    <OutputPath>..\..\..\..\out\debug\mobile-blank\</OutputPath>    
+    <OutputPath>..\..\..\..\..\out\_debug\templates\mobile-blank\</OutputPath>    
   </PropertyGroup> 
   <ItemGroup>
     <EmbeddedResource Include="Configuration\app.config" />    

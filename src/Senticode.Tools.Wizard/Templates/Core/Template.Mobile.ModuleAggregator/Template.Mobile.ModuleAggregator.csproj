@@ -6,15 +6,15 @@
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>RELEASE</DefineConstants>
-    <OutputPath>..\..\..\..\out\release\mobile\</OutputPath>
-    <IntermediateOutputPath>..\..\..\..\out\obj\</IntermediateOutputPath>
+    <OutputPath>..\..\..\..\..\out\_release\templates\mobile\</OutputPath>
+    <IntermediateOutputPath>..\..\..\..\..\out\_obj\templates\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG</DefineConstants>
-    <OutputPath>..\..\..\..\out\debug\mobile\</OutputPath>
-    <IntermediateOutputPath>..\..\..\..\out\obj\</IntermediateOutputPath>
+    <OutputPath>..\..\..\..\..\out\_debug\templates\mobile\</OutputPath>
+    <IntermediateOutputPath>..\..\..\..\..\out\_obj\templates\</IntermediateOutputPath>
   </PropertyGroup>  
 
   <ItemGroup>

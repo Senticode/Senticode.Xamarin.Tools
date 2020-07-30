@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="SenticodeTemplate.9ba9eb90-562b-4f0c-b20c-8d2dafc6aa58" Version="1.0" Language="en-US" Publisher="senticode" />
+        <Identity Id="SenticodeTemplate.9ba9eb90-562b-4f0c-b20c-8d2dafc6aa58" Version="1.0" Language="en-US" Publisher="Senticode" />
         <DisplayName>Senticode Xamarin Tools</DisplayName>
         <Description xml:space="preserve">Xamarin Forms app configured to use Senticode Tools</Description>
-        <GettingStartedGuide>In newly generated solution add shared project to all platform pfojects</GettingStartedGuide>
+        <Icon>icon.png</Icon>
+        <Preview>true</Preview>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)" />
