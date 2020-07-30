@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\out\_debug\</OutputPath>
-	<BaseIntermediateOutputPath>..\..\..\out\_obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\out\_obj\</BaseIntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\out\_release\</OutputPath>
-	<BaseIntermediateOutputPath>..\..\..\out\_obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\out\_obj\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,6 +73,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\sln\Wizard\WizardAssemblyInfo.cs">
+      <Link>Properties\WizardAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Abstractions\CommandBase.cs" />
     <Compile Include="Abstractions\Interfaces\IObservableObject.cs" />
     <Compile Include="Abstractions\Interfaces\IProjectTemplateData.cs" />

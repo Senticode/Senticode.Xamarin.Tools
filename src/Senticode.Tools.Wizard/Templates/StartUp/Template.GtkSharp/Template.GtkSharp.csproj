@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\..\..\..\sln\Wizard\packages\Xamarin.Forms.4.7.0.1080\build\Xamarin.Forms.props" Condition="Exists('..\..\..\..\..\sln\Wizard\packages\Xamarin.Forms.4.7.0.1080\build\Xamarin.Forms.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\out\debug\gtk\</OutputPath>
+    <OutputPath>..\..\..\..\..\out\_debug\templates\gtk\</OutputPath>
     <DefineConstants>TRACE;DEBUG;__GTK__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\out\release\gtk\</OutputPath>
+    <OutputPath>..\..\..\..\..\out\_release\templates\gtk\</OutputPath>
     <DefineConstants>TRACE;__GTK__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

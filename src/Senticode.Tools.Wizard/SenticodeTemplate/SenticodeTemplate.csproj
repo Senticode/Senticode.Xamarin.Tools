@@ -40,7 +40,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\out\_debug\</OutputPath>
-	<BaseIntermediateOutputPath>..\..\..\out\_obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\out\_obj\</BaseIntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -50,13 +50,16 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\out\_release\</OutputPath>
-	<BaseIntermediateOutputPath>..\..\..\out\_obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\out\_obj\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\sln\Wizard\WizardAssemblyInfo.cs">
+      <Link>Properties\WizardAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AppConstants.cs" />
     <Compile Include="Interfaces\IAssetsGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +87,10 @@
     <Compile Include="AppConstants.Methods.cs" />
     <EmbeddedResource Include="TemplateFiles\Licenses.xml" />
     <None Include="key.snk" />
+    <Content Include="icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="ProjectTemplates\Senticode.Tools.Template.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

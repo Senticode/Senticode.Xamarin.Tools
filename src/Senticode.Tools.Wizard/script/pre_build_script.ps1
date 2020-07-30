@@ -54,8 +54,14 @@ function ReplaceStrings
 {
     foreach ($templateFolder in $templateFolders)
     {    
-        (Get-Content "$BaseDirectory\out\$templateFolder\$templateFolder.csproj" -raw) -Replace '<ItemGroup>.*\n(?:.*Template.*\n){1,}.*<\/ItemGroup>|<ItemGroup>.*\n.*Template.*\n.*\n.*Template.*\n.*\n.*<\/ItemGroup>', ' ' | 
-        Set-Content "$BaseDirectory\out\$templateFolder\$templateFolder.csproj"
+		$projectFile = "$BaseDirectory\out\$templateFolder\$templateFolder.csproj"
+		
+        (Get-Content $projectFile -raw) -replace '<ItemGroup>.*\n(?:.*Template.*\n){1,}.*<\/ItemGroup>|<ItemGroup>.*\n.*Template.*\n.*\n.*Template.*\n.*\n.*<\/ItemGroup>', ' '| 
+		Set-Content $projectFile
+		
+		(Get-Content $projectFile) | Foreach-Object {
+		$_ -replace '..\\out\\_release\\templates', 'out\release' -replace '..\\out\\_debug\\templates', 'out\debug' -replace '..\\out\\_obj\\templates', 'out\obj' 
+        }| Set-Content $projectFile
                
         $files = Get-ChildItem "$BaseDirectory\out\$templateFolder" -recurse -file -exclude *.vstemplate,*.ico,*.png       
         
@@ -96,7 +102,7 @@ foreach($file in $files)   # find all folders that contain template projects
         foreach($innerFile in $innerFiles)
         {
             if($innerFile -match '.csproj$')
-            {
+            {			
                $projectFolders += $innerFile.DirectoryName
             }
         }
