@@ -209,6 +209,8 @@
     <ProjectReference Include="..\ProjectTemplateWizard\ProjectTemplateWizard.csproj">
       <Project>{46ddff31-5b20-4a51-8cff-50dc10421b15}</Project>
       <Name>ProjectTemplateWizard</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

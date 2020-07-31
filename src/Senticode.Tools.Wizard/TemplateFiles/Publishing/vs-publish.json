@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json.schemastore.org/vsix-publish",
+    "categories": [ "visual studio extensions" ], 
+    "identity": {
+        "internalName": "Senticode-Xamarin-Template"
+                                           
+    },
+    "overview": "overview.md",           
+    "priceCategory": "free",             
+    "publisher": "Senticode",      
+    "private": false,                    
+    "qna": true  
+}

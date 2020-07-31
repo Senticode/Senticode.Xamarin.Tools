@@ -1,22 +1,21 @@
-<VSTemplate Version="2.0.0" Type="ProjectGroup"
-    xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
-    <TemplateData>
-        <Name>Xamarin Forms Senticode</Name>
-        <Description>Sample Xamarin Forms app with Senticode Xamarin Tools</Description>
-        <Icon>icon.png</Icon>
-        <ProjectType>CSharp</ProjectType>
-		<DefaultName>SenticodeApp</DefaultName>
-        <ProvideDefaultName>true</ProvideDefaultName>
-		<LanguageTag>C#</LanguageTag>
-		<PlatformTag>Android</PlatformTag>
-		<PlatformTag>iOS</PlatformTag>
-		<PlatformTag>UWP</PlatformTag>
-		<ProjectTypeTag>Mobile</ProjectTypeTag>
-    </TemplateData>
-    <TemplateContent>
-	</TemplateContent>
-	<WizardExtension>
-		<Assembly>SenticodeTemplate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3913f774c565718d</Assembly>
-		<FullClassName>SenticodeTemplate.Wizard</FullClassName>
+<VSTemplate Version="2.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Xamarin Forms Senticode</Name>
+    <Description>Sample Xamarin Forms app with Senticode Xamarin Tools</Description>
+    <Icon>icon.png</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <DefaultName>SenticodeApp</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LanguageTag>C#</LanguageTag>
+    <PlatformTag>Android</PlatformTag>
+    <PlatformTag>iOS</PlatformTag>
+    <PlatformTag>UWP</PlatformTag>
+    <ProjectTypeTag>Mobile</ProjectTypeTag>
+  </TemplateData>
+  <TemplateContent>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>SenticodeTemplate, Version=0.0.0.1, Culture=neutral, PublicKeyToken=3913f774c565718d</Assembly>
+    <FullClassName>SenticodeTemplate.Wizard</FullClassName>
   </WizardExtension>
 </VSTemplate>
