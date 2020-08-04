@@ -6,6 +6,6 @@
   <color name="colorAccent">#FF4081</color>
   <color name="colorIconDefaultBackground">@android:color/white</color>
   <color name="colorSplashScreenDefaultBackground">@android:color/white</color>
-  <color name="colorSplashScreenBackground">@color/colorIconDefaultBackground</color>
-  <color name="colorIconBackground">@color/colorSplashScreenDefaultBackground</color>
+  <color name="colorSplashScreenBackground">@color/colorSplashScreenDefaultBackground</color>
+  <color name="colorIconBackground">@color/colorIconDefaultBackground</color>
 </resources>

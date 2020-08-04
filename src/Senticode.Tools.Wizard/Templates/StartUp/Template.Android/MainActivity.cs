@@ -15,7 +15,7 @@ using Platform = Xamarin.Essentials.Platform;
 
 namespace Template.Android
 {
-    [Activity(Label = "Senticode", Icon = "@drawable/iconLayout", Theme = "@style/MainTheme", MainLauncher = false,
+    [Activity(Label = "Sample", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : FormsAppCompatActivity
     {
