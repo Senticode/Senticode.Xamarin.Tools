@@ -2,7 +2,7 @@
 using Senticode.Database.Tools.Interfaces;
 using Unity;
 
-namespace Template.Db.Xamarin
+namespace _template.Db.Xamarin
 {
     internal class DatabaseInitializer
     {

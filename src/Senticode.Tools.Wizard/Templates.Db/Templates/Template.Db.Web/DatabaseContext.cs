@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Template.Db.Web.Models;
+﻿using _template.Db.Web.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Template.Db.Web
+namespace _template.Db.Web
 {
     internal class DatabaseContext : DbContext
     {

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ProjectTemplateWizard.Abstractions.Interfaces;
 using ProjectTemplateWizard.Models;
@@ -37,10 +39,24 @@ namespace ProjectTemplateWizard.ExtensionMethods
                 selectedPlatforms.Add(PlatformType.GtkSharp);
             }
 
+            var appIconPath = viewModel.IconPickerViewModel.AssetPath;
+
+            if (string.IsNullOrWhiteSpace(appIconPath) || !File.Exists(appIconPath))
+            {
+                throw new NotSupportedException($"Asset source does not exist {nameof(appIconPath)}");
+            }
+
+            var splashScreenImagePath = viewModel.SplashScreenImagePickerViewModel.AssetPath;
+
+            if (string.IsNullOrWhiteSpace(splashScreenImagePath) || !File.Exists(splashScreenImagePath))
+            {
+                throw new NotSupportedException($"Asset source does not exist {nameof(splashScreenImagePath)}");
+            }
+
             var result = new ProjectTemplateData
             {
-                SplashScreenImagePath = viewModel.SplashScreenImagePickerViewModel.AssetPath,
-                AppIconPath = viewModel.IconPickerViewModel.AssetPath,
+                SplashScreenImagePath = splashScreenImagePath,
+                AppIconPath = appIconPath,
                 SplashScreenBackgroundColor = viewModel.SplashScreenImagePickerViewModel.SelectedColor.ToString(),
                 AppIconBackgroundColor = viewModel.IconPickerViewModel.SelectedColor.ToString(),
                 ProjectTemplateType = viewModel.ProjectTemplateType,

@@ -1,14 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:menu="clr-namespace:Template.MasterDetail.Views.Menu"
-             xmlns:viewModels="clr-namespace:Template.MasterDetail.ViewModels;assembly=Template.MasterDetail"
+             xmlns:viewModels1="clr-namespace:_template.MasterDetail.ViewModels;assembly=_template.MasterDetail"
+             xmlns:menu1="clr-namespace:_template.MasterDetail.Views.Menu;assembly=_template.MasterDetail"
              mc:Ignorable="d"
              IsInNativeLayout="False"
              Title="Menu"
-             x:Class="Template.MasterDetail.Views.MainMasterPage"
-             x:DataType="{x:Type viewModels:MainViewModel}">
-    <menu:MainMenu BindingContext="{Binding MainMenuViewModel}"/>
+             x:Class="_template.MasterDetail.Views.MainMasterPage"
+             x:DataType="{x:Type viewModels1:MainViewModel}">
+    <menu1:MainMenu BindingContext="{Binding MainMenuViewModel}" />
 </ContentPage>

@@ -1,13 +1,14 @@
-﻿using Senticode.Xamarin.Tools.MVVM.Abstractions;
+﻿using _template.Blank.Models;
+using Senticode.Xamarin.Tools.MVVM.Abstractions;
 using Senticode.Xamarin.Tools.MVVM.Collections;
-using Template.Blank.Models;
 using Unity;
 
-namespace Template.Blank.ViewModels
+namespace _template.Blank.ViewModels
 {
     internal class MainViewModel : ViewModelBase<AppCommands, AppSettings>
     {
-        private ModelController _modelController;
+        private readonly ModelController _modelController;
+
         public MainViewModel()
         {
             Container.RegisterInstance(this);

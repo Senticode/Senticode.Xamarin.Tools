@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Template.Web.Common.Interfaces.Core
+namespace _template.Web.Common.Interfaces.Core
 {
     public interface IInitializer
     {

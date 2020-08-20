@@ -7,6 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTemplateWizard", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenticodeTemplate", "..\..\src\Senticode.Tools.Wizard\SenticodeTemplate\SenticodeTemplate.csproj", "{247D5A7A-707F-47CC-8416-D0C35126FF36}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "script", "script", "{08CE9080-6ACC-41EE-959C-86D171F28CC4}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\src\Senticode.Tools.Wizard\script\pre_build_script.ps1 = ..\..\src\Senticode.Tools.Wizard\script\pre_build_script.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FastTests", "FastTests", "{C3401CF7-6E4D-4575-86B2-0E2945E2EDA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastTests", "..\..\src\Senticode.Tools.Wizard\FastTests\FastTests.csproj", "{1FB93841-62FE-4C59-BCF2-B0BA9A8AD217}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +30,16 @@ Global
 		{247D5A7A-707F-47CC-8416-D0C35126FF36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{247D5A7A-707F-47CC-8416-D0C35126FF36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{247D5A7A-707F-47CC-8416-D0C35126FF36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FB93841-62FE-4C59-BCF2-B0BA9A8AD217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FB93841-62FE-4C59-BCF2-B0BA9A8AD217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FB93841-62FE-4C59-BCF2-B0BA9A8AD217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FB93841-62FE-4C59-BCF2-B0BA9A8AD217}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1FB93841-62FE-4C59-BCF2-B0BA9A8AD217} = {C3401CF7-6E4D-4575-86B2-0E2945E2EDA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CFF4C31-C554-4AC5-BB45-BE011FA41876}

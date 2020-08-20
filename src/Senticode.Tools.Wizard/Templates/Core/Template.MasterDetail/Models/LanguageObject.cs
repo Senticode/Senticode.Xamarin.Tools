@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Senticode.Xamarin.Tools.MVVM.Abstractions;
 
-namespace Template.MasterDetail.Models
+namespace _template.MasterDetail.Models
 {
     public class LanguageObject : ModelBase
     {

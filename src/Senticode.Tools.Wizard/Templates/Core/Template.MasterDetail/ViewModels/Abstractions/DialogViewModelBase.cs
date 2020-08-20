@@ -3,7 +3,7 @@ using Senticode.Xamarin.Tools.MVVM.Abstractions;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail.ViewModels.Abstractions
+namespace _template.MasterDetail.ViewModels.Abstractions
 {
     /// <summary>
     ///     Dialog view model.
@@ -46,10 +46,7 @@ namespace Template.MasterDetail.ViewModels.Abstractions
         ///     Method to check whether the GoBack command can be executed.
         /// </summary>
         /// <returns><c>true</c> if the command can be executed; otherwise <c>false</c></returns>
-        protected virtual bool CanExecuteGoBack()
-        {
-            return true;
-        }
+        protected virtual bool CanExecuteGoBack() => true;
 
         /// <summary>
         ///     Method to invoke when the GoNext command is executed.
@@ -63,9 +60,6 @@ namespace Template.MasterDetail.ViewModels.Abstractions
         ///     Method to check whether the GoNext command can be executed.
         /// </summary>
         /// <returns><c>true</c> if the command can be executed; otherwise <c>false</c></returns>
-        protected virtual bool CanExecuteGoNext()
-        {
-            return true;
-        }
+        protected virtual bool CanExecuteGoNext() => true;
     }
 }

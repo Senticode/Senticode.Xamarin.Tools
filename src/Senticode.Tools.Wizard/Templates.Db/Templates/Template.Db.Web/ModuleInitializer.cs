@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using _template.Db.Web.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Senticode.Database.Tools.Interfaces;
-using Template.Db.Web.Services;
 
-namespace Template.Db.Web
+namespace _template.Db.Web
 {
     public class ModuleInitializer
     {

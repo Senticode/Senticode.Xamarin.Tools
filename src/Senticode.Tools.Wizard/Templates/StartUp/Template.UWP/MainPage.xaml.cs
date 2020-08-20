@@ -1,11 +1,11 @@
-namespace Template.UWP
+namespace _template.UWP
 {
     public sealed partial class MainPage
     {
         public MainPage()
         {
             InitializeComponent();
-            LoadApplication(new Template.MasterDetail.App(UwpInitializer.Instance));
+            LoadApplication(new MasterDetail.App(UwpInitializer.Instance));
         }
     }
 }

@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>_template.Module.Web</RootNamespace>
+    <AssemblyName>_template.Module.Web</AssemblyName>
   </PropertyGroup>
 
 <ItemGroup>
-<ProjectReference Include = "..\..\Common\Template.Web.Common.Interfaces\Template.Web.Common.Interfaces.csproj"/>
+<ProjectReference Include="..\..\Common\Template.Web.Common.Interfaces\Template.Web.Common.Interfaces.csproj" />
 </ItemGroup>
 
   <ItemGroup>

@@ -3,7 +3,7 @@ using System.Reflection;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Template.Blank.Staff.MarkupExtensions
+namespace _template.Blank.Staff.MarkupExtensions
 {
     [ContentProperty(nameof(Source))]
     public class ImageResourceExtension : IMarkupExtension

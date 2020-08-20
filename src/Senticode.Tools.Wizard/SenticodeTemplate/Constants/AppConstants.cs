@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SenticodeTemplate
+﻿namespace SenticodeTemplate.Constants
 {
     internal static partial class AppConstants
     {
@@ -70,25 +68,6 @@ namespace SenticodeTemplate
 
         #endregion
 
-        #region Tokens
-
-        [Obsolete("Use ModuleInitializer class name to replace")]
-        public const string ModuleInitializerToken = "$moduleinitializer$";
-
-        public const string NamespaceToken = "$namespace$";
-        public const string ClassnameToken = "$classname$";
-        public const string ProjectNameToken = "$projectname$";
-        public const string ProjectPathToken = "$projectpath$";
-        public const string SafeProjectNameToken = "$safeprojectname$";
-        public const string SolutionDirectoryToken = "$solutiondirectory$";
-        public const string ConnectionStringToken = "_connectionstring_";
-        public const string SqLiteToken = "_sqlite_";
-        public const string MySqlToken = "_mysql_";
-        public const string MsSqlToken = "_mssql_";
-        public const string PostgreToken = "_postgre_";
-
-        #endregion
-
         #region Code
 
         public const string SwaggerMethods = @"private void AddSwagger(IServiceCollection services)
@@ -125,12 +104,6 @@ namespace SenticodeTemplate
         ""publishAllPorts"": true,
         ""useSSL"": true
     },";
-
-        public const string AppSettingsConstructor = @"
-            if (!Container.IsRegistered(typeof(IWebClientSettings)))
-            {
-                Container.RegisterInstance<IWebClientSettings>(this);
-            }";
 
         public const string InitializeModelControllerMethod = "private async void InitializeModelController()";
 

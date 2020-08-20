@@ -1,9 +1,8 @@
-﻿using Senticode.Xamarin.Tools.Core.Abstractions.Base;
-using Template.MasterDetail.Commands.Navigation;
-
+﻿using _template.MasterDetail.Commands.Navigation;
+using Senticode.Xamarin.Tools.Core.Abstractions.Base;
 using Unity;
 
-namespace Template.MasterDetail
+namespace _template.MasterDetail
 {
     public class AppCommands : AppCommandsBase<AppSettings>
     {

@@ -7,7 +7,7 @@ using Senticode.Base.Interfaces;
 using Senticode.Base.Services;
 using Senticode.Database.Tools.Interfaces;
 
-namespace Template.Db.Web.Services
+namespace _template.Db.Web.Services
 {
     internal class ConnectionManager : ServiceBase, IConnectionManager
     {

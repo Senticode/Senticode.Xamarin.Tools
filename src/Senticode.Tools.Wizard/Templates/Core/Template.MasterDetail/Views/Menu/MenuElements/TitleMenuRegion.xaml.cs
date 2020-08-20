@@ -1,8 +1,8 @@
-﻿using Template.MasterDetail.Commands.Navigation;
+﻿using _template.MasterDetail.Commands.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Template.MasterDetail.Views.Menu.MenuElements
+namespace _template.MasterDetail.Views.Menu.MenuElements
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TitleMenuRegion : ContentView
@@ -19,7 +19,7 @@ namespace Template.MasterDetail.Views.Menu.MenuElements
         /// </summary>
         public MenuKind PreviousMenu
         {
-            get => (MenuKind)GetValue(PreviousMenuProperty);
+            get => (MenuKind) GetValue(PreviousMenuProperty);
             set => SetValue(PreviousMenuProperty, value);
         }
 

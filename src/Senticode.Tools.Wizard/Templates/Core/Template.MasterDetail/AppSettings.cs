@@ -8,18 +8,26 @@ using Unity;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail
+namespace _template.MasterDetail
 {
     /// <summary>
     ///     Global Settings Singleton.
     /// </summary>
     public class AppSettings : AppSettingsBase
     {
-        public const string CONFIG_FILE = "Configuration.app.config";
+        public const string ConfigFile = "Configuration.app.config";
 
+        // ReSharper disable once EmptyConstructor
         public AppSettings()
         {
+            /*_webclientregistration_*/
+            /*if (!Container.IsRegistered(typeof(IWebClientSettings)))
+            {
+                Container.RegisterInstance<IWebClientSettings>(this);
+            }*/
         }
+
+        public Uri WebServiceAddress { get; set; }
 
         #region ApplySettings
 
@@ -59,17 +67,15 @@ namespace Template.MasterDetail
             }
         }
 
-
         /// <summary>
         ///     NetworkAccess property data.
         /// </summary>
         private NetworkAccess _networkAccess;
 
-        private string _language;
-
         #endregion
 
         #region Language : string
+
         public string Language
         {
             get => _language;
@@ -99,9 +105,9 @@ namespace Template.MasterDetail
                 }
             }
         }
+
+        private string _language;
+
         #endregion
-
-        public Uri WebServiceAddress { get; set; }
-
     }
 }

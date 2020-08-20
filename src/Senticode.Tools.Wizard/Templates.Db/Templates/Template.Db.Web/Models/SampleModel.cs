@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Template.Db.Web.Models
+namespace _template.Db.Web.Models
 {
     internal class SampleModel
     {

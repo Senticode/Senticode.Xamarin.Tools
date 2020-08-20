@@ -1,9 +1,9 @@
-﻿using Senticode.Database.Tools.Interfaces;
+﻿using _template.Db.Xamarin.Services;
+using Senticode.Database.Tools.Interfaces;
 using Senticode.Xamarin.Tools.Core.Interfaces.Base;
-using Template.Db.Xamarin.Services;
 using Unity;
 
-namespace Template.Db.Xamarin
+namespace _template.Db.Xamarin
 {
     public class ModuleInitializer : IInitializer
     {

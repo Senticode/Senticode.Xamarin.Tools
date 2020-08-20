@@ -1,6 +1,6 @@
 ﻿using Android.App;
 
-namespace Template.Android.Services
+namespace _template.Android.Services
 {
     internal static class ActivityLocator
     {

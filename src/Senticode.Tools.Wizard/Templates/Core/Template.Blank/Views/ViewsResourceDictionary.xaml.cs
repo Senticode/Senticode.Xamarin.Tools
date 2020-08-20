@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms.Xaml;
 
-namespace Template.Blank.Views
+namespace _template.Blank.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ViewsResourceDictionary

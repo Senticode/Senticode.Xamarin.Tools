@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Senticode.Xamarin.Tools.Core.Abstractions.Staff;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail.Views.Animations
+namespace _template.MasterDetail.Views.Animations
 {
     internal class StartMenuItemPushAnimation : ExternalObjectAnimationBase
     {

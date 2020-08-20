@@ -1,21 +1,19 @@
 using System.Diagnostics;
+using _template.MasterDetail.AppStateMachine.Strategies;
+using _template.MasterDetail.Resources;
+using _template.MasterDetail.ViewModels;
+using _template.MasterDetail.ViewModels.Menu;
+using _template.MasterDetail.Views.Menu;
+using _template.MasterDetail.Views.Pages;
 using Senticode.Base.Interfaces;
 using Senticode.Xamarin.Tools.Core.Interfaces.Base;
-using Template.MasterDetail.AppStateMachine.Strategies;
-using Template.MasterDetail.Resources;
-using Template.MasterDetail.ViewModels;
-using Template.MasterDetail.ViewModels.Menu;
-using Template.MasterDetail.Views.Menu;
-using Template.MasterDetail.Views.Pages;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail
+namespace _template.MasterDetail
 {
     internal class AppInitializer : IInitializer, IInitializationTrigger
     {
-        public static AppInitializer Instance { get; } = new AppInitializer();
-
         public bool IsInitialized { get; set; }
 
         public bool IsInitializing { get; set; }
@@ -61,7 +59,18 @@ namespace Template.MasterDetail
             }
 
             IsInitialized = true;
+
             return container;
         }
+
+        #region singleton
+
+        private AppInitializer()
+        {
+        }
+
+        public static AppInitializer Instance { get; } = new AppInitializer();
+
+        #endregion
     }
 }

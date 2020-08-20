@@ -3,6 +3,7 @@ using System.Linq;
 using EnvDTE;
 using EnvDTE80;
 using EnvDTE90;
+using SenticodeTemplate.Constants;
 using VSLangProj;
 
 namespace SenticodeTemplate.Services.Helpers
@@ -108,8 +109,8 @@ namespace SenticodeTemplate.Services.Helpers
                 $"{projectName}.{moduleName}", $"{AppConstants.ModuleInitializer}.cs");
 
             FileHelper.ReplaceString(path,
-                File.ReadAllText(path).Contains(AppConstants.ModuleInitializerToken)
-                    ? AppConstants.ModuleInitializerToken
+                File.ReadAllText(path).Contains(ReplacementTokens.ModuleInitializer)
+                    ? ReplacementTokens.ModuleInitializer
                     : AppConstants.ModuleInitializer, classname);
 
             File.Move(path, path.Replace($"{AppConstants.ModuleInitializer}.cs", $"{classname}.cs"));

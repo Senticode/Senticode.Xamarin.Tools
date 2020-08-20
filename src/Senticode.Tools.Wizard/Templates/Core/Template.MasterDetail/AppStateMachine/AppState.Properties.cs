@@ -1,7 +1,7 @@
 ﻿using Senticode.Xamarin.Tools.Core.Abstractions.Base;
 using Xamarin.Essentials;
 
-namespace Template.MasterDetail.AppStateMachine
+namespace _template.MasterDetail.AppStateMachine
 {
     public partial class AppState
     {

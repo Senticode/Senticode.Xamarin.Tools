@@ -1,10 +1,10 @@
 ﻿using System;
-using Template.MasterDetail;
+using _template.MasterDetail;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.GTK;
 using Application = Gtk.Application;
 
-namespace Template.GtkSharp
+namespace _template.GtkSharp
 {
     internal class Program
     {

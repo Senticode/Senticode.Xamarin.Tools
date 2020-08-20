@@ -1,4 +1,6 @@
-﻿namespace SenticodeTemplate.Services.Helpers
+﻿using SenticodeTemplate.Constants;
+
+namespace SenticodeTemplate.Services.Helpers
 {
     internal static class ConnectionStringHelper
     {

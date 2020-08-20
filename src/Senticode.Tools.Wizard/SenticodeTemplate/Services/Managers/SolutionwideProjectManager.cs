@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using ProjectTemplateWizard.Abstractions.Interfaces;
+using SenticodeTemplate.Constants;
 using SenticodeTemplate.Interfaces;
 using SenticodeTemplate.Services.Helpers;
 

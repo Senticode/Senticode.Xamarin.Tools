@@ -1,7 +1,6 @@
-﻿using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms.Xaml;
 
-namespace Template.Blank.Views
+namespace _template.Blank.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage
@@ -11,9 +10,6 @@ namespace Template.Blank.Views
             InitializeComponent();
         }
 
-        protected override bool OnBackButtonPressed()
-        {
-            return true;
-        }
+        protected override bool OnBackButtonPressed() => true;
     }
 }

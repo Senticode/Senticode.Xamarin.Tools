@@ -1,4 +1,4 @@
-﻿namespace Template.MasterDetail.Staff.Helpers
+﻿namespace _template.MasterDetail.Staff.Helpers
 {
     public enum PhoneSize
     {

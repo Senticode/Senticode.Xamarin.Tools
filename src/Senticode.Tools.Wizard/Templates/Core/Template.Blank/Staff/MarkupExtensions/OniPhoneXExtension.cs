@@ -3,7 +3,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Template.Blank.Staff.MarkupExtensions
+namespace _template.Blank.Staff.MarkupExtensions
 {
     public class OniPhoneXExtension<T> : BindableObject, IMarkupExtension<T>
     {
@@ -14,7 +14,7 @@ namespace Template.Blank.Staff.MarkupExtensions
         /// </summary>
         public T Default
         {
-            get => (T)GetValue(DefaultProperty);
+            get => (T) GetValue(DefaultProperty);
             set => SetValue(DefaultProperty, value);
         }
 
@@ -34,7 +34,7 @@ namespace Template.Blank.Staff.MarkupExtensions
         /// </summary>
         public T XValue
         {
-            get => (T)GetValue(XValueProperty);
+            get => (T) GetValue(XValueProperty);
             set => SetValue(XValueProperty, value);
         }
 
@@ -56,16 +56,14 @@ namespace Template.Blank.Staff.MarkupExtensions
                 {
                     return XValue;
                 }
+
                 return Default;
             }
 
             return Default;
         }
 
-        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-        {
-            return ProvideValue(serviceProvider);
-        }
+        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 
         #endregion
     }

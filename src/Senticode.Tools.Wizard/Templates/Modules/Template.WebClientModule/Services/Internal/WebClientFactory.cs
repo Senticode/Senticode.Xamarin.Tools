@@ -1,8 +1,8 @@
 using System.Net.Http;
-using Template.Mobile.Interfaces.Services.Web;
+using _template.Mobile.Interfaces.Services.Web;
 using Unity;
 
-namespace Template.WebClientModule.Services.Internal
+namespace _template.WebClientModule.Services.Internal
 {
     public class WebClientFactory : IWebClientFactory
     {
@@ -21,11 +21,11 @@ namespace Template.WebClientModule.Services.Internal
             var baseAddress = WebClientSettings.WebServiceAddress;
 
             var client = new HttpClient(new HttpClientHandler
-            {
+                {
 #if DEBUG
                     ServerCertificateCustomValidationCallback = (a, b, c, d) => true
 #endif
-            }
+                }
             )
             {
                 BaseAddress = baseAddress

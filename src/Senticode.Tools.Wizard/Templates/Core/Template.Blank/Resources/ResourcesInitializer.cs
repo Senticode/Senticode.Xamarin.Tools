@@ -5,7 +5,7 @@ using Senticode.Xamarin.Tools.Core.Interfaces.Base;
 using Senticode.Xamarin.Tools.Core.Localize;
 using Unity;
 
-namespace Template.Blank.Resources
+namespace _template.Blank.Resources
 {
     public class ResourcesInitializer : IInitializer
     {

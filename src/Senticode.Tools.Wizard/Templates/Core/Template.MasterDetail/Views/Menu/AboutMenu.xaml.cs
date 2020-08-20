@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms.Xaml;
 
-namespace Template.MasterDetail.Views.Menu
+namespace _template.MasterDetail.Views.Menu
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AboutMenu

@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>_template.Web.Common.Interfaces</RootNamespace>
+    <AssemblyName>_template.Web.Common.Interfaces</AssemblyName>
   </PropertyGroup> 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

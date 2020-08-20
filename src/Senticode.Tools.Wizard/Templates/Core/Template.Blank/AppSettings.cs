@@ -8,18 +8,26 @@ using Unity;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace Template.Blank
+namespace _template.Blank
 {
     /// <summary>
     ///     Global Settings Singleton.
     /// </summary>
     public class AppSettings : AppSettingsBase
     {
-        public const string CONFIG_FILE = "Configuration.app.config";
+        public const string ConfigFile = "Configuration.app.config";
 
+        // ReSharper disable once EmptyConstructor
         public AppSettings()
         {
+            /*_webclientregistration_*/
+            /*if (!Container.IsRegistered(typeof(IWebClientSettings)))
+            {
+                Container.RegisterInstance<IWebClientSettings>(this);
+            }*/
         }
+
+        public Uri WebServiceAddress { get; set; }
 
         #region ApplySettings
 
@@ -70,6 +78,7 @@ namespace Template.Blank
         #endregion
 
         #region Language : string
+
         public string Language
         {
             get => _language;
@@ -99,9 +108,7 @@ namespace Template.Blank
                 }
             }
         }
+
         #endregion
-
-        public Uri WebServiceAddress { get; set; }
-
     }
 }

@@ -1,9 +1,9 @@
-﻿using Senticode.Xamarin.Tools.Core;
+﻿using _template.Android.Services;
+using Senticode.Xamarin.Tools.Core;
 using Senticode.Xamarin.Tools.Core.Interfaces.Services;
-using Template.Android.Services;
 using Unity;
 
-namespace Template.Android
+namespace _template.Android
 {
     public class AndroidInitializer : PlatformInitializerBase
     {

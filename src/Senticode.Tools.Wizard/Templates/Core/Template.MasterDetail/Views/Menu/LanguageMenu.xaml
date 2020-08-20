@@ -4,18 +4,17 @@
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:d="http://xamarin.com/schemas/2014/forms/design"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                       xmlns:menu="clr-namespace:Template.MasterDetail.ViewModels.Menu;assembly=Template.MasterDetail"
-                       xmlns:menuElements="clr-namespace:Template.MasterDetail.Views.Menu.MenuElements;assembly=Template.MasterDetail"
                        xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
                        xmlns:ui="clr-namespace:Senticode.Xamarin.Tools.UI;assembly=Senticode.Xamarin.Tools.UI"
-                       xmlns:controls="clr-namespace:Template.MasterDetail.Staff.Controls;assembly=Template.MasterDetail"
-                       xmlns:animations="clr-namespace:Template.MasterDetail.Views.Animations;assembly=Template.MasterDetail"
                        xmlns:markupExtensions="clr-namespace:Senticode.Xamarin.Tools.Core.MarkupExtensions;assembly=Senticode.Xamarin.Tools.Core"
-                       xmlns:models="clr-namespace:Template.MasterDetail.Models;assembly=Template.MasterDetail"
+                       xmlns:menu1="clr-namespace:_template.MasterDetail.ViewModels.Menu;assembly=_template.MasterDetail"
+                       xmlns:menuElements1="clr-namespace:_template.MasterDetail.Views.Menu.MenuElements;assembly=_template.MasterDetail"
+                       xmlns:models1="clr-namespace:_template.MasterDetail.Models;assembly=_template.MasterDetail"
+                       xmlns:animations="clr-namespace:_template.MasterDetail.Views.Animations;assembly=_template.MasterDetail"
                        mc:Ignorable="d"
-                       x:Class="Template.MasterDetail.Views.Menu.LanguageMenu"
+                       x:Class="_template.MasterDetail.Views.Menu.LanguageMenu"
                        x:Name="Root"
-                       x:DataType="{x:Type menu:LanguageMenuViewModel}"
+                       x:DataType="{x:Type menu1:LanguageMenuViewModel}"
                        Style="{StaticResource MenuContainerStyle}">
     <abstractions:ViewBase.Content>
         <Grid>
@@ -25,12 +24,12 @@
             </Grid.RowDefinitions>
 
             <!--Title-->
-            <menuElements:TitleMenuRegion Grid.Row="0" />
+            <menuElements1:TitleMenuRegion Grid.Row="0" />
             <!--Main region-->
             <ui:ItemsStackLayout Grid.Row="1" ItemsSource="{Binding Languages}"
                                  Margin="10">
                 <ui:ItemsStackLayout.ItemTemplate>
-                    <DataTemplate x:DataType="{x:Type models:LanguageObject}">
+                    <DataTemplate x:DataType="{x:Type models1:LanguageObject}">
                         <Frame HeightRequest="40"
                                BorderColor="#DBDBDB"
                                HasShadow="False"

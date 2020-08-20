@@ -5,7 +5,6 @@ param(
 )
 
 $excludeFolders = @('bin', 'obj')
-
 $projectFolders = @()
 $templateFolders = @()
 
@@ -28,26 +27,27 @@ function AnalyzeFolder
 		}
 		else
 		{
-            if(($item -notmatch '.csproj$') -and
+            if (($item -notmatch '.csproj$') -and
                 ($item -notmatch '__TemplateIcon.ico') -and
                 ($item -notmatch '.vstemplate'))
             {
                 $childNode = $xmldata.CreateElement("ProjectItem", $xmlNS)
-                if($item -match '.png$')
+
+                if ($item -match '.png$')
                 {
                     $childNode.SetAttribute("ReplaceParameters", "false")
                 }
                 else
                 {
                     $childNode.SetAttribute("ReplaceParameters", "true")
-                }               
+                }       
+                
                 $childNode.SetAttribute("TargetFileName", $item)
                 $childNode.InnerText = $item
                 $xmlnode.AppendChild($childNode)
             }			
 		}
 	}
-	
 }
 
 function ReplaceStrings
@@ -63,45 +63,43 @@ function ReplaceStrings
 		$_ -replace '..\\out\\_release\\templates', 'out\release' -replace '..\\out\\_debug\\templates', 'out\debug' -replace '..\\out\\_obj\\templates', 'out\obj' 
         }| Set-Content $projectFile
                
-        $files = Get-ChildItem "$BaseDirectory\out\$templateFolder" -recurse -file -exclude *.vstemplate,*.ico,*.png       
+        $files = Get-ChildItem "$BaseDirectory\out\$templateFolder" -recurse -file -exclude *.vstemplate,*.ico,*.png
+        $namespacePartToReplace = '_template' + $templateFolder.substring("Template".length, $templateFolder.length - "Template".length)
         
         foreach ($file in $files)
-        {                
-            (Get-Content $file) -replace $templateFolder,'$safeprojectname$' |
-            Set-Content $file
-            
-            if(($templateFolder -eq 'Template.Blank') -or ($templateFolder -eq 'Template.MasterDetail'))
-            {
-                (Get-Content $file) -replace 'Template\.','$safeprojectname$.' |
-                Set-Content $file
-            }
-            else
-            {
-                (Get-Content $file) -replace '(Template\.MasterDetail|Template\.)','$namespace$.' |
-                Set-Content $file
-            }            
+        {
+            $content = (Get-Content $file)
+            $content = $content -replace $namespacePartToReplace, '$safeprojectname$'
+            $content = $content -replace 'new (MasterDetail|Blank|Shell).App', 'new _template.App'
+            $content = $content | Where-Object {$_ -notmatch 'using _template.(MasterDetail|Blank|Shell);'}
 
-            if(($file -match '.Wpf.csproj') -or ($file -match '.GtkSharp.csproj'))
+            if (($templateFolder -eq 'Template.Blank') -or ($templateFolder -eq 'Template.MasterDetail') -or ($templateFolder -eq 'Template.Shell'))
             {
-                (Get-Content $file) -replace '\\..\\sln\\Wizard\\packages','\packages' |
-                Set-Content $file
+                $content = $content -replace '_template', '$safeprojectname$'
             }
-            
+
+            if (($file -match '.Wpf.csproj') -or ($file -match '.GtkSharp.csproj'))
+            {
+                $content = $content -replace '\\..\\sln\\Wizard\\packages','\packages'
+            }
+
+            $content | Set-Content $file
         }        
     }
 }
 
 Write-Output "Searching for project template files...";
-
 $files = Get-ChildItem "$BaseDirectory"
-foreach($file in $files)   # find all folders that contain template projects
+
+foreach ($file in $files)   # find all folders that contain template projects
 {
     if ($file -match 'Templates')
     {
         $innerFiles = Get-ChildItem "$BaseDirectory\$file\*" -recurse
+
         foreach($innerFile in $innerFiles)
         {
-            if($innerFile -match '.csproj$')
+            if ($innerFile -match '.csproj$')
             {			
                $projectFolders += $innerFile.DirectoryName
             }
@@ -110,6 +108,7 @@ foreach($file in $files)   # find all folders that contain template projects
 }
 
 Write-Output "Copying projects from template folders to dedicated folders...";
+
 foreach ($projectFolder in $projectFolders) 
 {
     $templateFolder = $projectFolder|split-path -leaf
@@ -131,7 +130,8 @@ foreach ($projectFolder in $projectFolders)
     ReplaceStrings  
 }
 
-Write-Output "Creating .vstemplate files..."; 
+Write-Output "Creating .vstemplate files...";
+
 foreach ($templateFolder in $templateFolders) 
 { 
     $file = "$BaseDirectory\out\$templateFolder\MyTemplate.vstemplate"
@@ -149,7 +149,8 @@ foreach ($templateFolder in $templateFolders)
     $xmldata.Save("$file")
 }
 
-Write-Output "Archiving templates..."; 
+Write-Output "Archiving templates...";
+
 foreach ($templateFolder in $templateFolders)
 {         
     Compress-Archive -path "$BaseDirectory\out\$templateFolder" -destinationpath "$BaseDirectory\out\$templateFolder.zip" -force
@@ -157,7 +158,8 @@ foreach ($templateFolder in $templateFolders)
     Move-Item "$BaseDirectory\out\$templateFolder.zip" "$BaseDirectory\SenticodeTemplate\ProjectTemplates" -force
 }
 
-$templateFiles = Get-ChildItem "$BaseDirectory\TemplateFiles" 
+$templateFiles = Get-ChildItem "$BaseDirectory\TemplateFiles"
+
 foreach ($folder in $templateFiles)
 {    
     Compress-Archive -path "$BaseDirectory\TemplateFiles\$folder" -destinationpath "$BaseDirectory\out\$folder.zip" -force

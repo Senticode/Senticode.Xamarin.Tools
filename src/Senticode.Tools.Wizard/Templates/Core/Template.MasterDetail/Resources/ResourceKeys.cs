@@ -1,4 +1,4 @@
-﻿namespace Template.MasterDetail.Resources
+﻿namespace _template.MasterDetail.Resources
 {
     public static class ResourceKeys
     {

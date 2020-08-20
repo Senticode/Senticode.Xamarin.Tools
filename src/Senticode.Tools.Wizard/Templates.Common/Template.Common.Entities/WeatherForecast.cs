@@ -1,7 +1,7 @@
 ﻿using System;
 using Senticode.Base;
 
-namespace Template.Common.Entities
+namespace _template.Common.Entities
 {
     public class WeatherForecast : Entity<Guid>
     {

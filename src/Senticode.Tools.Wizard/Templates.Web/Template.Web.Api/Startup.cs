@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Template.Web.Api
+namespace _template.Web.Api
 {
     public class Startup
     {
@@ -15,8 +15,8 @@ namespace Template.Web.Api
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services) {
-           
+        public void ConfigureServices(IServiceCollection services)
+        {
             services.AddControllers();
         }
 

@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
+using _template.MasterDetail.Commands.Navigation;
+using _template.MasterDetail.Resources;
+using _template.MasterDetail.ViewModels.Abstractions;
 using Senticode.Xamarin.Tools.MVVM.Abstractions;
 using Senticode.Xamarin.Tools.MVVM.Collections;
-using Template.MasterDetail.Commands.Navigation;
-using Template.MasterDetail.Resources;
-using Template.MasterDetail.ViewModels.Abstractions;
 using Unity;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail.ViewModels.Menu
+namespace _template.MasterDetail.ViewModels.Menu
 {
     internal class MainMenuViewModel : ViewModelBase<AppCommands, AppSettings>
     {
@@ -24,24 +24,20 @@ namespace Template.MasterDetail.ViewModels.Menu
         public ObservableRangeCollection<ActionViewModel> MenuItems { get; } =
             new ObservableRangeCollection<ActionViewModel>();
 
-
         public string Version
         {
             get
             {
                 if (Device.RuntimePlatform == Device.Android ||
-                   Device.RuntimePlatform == Device.iOS ||
-                   Device.RuntimePlatform == Device.UWP)
+                    Device.RuntimePlatform == Device.iOS ||
+                    Device.RuntimePlatform == Device.UWP)
                 {
                     return AppInfo.VersionString;
                 }
-                else
-                {
-                    return typeof(App).Assembly.ImageRuntimeVersion;
-                }
+
+                return typeof(App).Assembly.ImageRuntimeVersion;
             }
         }
-
 
         private void Init()
         {

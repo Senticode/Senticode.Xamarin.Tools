@@ -1,14 +1,12 @@
-﻿using Senticode.Xamarin.Tools.Core.Abstractions.Base;
-using Unity;
+﻿using _template.Blank.Views;
+using Senticode.Xamarin.Tools.Core.Abstractions.Base;
 using Senticode.Xamarin.Tools.Core.Interfaces.Base;
-using System.Diagnostics;
-using Template.Blank.Views;
+using Unity;
 
-namespace Template.Blank
+namespace _template.Blank
 {
     public partial class App : XamarinApplicationBase<AppSettings, AppCommands, AppLifeTimeManager>
     {
-
         public App(IPlatformInitializer initializer) : base(initializer)
         {
             InitializeComponent();

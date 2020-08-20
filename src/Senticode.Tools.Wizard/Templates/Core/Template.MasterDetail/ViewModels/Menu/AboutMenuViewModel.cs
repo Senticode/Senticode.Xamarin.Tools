@@ -1,18 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using Senticode.Xamarin.Tools.Core.Interfaces.Services;
+﻿using _template.MasterDetail.Resources;
 using Senticode.Xamarin.Tools.MVVM.Abstractions;
-using Template.MasterDetail.Commands.Navigation;
-using Template.MasterDetail.Resources;
-using Template.MasterDetail.ViewModels.Abstractions;
 using Unity;
-using Xamarin.Forms;
 
-namespace Template.MasterDetail.ViewModels.Menu
+namespace _template.MasterDetail.ViewModels.Menu
 {
     internal class AboutMenuViewModel : ViewModelBase<AppCommands, AppSettings>
     {
@@ -20,9 +10,7 @@ namespace Template.MasterDetail.ViewModels.Menu
         {
             container.RegisterInstance(this);
 
-
             Title = ResourceKeys.About;
-
         }
     }
 }

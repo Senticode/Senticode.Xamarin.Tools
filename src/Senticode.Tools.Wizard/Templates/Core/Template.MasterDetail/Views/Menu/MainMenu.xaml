@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <abstractions:ViewBase xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:d="http://xamarin.com/schemas/2014/forms/design"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
                        xmlns:ui="clr-namespace:Senticode.Xamarin.Tools.UI;assembly=Senticode.Xamarin.Tools.UI"
-                       xmlns:viewModels="clr-namespace:Template.MasterDetail.ViewModels.Menu;assembly=Template.MasterDetail"
                        xmlns:markupExtensions="clr-namespace:Senticode.Xamarin.Tools.Core.MarkupExtensions;assembly=Senticode.Xamarin.Tools.Core"
-                       xmlns:menuElements="clr-namespace:Template.MasterDetail.Views.Menu.MenuElements;assembly=Template.MasterDetail"
+                       xmlns:menu="clr-namespace:_template.MasterDetail.ViewModels.Menu;assembly=_template.MasterDetail"
+                       xmlns:menuElements1="clr-namespace:_template.MasterDetail.Views.Menu.MenuElements;assembly=_template.MasterDetail"
                        mc:Ignorable="d"
-                       x:Class="Template.MasterDetail.Views.Menu.MainMenu"
+                       x:Class="_template.MasterDetail.Views.Menu.MainMenu"
                        x:Name="Root"
-                       x:DataType="{x:Type viewModels:MainMenuViewModel}"
+                       x:DataType="{x:Type menu:MainMenuViewModel}"
                        Style="{StaticResource MenuContainerStyle}">
     <abstractions:ViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <menuElements:MenuResourceDictionary />
+                <menuElements1:MenuResourceDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </abstractions:ViewBase.Resources>
@@ -45,11 +46,11 @@
             <ui:ItemsStackLayout Grid.Row="1" ItemsSource="{Binding MenuItems}" Margin="0,10">
                 <ui:ItemsStackLayout.ItemTemplate>
                     <DataTemplate>
-                        <menuElements:MenuItemView></menuElements:MenuItemView>
+                        <menuElements1:MenuItemView />
                     </DataTemplate>
                 </ui:ItemsStackLayout.ItemTemplate>
             </ui:ItemsStackLayout>
-            <Label Grid.Row="2" Text="{Binding Version, StringFormat='V: {0}'}" HorizontalOptions="Center" Margin="10"></Label>
+            <Label Grid.Row="2" Text="{Binding Version, StringFormat='V: {0}'}" HorizontalOptions="Center" Margin="10" />
         </Grid>
     </abstractions:ViewBase.Content>
 </abstractions:ViewBase>

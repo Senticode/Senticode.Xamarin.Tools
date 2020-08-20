@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using ProjectTemplateWizard.Abstractions.Interfaces;
+using SenticodeTemplate.Constants;
 using SenticodeTemplate.Interfaces;
 using SenticodeTemplate.Services.AssetsGenerators;
 using SenticodeTemplate.Services.Helpers;
@@ -45,7 +46,7 @@ namespace SenticodeTemplate.Services.Managers
             {
                 XamarinProjectHelper.AddModuleAggregator(settings);
                 XamarinProjectHelper.AddDatabaseModule(settings);
-                AddModules();
+                AddCustomModules();
 
                 if (data.IsWebBackendIncluded)
                 {
@@ -53,10 +54,7 @@ namespace SenticodeTemplate.Services.Managers
                 }
             }
 
-            if (!data.IsWebBackendIncluded)
-            {
-                XamarinProjectHelper.AddReferenceToEntitiesProject(settings);
-            }
+            XamarinProjectHelper.AddReferenceToEntitiesProject(settings);
 
             if (data.IsLicensesInfoPageIncluded && data.ProjectTemplateType == ProjectTemplateType.MasterDetail)
             {
@@ -64,7 +62,7 @@ namespace SenticodeTemplate.Services.Managers
             }
         }
 
-        private static void AddModules()
+        private static void AddCustomModules()
         {
             var settings = ProjectSettings.Instance;
             var data = settings.ProjectTemplateData;
@@ -105,15 +103,15 @@ namespace SenticodeTemplate.Services.Managers
                 switch (data.XamarinDatabaseInfrastructureType)
                 {
                     case XamarinDatabaseInfrastructureType.SqLite:
-                        token = AppConstants.SqLiteToken;
+                        token = ReplacementTokens.SqLite;
                         break;
 
                     default: throw new NotSupportedException();
                 }
 
-                FileHelper.UncommentCsLine(dbContextFile, token);
-                FileHelper.UncommentXmlLine(projectFile, token);
-                FileHelper.ReplaceString(dbContextFile, AppConstants.ConnectionStringToken, dbFileName);
+                FileHelper.UncommentCs(dbContextFile, token);
+                FileHelper.UncommentXml(projectFile, token);
+                FileHelper.ReplaceString(dbContextFile, ReplacementTokens.ConnectionString, dbFileName);
             }
 
             internal static void AddXamarinCoreProject(ProjectSettings settings)
@@ -199,7 +197,7 @@ namespace SenticodeTemplate.Services.Managers
                     AppConstants.AndroidTemplateName);
 
                 var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Android, "MainActivity.cs");
-                FileHelper.ReplaceString(path, $"{AppConstants.NamespaceToken}.", settings.SavedProjectName);
+                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
 
                 AddReferenceToCoreProject(settings, AppConstants.Android);
                 AndroidAssetsGenerator.Instance.GenerateAssets(settings);
@@ -211,7 +209,7 @@ namespace SenticodeTemplate.Services.Managers
                     AppConstants.IosTemplateName);
 
                 var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Ios, "AppDelegate.cs");
-                FileHelper.ReplaceString(path, "Template", settings.SavedProjectName);
+                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
 
                 AddReferenceToCoreProject(settings, AppConstants.Ios);
                 IosAssetsGenerator.Instance.GenerateAssets(settings);
@@ -223,7 +221,7 @@ namespace SenticodeTemplate.Services.Managers
                     AppConstants.WpfTemplateName);
 
                 var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Wpf, "MainWindow.xaml.cs");
-                FileHelper.ReplaceString(path, $"{AppConstants.NamespaceToken}.", settings.SavedProjectName);
+                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
 
                 AddReferenceToCoreProject(settings, AppConstants.Wpf);
                 WpfAssetsGenerator.Instance.GenerateAssets(settings);
@@ -235,7 +233,7 @@ namespace SenticodeTemplate.Services.Managers
                     AppConstants.GtkTemplateName);
 
                 var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Gtk, "Program.cs");
-                FileHelper.ReplaceString(path, $"{AppConstants.NamespaceToken}.", settings.SavedProjectName);
+                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
 
                 AddReferenceToCoreProject(settings, AppConstants.Gtk);
                 GtkSharpAssetsGenerator.Instance.GenerateAssets(settings);
@@ -247,7 +245,7 @@ namespace SenticodeTemplate.Services.Managers
                     AppConstants.UwpTemplateName);
 
                 var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Uwp, "MainPage.xaml.cs");
-                FileHelper.ReplaceString(path, $"{AppConstants.NamespaceToken}.", settings.SavedProjectName);
+                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
 
                 AddReferenceToCoreProject(settings, AppConstants.Uwp);
                 UwpAssetsGenerator.Instance.GenerateAssets(settings);
@@ -282,22 +280,28 @@ namespace SenticodeTemplate.Services.Managers
             {
                 var interfacesProjectName =
                     $"{settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.Interfaces}";
+
                 AddMobileProject(settings, AppConstants.Common, interfacesProjectName,
                     AppConstants.MobileInterfacesTemplateName);
+
                 var interfacesProject = ProjectHelper.GetProjectByName(settings.Solution, interfacesProjectName,
                     AppConstants.Common, AppConstants.Mobile);
 
                 var entitiesProjectName = $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Entities}";
+
                 var entitiesProject =
                     ProjectHelper.GetProjectByName(settings.Solution, entitiesProjectName, AppConstants.Common);
 
                 var clientProjectName = $"{settings.SavedProjectName}.{AppConstants.WebClientModule}";
+
                 AddModule(settings, AppConstants.WebClientModule, AppConstants.WebClientTemplateName);
+
                 var clientProject = ProjectHelper.GetProjectByName(settings.Solution, clientProjectName,
                     AppConstants.Modules, AppConstants.Mobile);
 
                 var infrastructureProjectName =
                     $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Web}.{AppConstants.Infrastructure}";
+
                 var infrastructureProject =
                     ProjectHelper.GetProjectByName(settings.Solution, infrastructureProjectName, AppConstants.Common);
 
@@ -306,7 +310,6 @@ namespace SenticodeTemplate.Services.Managers
                 ProjectHelper.AddProjectReference(interfacesProject, entitiesProject);
 
                 EditWebClientNamespaces(settings);
-
                 EditCoreProjectFiles(settings);
             }
 
@@ -322,8 +325,7 @@ namespace SenticodeTemplate.Services.Managers
                 FileHelper.ReplaceString(path, "public class AppSettings : AppSettingsBase",
                     "public class AppSettings : AppSettingsBase, IWebClientSettings");
 
-                FileHelper.InsertStringAfter(path, "public AppSettings()", 1,
-                    $"{AppConstants.AppSettingsConstructor}\n");
+                FileHelper.UncommentCs(path, ReplacementTokens.WebClientRegistration);
 
                 //AppLifeTimeManager.cs
                 path = path.Replace("AppSettings.cs", "AppLifeTimeManager.cs");
@@ -351,7 +353,7 @@ namespace SenticodeTemplate.Services.Managers
 
                 foreach (var file in files)
                 {
-                    FileHelper.ReplaceString(Path.Combine(path, file), AppConstants.NamespaceToken,
+                    FileHelper.ReplaceString(Path.Combine(path, file), ReplacementTokens.TemplateNamespace,
                         settings.SavedProjectName);
                 }
 
@@ -359,7 +361,7 @@ namespace SenticodeTemplate.Services.Managers
                     AppConstants.Common, $"{settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.Interfaces}",
                     "Services", "Web", "IWeatherWebService.cs");
 
-                FileHelper.ReplaceString(path, AppConstants.NamespaceToken, settings.SavedProjectName);
+                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
             }
 
             public static void AddReferenceToEntitiesProject(ProjectSettings settings)
@@ -386,13 +388,13 @@ namespace SenticodeTemplate.Services.Managers
                 stream.Close();
                 FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{licensesViewName}cs.template",
                     viewCsPathPath);
-                FileHelper.ReplaceString(viewCsPathPath, AppConstants.ProjectNameToken, settings.SavedProjectName);
+                FileHelper.ReplaceString(viewCsPathPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
 
                 var viewXamlPath = Path.Combine(viewsDirectory, $"{licensesViewName}.xaml");
                 stream = File.Create(viewXamlPath);
                 stream.Close();
                 FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{licensesViewName}.template", viewXamlPath);
-                FileHelper.ReplaceString(viewXamlPath, AppConstants.ProjectNameToken, settings.SavedProjectName);
+                FileHelper.ReplaceString(viewXamlPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
 
                 var vmsDirectory = Path.Combine(baseDirectory, "ViewModels", "Menu");
                 var licensesVmName = "LicensesMenuViewModel";
@@ -400,7 +402,7 @@ namespace SenticodeTemplate.Services.Managers
                 stream = File.Create(vmPath);
                 stream.Close();
                 FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{licensesVmName}.template", vmPath);
-                FileHelper.ReplaceString(vmPath, AppConstants.ProjectNameToken, settings.SavedProjectName);
+                FileHelper.ReplaceString(vmPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
 
                 var resourcesDirectory = Path.Combine(baseDirectory, "Resources");
                 var resourcesName = "Licenses.xml";

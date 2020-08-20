@@ -1,23 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
-             xmlns:mainpages="clr-namespace:Template.MasterDetail.Views"
-             xmlns:viewModels="clr-namespace:Template.MasterDetail.ViewModels;assembly=Template.MasterDetail"
-             xmlns:pages="clr-namespace:Template.MasterDetail.Views.Pages;assembly=Template.MasterDetail"
-             Title="Sample"
-             FlowDirection="MatchParent"
-             x:Class="Template.MasterDetail.Views.MainPage"  
-             x:DataType="{x:Type viewModels:MainViewModel}" 
-             IsGestureEnabled="{x:OnPlatform iOS=False, Android=True}" 
-             MasterBehavior = "Popover">
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:viewModels1="clr-namespace:_template.MasterDetail.ViewModels;assembly=_template.MasterDetail"
+                  xmlns:views1="clr-namespace:_template.MasterDetail.Views;assembly=_template.MasterDetail"
+                  xmlns:pages1="clr-namespace:_template.MasterDetail.Views.Pages;assembly=_template.MasterDetail"
+                  Title="Sample"
+                  FlowDirection="MatchParent"
+                  x:Class="_template.MasterDetail.Views.MainPage"
+                  x:DataType="{x:Type viewModels1:MainViewModel}"
+                  IsGestureEnabled="{x:OnPlatform iOS=False, Android=True}"
+                  MasterBehavior="Popover">
     <MasterDetailPage.Master>
-        <mainpages:MainMasterPage />
+        <views1:MainMasterPage />
     </MasterDetailPage.Master>
 
     <MasterDetailPage.Detail>
         <NavigationPage>
             <x:Arguments>
-                <pages:HomePage />
+                <pages1:HomePage />
             </x:Arguments>
         </NavigationPage>
     </MasterDetailPage.Detail>

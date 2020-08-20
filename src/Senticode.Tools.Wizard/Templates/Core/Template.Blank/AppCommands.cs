@@ -1,7 +1,7 @@
 ﻿using Senticode.Xamarin.Tools.Core.Abstractions.Base;
 using Unity;
 
-namespace Template.Blank
+namespace _template.Blank
 {
     public class AppCommands : AppCommandsBase<AppSettings>
     {

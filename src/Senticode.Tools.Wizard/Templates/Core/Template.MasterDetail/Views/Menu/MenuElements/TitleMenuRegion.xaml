@@ -5,10 +5,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:markupExtensions="clr-namespace:Senticode.Xamarin.Tools.Core.MarkupExtensions;assembly=Senticode.Xamarin.Tools.Core"
-             xmlns:resources="clr-namespace:Template.MasterDetail.Resources;assembly=Template.MasterDetail"
-             xmlns:markupExtensions1="clr-namespace:Template.MasterDetail.Staff.MarkupExtensions;assembly=Template.MasterDetail"
+             xmlns:markupExtensions2="clr-namespace:_template.MasterDetail.Staff.MarkupExtensions;assembly=_template.MasterDetail"
              mc:Ignorable="d"
-             x:Class="Template.MasterDetail.Views.Menu.MenuElements.TitleMenuRegion"
+             x:Class="_template.MasterDetail.Views.Menu.MenuElements.TitleMenuRegion"
              x:Name="Root" HeightRequest="56">
     <ContentView.Content>
         <Grid BackgroundColor="{StaticResource GlobalLightGray}"
@@ -20,14 +19,14 @@
             </Grid.ColumnDefinitions>
 
             <Image Grid.Column="0"
-                   Source="{markupExtensions1:ImageResource Resources.Images.Arrow_left.png}"
+                   Source="{markupExtensions2:ImageResource Resources.Images.Arrow_left.png}"
                    VerticalOptions="FillAndExpand"
                    HorizontalOptions="Start"
                    Margin="10">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer BindingContext="{Binding Path=AppCommands}"
-                                        Command="{markupExtensions:AnimationCommand Binding={Binding NavigateToMenuCommand}}"
-                                        CommandParameter="{Binding Source={x:Reference Name=Root}, Path=PreviousMenu}" />
+                                          Command="{markupExtensions:AnimationCommand Binding={Binding NavigateToMenuCommand}}"
+                                          CommandParameter="{Binding Source={x:Reference Name=Root}, Path=PreviousMenu}" />
                 </Image.GestureRecognizers>
             </Image>
 

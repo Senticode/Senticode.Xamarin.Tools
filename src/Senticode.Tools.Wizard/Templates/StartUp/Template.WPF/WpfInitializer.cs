@@ -1,9 +1,9 @@
-﻿using Senticode.Xamarin.Tools.Core;
+﻿using _template.WPF.Services;
+using Senticode.Xamarin.Tools.Core;
 using Senticode.Xamarin.Tools.Core.Interfaces.Services;
-using Template.WPF.Services;
 using Unity;
 
-namespace Template.WPF
+namespace _template.WPF
 {
     internal class WpfInitializer : PlatformInitializerBase
     {

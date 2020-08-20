@@ -1,13 +1,13 @@
 using System.Diagnostics;
+using _template.Blank.AppStateMachine.Strategies;
+using _template.Blank.Resources;
+using _template.Blank.ViewModels;
 using Senticode.Base.Interfaces;
 using Senticode.Xamarin.Tools.Core.Interfaces.Base;
-using Template.Blank.AppStateMachine.Strategies;
-using Template.Blank.Resources;
-using Template.Blank.ViewModels;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.Blank
+namespace _template.Blank
 {
     internal class AppInitializer : IInitializer, IInitializationTrigger
     {

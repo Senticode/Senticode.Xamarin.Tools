@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
+using _template.MasterDetail.Commands.Navigation;
 using Senticode.Xamarin.Tools.Core.Abstractions.Staff;
-using Template.MasterDetail.Commands.Navigation;
 
-namespace Template.MasterDetail.Staff.Converters
+namespace _template.MasterDetail.Staff.Converters
 {
     internal class TypeMenuToVisibleConverter : ValueConverterBase
     {
@@ -19,10 +19,8 @@ namespace Template.MasterDetail.Staff.Converters
             return false;
         }
 
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
             throw new NotImplementedException();
-        }
 
         #endregion
     }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using _template.MasterDetail;
 using Foundation;
-using Template.MasterDetail;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-namespace Template.iOS
+namespace _template.iOS
 {
     [Register("AppDelegate")]
     public class AppDelegate : FormsApplicationDelegate

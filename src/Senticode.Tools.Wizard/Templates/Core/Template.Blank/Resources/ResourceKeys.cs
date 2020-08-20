@@ -1,4 +1,4 @@
-﻿namespace Template.Blank.Resources
+﻿namespace _template.Blank.Resources
 {
     public static class ResourceKeys
     {

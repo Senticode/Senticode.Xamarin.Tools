@@ -1,8 +1,8 @@
 ﻿using Senticode.Xamarin.Tools.Core;
-using Xamarin.Forms.Xaml;
 using Unity;
+using Xamarin.Forms.Xaml;
 
-namespace Template.MasterDetail.Views.Pages
+namespace _template.MasterDetail.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage
@@ -10,7 +10,7 @@ namespace Template.MasterDetail.Views.Pages
         public SettingsPage()
         {
             InitializeComponent();
-            ServiceLocator.Container.RegisterInstance<SettingsPage>(this);
+            ServiceLocator.Container.RegisterInstance(this);
         }
     }
 }

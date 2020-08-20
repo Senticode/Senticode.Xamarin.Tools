@@ -1,9 +1,9 @@
-﻿using Senticode.Xamarin.Tools.MVVM.Abstractions;
-using Template.MasterDetail.Resources;
-using Template.MasterDetail.ViewModels.Menu;
+﻿using _template.MasterDetail.Resources;
+using _template.MasterDetail.ViewModels.Menu;
+using Senticode.Xamarin.Tools.MVVM.Abstractions;
 using Unity;
 
-namespace Template.MasterDetail.ViewModels
+namespace _template.MasterDetail.ViewModels
 {
     internal class MainViewModel : ViewModelBase<AppCommands, AppSettings>
     {
@@ -14,6 +14,5 @@ namespace Template.MasterDetail.ViewModels
         }
 
         public MainMenuViewModel MainMenuViewModel => Container.Resolve<MainMenuViewModel>();
-
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using SenticodeTemplate.Services;
 
-namespace SenticodeTemplate
+namespace SenticodeTemplate.Constants
 {
     internal static partial class AppConstants
     {

@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Senticode.Xamarin.Tools.MVVM.Abstractions;
 
-namespace Template.Blank.ViewModels.Abstractions
+namespace _template.Blank.ViewModels.Abstractions
 {
     public class ActionViewModel : ViewModelBase<AppCommands, AppSettings>
     {

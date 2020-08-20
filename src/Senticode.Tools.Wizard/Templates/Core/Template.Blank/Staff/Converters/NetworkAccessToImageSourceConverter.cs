@@ -3,7 +3,7 @@ using System.Globalization;
 using Senticode.Xamarin.Tools.Core.Abstractions.Staff;
 using Xamarin.Essentials;
 
-namespace Template.Blank.Staff.Converters
+namespace _template.Blank.Staff.Converters
 {
     public class NetworkAccessToImageSourceConverter : ValueConverterBase
     {
@@ -35,9 +35,7 @@ namespace Template.Blank.Staff.Converters
             throw new NotImplementedException();
         }
 
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
             throw new NotImplementedException();
-        }
     }
 }

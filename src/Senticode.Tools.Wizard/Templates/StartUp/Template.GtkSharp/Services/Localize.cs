@@ -3,7 +3,7 @@ using Senticode.Xamarin.Tools.Core.Interfaces.Services;
 using Senticode.Xamarin.Tools.Core.Localize;
 using Unity;
 
-namespace Template.GtkSharp.Services
+namespace _template.GtkSharp.Services
 {
     /// <summary>
     ///     Class that provides functionality for localization.

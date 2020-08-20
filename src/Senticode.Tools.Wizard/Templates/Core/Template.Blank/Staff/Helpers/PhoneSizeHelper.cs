@@ -2,7 +2,7 @@
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace Template.Blank.Staff.Helpers
+namespace _template.Blank.Staff.Helpers
 {
     internal class PhoneSizeHelper
     {

@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Template.Db.Xamarin.Helpers;
-using Template.Db.Xamarin.Models;
+﻿using _template.Db.Xamarin.Helpers;
+using _template.Db.Xamarin.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Template.Db.Xamarin
+namespace _template.Db.Xamarin
 {
     internal class DatabaseContext : DbContext
     {

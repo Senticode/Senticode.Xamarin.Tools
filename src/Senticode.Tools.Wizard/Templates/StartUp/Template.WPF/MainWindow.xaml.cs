@@ -1,6 +1,6 @@
 using Xamarin.Forms;
 
-namespace Template.WPF
+namespace _template.WPF
 {
     internal partial class MainWindow
     {
@@ -9,7 +9,7 @@ namespace Template.WPF
             InitializeComponent();
             Forms.SetFlags("RadioButton_Experimental");
             Forms.Init();
-            LoadApplication(new Template.MasterDetail.App(WpfInitializer.Instance));
+            LoadApplication(new MasterDetail.App(WpfInitializer.Instance));
         }
     }
 }

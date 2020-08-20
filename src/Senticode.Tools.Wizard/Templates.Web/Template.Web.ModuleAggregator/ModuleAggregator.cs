@@ -1,15 +1,20 @@
+using _template.Web.Common.Interfaces.Core;
 using Microsoft.Extensions.DependencyInjection;
-using Template.Web.Common.Interfaces.Core;
 
-namespace Template.Web.ModuleAggregator
+namespace _template.Web.ModuleAggregator
 {
     public class ModuleAggregator : IInitializer
     {
+        public IServiceCollection Initialize(IServiceCollection services) => services;
+
+        #region singleton
+
+        private ModuleAggregator()
+        {
+        }
+
         public static ModuleAggregator Instance { get; } = new ModuleAggregator();
 
-        public IServiceCollection Initialize(IServiceCollection services)
-        {
-            return services;
-        }
+        #endregion
     }
 }

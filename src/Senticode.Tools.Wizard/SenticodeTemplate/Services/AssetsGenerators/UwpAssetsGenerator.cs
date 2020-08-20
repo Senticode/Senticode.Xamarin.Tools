@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
+using SenticodeTemplate.Constants;
 using SenticodeTemplate.Interfaces;
 using SenticodeTemplate.Services.Helpers;
 

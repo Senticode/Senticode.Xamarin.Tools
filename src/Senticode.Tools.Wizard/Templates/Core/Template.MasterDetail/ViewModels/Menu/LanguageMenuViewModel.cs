@@ -1,15 +1,15 @@
 ﻿using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using _template.MasterDetail.Models;
+using _template.MasterDetail.Resources;
 using Senticode.Xamarin.Tools.Core.Interfaces.Services;
 using Senticode.Xamarin.Tools.MVVM.Abstractions;
 using Senticode.Xamarin.Tools.MVVM.Collections;
-using Template.MasterDetail.Models;
-using Template.MasterDetail.Resources;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail.ViewModels.Menu
+namespace _template.MasterDetail.ViewModels.Menu
 {
     internal class LanguageMenuViewModel : ViewModelBase<AppCommands, AppSettings>
     {
@@ -62,10 +62,7 @@ namespace Template.MasterDetail.ViewModels.Menu
         ///     Method to check whether the SetLanguage command can be executed.
         /// </summary>
         /// <returns><c>true</c> if the command can be executed; otherwise <c>false</c></returns>
-        private bool CanExecuteSetLanguage(CultureInfo parameter)
-        {
-            return true;
-        }
+        private bool CanExecuteSetLanguage(CultureInfo parameter) => true;
 
         #endregion
     }

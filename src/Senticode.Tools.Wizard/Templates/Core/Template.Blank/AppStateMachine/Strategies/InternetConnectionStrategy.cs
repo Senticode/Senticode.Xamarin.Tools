@@ -5,7 +5,7 @@ using Senticode.Xamarin.Tools.Core.Interfaces.Base.StateMachine;
 using Unity;
 using Xamarin.Essentials;
 
-namespace Template.Blank.AppStateMachine.Strategies
+namespace _template.Blank.AppStateMachine.Strategies
 {
     internal class InternetConnectionStrategy : AppStrategy<AppState>
     {

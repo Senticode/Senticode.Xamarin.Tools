@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 
 namespace ProjectTemplateWizard.ViewModels.Main
 {
@@ -8,6 +10,9 @@ namespace ProjectTemplateWizard.ViewModels.Main
         private const int MaxAppIconImageSize = 1024;
         private const int MinSplashScreenImageSize = 1024;
         private const int MaxSplashScreenImageSize = 1024;
+
+        private static readonly string
+            DefaultAsset = Path.Combine(Assembly.GetExecutingAssembly().Location, @"..\icon.png");
 
         public AssetPickerViewModel IconPickerViewModel { get; private set; }
         public AssetPickerViewModel SplashScreenImagePickerViewModel { get; private set; }
@@ -27,6 +32,9 @@ namespace ProjectTemplateWizard.ViewModels.Main
 
             SplashScreenImagePickerViewModel = new AssetPickerViewModel(
                 "Splash screen", "Select splash screen image", MinSplashScreenImageSize, MaxSplashScreenImageSize);
+
+            IconPickerViewModel.AssetPath = DefaultAsset;
+            SplashScreenImagePickerViewModel.AssetPath = DefaultAsset;
         }
     }
 }

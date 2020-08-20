@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using Template.iOS.Renderer;
+using _template.iOS.Renderer;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(NavigationPage), typeof(CustomPageRenderer))]
 
-namespace Template.iOS.Renderer
+namespace _template.iOS.Renderer
 {
     public class CustomPageRenderer : NavigationRenderer
     {

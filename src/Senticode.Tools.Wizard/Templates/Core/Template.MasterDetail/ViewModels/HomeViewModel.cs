@@ -1,14 +1,14 @@
-﻿using System.Linq;
+﻿using _template.MasterDetail.Models;
 using Senticode.Xamarin.Tools.MVVM.Abstractions;
 using Senticode.Xamarin.Tools.MVVM.Collections;
-using Template.MasterDetail.Models;
 using Unity;
 
-namespace Template.MasterDetail.ViewModels
+namespace _template.MasterDetail.ViewModels
 {
     public class HomeViewModel : ViewModelBase<AppCommands, AppSettings>
     {
-        private ModelController _modelController;
+        private readonly ModelController _modelController;
+
         public HomeViewModel(IUnityContainer container)
         {
             container.RegisterInstance(this);

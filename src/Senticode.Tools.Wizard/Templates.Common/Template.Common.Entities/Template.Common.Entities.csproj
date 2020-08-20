@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>	
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>_template.Common.Entities</RootNamespace>
+    <AssemblyName>_template.Common.Entities</AssemblyName>	
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

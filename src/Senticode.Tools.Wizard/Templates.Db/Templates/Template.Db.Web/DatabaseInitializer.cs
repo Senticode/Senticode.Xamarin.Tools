@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Senticode.Database.Tools.Interfaces;
 
-namespace Template.Db.Web
+namespace _template.Db.Web
 {
     internal class DatabaseInitializer
     {

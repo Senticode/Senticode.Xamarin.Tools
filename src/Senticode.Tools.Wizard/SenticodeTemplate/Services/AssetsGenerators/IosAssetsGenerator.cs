@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
-using ProjectTemplateWizard.Abstractions.Interfaces;
+using SenticodeTemplate.Constants;
 using SenticodeTemplate.Interfaces;
 using SenticodeTemplate.Services.Helpers;
 
@@ -17,83 +17,107 @@ namespace SenticodeTemplate.Services.AssetsGenerators
         private static readonly string LaunchScreenStoryboardFile =
             Path.Combine("Resources", "LaunchScreen.storyboard");
 
-        private static readonly IReadOnlyDictionary<string, int> AppIconAssets = new Dictionary<string, int>
+        private static readonly IReadOnlyList<AssetInfo> AppIconAssets = new List<AssetInfo>
         {
-            {"AppStore1024.png", 1024},
-            {"iPadApp76.png", 76},
-            {"iPadApp152.png", 152},
-            {"iPadNotification20.png", 20},
-            {"iPadNotification40.png", 40},
-            {"iPadProApp167.png", 167},
-            {"iPadSettings29.png", 29},
-            {"iPadSettings58.png", 58},
-            {"iPadSpotlight40.png", 40},
-            {"iPadSpotlight80.png", 80},
-            {"iPhoneApp120.png", 120},
-            {"iPhoneApp180.png", 180},
-            {"iPhoneNotification40.png", 40},
-            {"iPhoneNotification60.png", 60},
-            {"iPhoneSettings87.png", 87},
-            {"iPhoneSpotlight58.png", 58},
-            {"iPhoneSpotlight80.png", 80},
-            {"iPhoneSpotlight120.png", 120}
+            new AssetInfo("AppStore1024.png", 1024),
+            new AssetInfo("iPadApp76.png", 76),
+            new AssetInfo("iPadApp152.png", 152),
+            new AssetInfo("iPadNotification20.png", 20),
+            new AssetInfo("iPadNotification40.png", 40),
+            new AssetInfo("iPadProApp167.png", 167),
+            new AssetInfo("iPadSettings29.png", 29),
+            new AssetInfo("iPadSettings58.png", 58),
+            new AssetInfo("iPadSpotlight40.png", 40),
+            new AssetInfo("iPadSpotlight80.png", 80),
+            new AssetInfo("iPhoneApp120.png", 120),
+            new AssetInfo("iPhoneApp180.png", 180),
+            new AssetInfo("iPhoneNotification40.png", 40),
+            new AssetInfo("iPhoneNotification60.png", 60),
+            new AssetInfo("iPhoneSettings87.png", 87),
+            new AssetInfo("iPhoneSpotlight58.png", 58),
+            new AssetInfo("iPhoneSpotlight80.png", 80),
+            new AssetInfo("iPhoneSpotlight120.png", 120)
         };
 
-        private static readonly IReadOnlyDictionary<string, int> LaunchScreenAssets = new Dictionary<string, int>
+        private static readonly IReadOnlyList<AssetInfo> LaunchScreenAssets = new List<AssetInfo>
         {
-            {"splash@3x.png", 543},
-            {"splash@2x.png", 420},
-            {"splash.png", 266}
+            new AssetInfo("splash@3x.png", 543),
+            new AssetInfo("splash@2x.png", 420),
+            new AssetInfo("splash.png", 266)
+        };
+
+        private static readonly IReadOnlyList<AssetInfo> ArtworkAssets = new List<AssetInfo>
+        {
+            new AssetInfo("iTunesArtwork", 512),
+            new AssetInfo("iTunesArtwork@2x", 1024)
         };
 
         public void GenerateAssets(ProjectSettings settings)
         {
             var data = settings.ProjectTemplateData;
             var rootProjectPath = AppConstants.GetMobileProjectPath(settings, AppConstants.Ios);
-            SetLaunchScreenBackgroundColor(data, rootProjectPath);
-            GenerateAppIconAssets(data, rootProjectPath);
-            GenerateLaunchScreenAssets(data, rootProjectPath);
+            var iconBackground = HexRgbaConverter.ToRgbaColor<System.Drawing.Color>(data.AppIconBackgroundColor);
+            var splashScreenBackground = HexRgbaConverter.ToRgbaColor<Color>(data.SplashScreenBackgroundColor);
+            SetLaunchScreenBackgroundColor(splashScreenBackground, rootProjectPath);
+            GenerateAppIconAssets(data.AppIconPath, rootProjectPath, iconBackground);
+            GenerateITunesArtwork(data.AppIconPath, rootProjectPath, iconBackground);
+            GenerateLaunchScreenAssets(data.SplashScreenImagePath, rootProjectPath);
         }
 
-        private static void SetLaunchScreenBackgroundColor(IProjectTemplateData data, string rootProjectPath)
+        private static void SetLaunchScreenBackgroundColor(Color background, string rootProjectPath)
         {
-            var color = HexRgbaConverter.ToRgbaColor<Color>(data.SplashScreenBackgroundColor);
             var launchScreenFile = Path.Combine(rootProjectPath, LaunchScreenStoryboardFile);
             var launchScreenContent = File.ReadAllText(launchScreenFile);
 
             launchScreenContent = Regex.Replace(launchScreenContent, LaunchScreenBackgroundRegex,
-                @$"<color key=""backgroundColor"" colorSpace=""calibratedRGB"" alpha=""{color.ScA}"" red=""{color.ScR}"" green=""{color.ScG}"" blue=""{color.ScB}"" />");
+                @$"<color key=""backgroundColor"" colorSpace=""calibratedRGB"" alpha=""{background.ScA}"" red=""{background.ScR}"" green=""{background.ScG}"" blue=""{background.ScB}"" />");
 
             File.WriteAllText(launchScreenFile, launchScreenContent);
         }
 
-        private static void GenerateAppIconAssets(IProjectTemplateData data, string rootPath)
+        private static void GenerateAppIconAssets(string assetSourcePath, string rootPath,
+            System.Drawing.Color background)
         {
             var assetFolder = Path.Combine(rootPath, AppIconAssetFolder);
-            var source = data.AppIconPath;
-            var background = HexRgbaConverter.ToRgbaColor<System.Drawing.Color>(data.AppIconBackgroundColor);
 
-            foreach (var pair in AppIconAssets)
+            foreach (var asset in AppIconAssets)
             {
-                var targetName = pair.Key;
-                var newSize = pair.Value;
-                var targetPath = Path.Combine(assetFolder, targetName);
-                PngImageHelper.ResizeWithFillAndSave(source, targetPath, newSize, background);
+                var targetPath = Path.Combine(assetFolder, asset.Name);
+                PngImageHelper.ResizeWithFillAndSave(assetSourcePath, targetPath, asset.Size, background);
             }
         }
 
-        private static void GenerateLaunchScreenAssets(IProjectTemplateData data, string rootPath)
+        private static void GenerateLaunchScreenAssets(string assetSourcePath, string rootPath)
         {
             var assetFolder = Path.Combine(rootPath, LaunchScreenAssetFolder);
-            var source = data.SplashScreenImagePath;
 
-            foreach (var pair in LaunchScreenAssets)
+            foreach (var asset in LaunchScreenAssets)
             {
-                var targetName = pair.Key;
-                var newSize = pair.Value;
-                var targetPath = Path.Combine(assetFolder, targetName);
-                PngImageHelper.ResizeAndSave(source, targetPath, newSize);
+                var targetPath = Path.Combine(assetFolder, asset.Name);
+                PngImageHelper.ResizeAndSave(assetSourcePath, targetPath, asset.Size);
             }
+        }
+
+        private static void GenerateITunesArtwork(string assetSourcePath, string rootPath,
+            System.Drawing.Color background)
+        {
+            foreach (var asset in ArtworkAssets)
+            {
+                var targetPath = Path.Combine(rootPath, asset.Name);
+                PngImageHelper.ResizeWithFillAndSave(assetSourcePath, targetPath, asset.Size, background);
+            }
+        }
+
+        private sealed class AssetInfo
+        {
+            public AssetInfo(string name, int size)
+            {
+                Name = name;
+                Size = size;
+            }
+
+            public string Name { get; }
+            public int Size { get; }
         }
 
         #region singleton

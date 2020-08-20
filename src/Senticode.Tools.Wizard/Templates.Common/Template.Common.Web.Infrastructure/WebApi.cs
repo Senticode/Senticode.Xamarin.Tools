@@ -1,6 +1,6 @@
-﻿using Template.Common.Web.Infrastructure.API;
+﻿using _template.Common.Web.Infrastructure.API;
 
-namespace Template.Common.Web.Infrastructure
+namespace _template.Common.Web.Infrastructure
 {
     public static class WebApi
     {

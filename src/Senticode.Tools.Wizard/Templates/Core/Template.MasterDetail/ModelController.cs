@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _template.Common.Entities;
+using _template.MasterDetail.ModelMapper;
+using _template.MasterDetail.Models;
 using Senticode.Xamarin.Tools.MVVM.Collections;
-using Template.Common.Entities;
-using Template.MasterDetail.ModelMapper;
-using Template.MasterDetail.Models;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail
+namespace _template.MasterDetail
 {
     internal class ModelController
     {
@@ -19,7 +19,8 @@ namespace Template.MasterDetail
             _container = container.RegisterInstance(this);
         }
 
-        public ObservableRangeCollection<WeatherForecastObject> Forecasts { get; } = new ObservableRangeCollection<WeatherForecastObject>();
+        public ObservableRangeCollection<WeatherForecastObject> Forecasts { get; } =
+            new ObservableRangeCollection<WeatherForecastObject>();
 
         public async Task ReplaceAllObjectsAsync<TModel>(IEnumerable<TModel> entities)
         {

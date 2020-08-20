@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Template.Db.Xamarin.Models
+namespace _template.Db.Xamarin.Models
 {
     internal class SampleModel
     {

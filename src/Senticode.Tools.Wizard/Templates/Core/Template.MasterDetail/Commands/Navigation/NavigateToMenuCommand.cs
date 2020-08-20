@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using _template.MasterDetail.ViewModels.Menu;
+using _template.MasterDetail.Views;
+using _template.MasterDetail.Views.Menu;
 using Senticode.Xamarin.Tools.Core.Abstractions.Staff;
 using Senticode.Xamarin.Tools.MVVM.Abstractions;
-using Template.MasterDetail.ViewModels.Menu;
-using Template.MasterDetail.Views;
-using Template.MasterDetail.Views.Menu;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail.Commands.Navigation
+namespace _template.MasterDetail.Commands.Navigation
 {
     public enum MenuKind
     {
@@ -61,8 +61,8 @@ namespace Template.MasterDetail.Commands.Navigation
             {
                 if (parameter is MenuKind menuType)
                 {
-                    var mainPage = (MainPage)Application.Current.MainPage;
-                    var master = (ContentPage)mainPage.Master;
+                    var mainPage = (MainPage) Application.Current.MainPage;
+                    var master = (ContentPage) mainPage.Master;
 
                     if (_menuViews.TryGetValue(menuType, out var action))
                     {

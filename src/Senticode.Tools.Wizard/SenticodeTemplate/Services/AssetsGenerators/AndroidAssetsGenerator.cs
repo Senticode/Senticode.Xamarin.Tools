@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using SenticodeTemplate.Constants;
 using SenticodeTemplate.Interfaces;
 using SenticodeTemplate.Services.Helpers;
 
@@ -7,62 +8,66 @@ namespace SenticodeTemplate.Services.AssetsGenerators
 {
     internal sealed class AndroidAssetsGenerator : IAssetsGenerator
     {
-        private const string ResourcesFolder = "Resources";
+        private const string ResourceFolder = "Resources";
         private const string AppIconBackgroundColorToken = "@color/colorIconDefaultBackground";
         private const string SplashScreenBackgroundColorToken = "@color/colorSplashScreenDefaultBackground";
         private const string AppIconAssetName = "icon.png";
         private const string AdaptiveIconAssetName = "icon_foreground.png";
         private const string SplashScreenAssetName = "splash.png";
 
-        private static readonly IReadOnlyDictionary<string, double> MipmapFolders = new Dictionary<string, double>
+        private static readonly IReadOnlyList<AssetInfo> MipmapFolders = new List<AssetInfo>
         {
-            //{Path.Combine(ResourcesFolder, "drawable-ldpi"), 0.75d / 4d},
-            {Path.Combine(ResourcesFolder, "mipmap-mdpi"), 1d / 4d},
-            {Path.Combine(ResourcesFolder, "mipmap-hdpi"), 1.5d / 4d},
-            {Path.Combine(ResourcesFolder, "mipmap-xhdpi"), 2d / 4d},
-            {Path.Combine(ResourcesFolder, "mipmap-xxhdpi"), 3d / 4d},
-            {Path.Combine(ResourcesFolder, "mipmap-xxxhdpi"), 1}
+            //{Path.Combine(ResourcesFolder, "drawable-ldpi"), 0.75d / 4d}, //todo VDE: deal with it
+            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-mdpi"), 1d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-hdpi"), 1.5d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-xhdpi"), 2d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-xxhdpi"), 3d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-xxxhdpi"), 1)
         };
 
-        private static readonly IReadOnlyDictionary<string, double> DrawableFolders = new Dictionary<string, double>
+        private static readonly IReadOnlyList<AssetInfo> DrawableFolders = new List<AssetInfo>
         {
-            {Path.Combine(ResourcesFolder, "drawable-ldpi"), 0.75d / 4d},
-            {Path.Combine(ResourcesFolder, "drawable-mdpi"), 1d / 4d},
-            {Path.Combine(ResourcesFolder, "drawable-hdpi"), 1.5d / 4d},
-            {Path.Combine(ResourcesFolder, "drawable-xhdpi"), 2d / 4d},
-            {Path.Combine(ResourcesFolder, "drawable-xxhdpi"), 3d / 4d},
-            {Path.Combine(ResourcesFolder, "drawable-xxxhdpi"), 1}
+            new AssetInfo(Path.Combine(ResourceFolder, "drawable-ldpi"), 0.75d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "drawable-mdpi"), 1d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "drawable-hdpi"), 1.5d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "drawable-xhdpi"), 2d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "drawable-xxhdpi"), 3d / 4d),
+            new AssetInfo(Path.Combine(ResourceFolder, "drawable-xxxhdpi"), 1)
         };
 
-        private readonly string _colorsFile = Path.Combine(ResourcesFolder, "values", "colors.xml");
+        private readonly string _colorFile = Path.Combine(ResourceFolder, "values", "colors.xml");
 
         public void GenerateAssets(ProjectSettings settings)
         {
             var data = settings.ProjectTemplateData;
             var rootPath = AppConstants.GetMobileProjectPath(settings, AppConstants.Android);
-            var colorsFile = Path.Combine(rootPath, _colorsFile);
-            FileHelper.ReplaceString(colorsFile, AppIconBackgroundColorToken, data.AppIconBackgroundColor);
-            FileHelper.ReplaceString(colorsFile, SplashScreenBackgroundColorToken, data.SplashScreenBackgroundColor);
-            GenerateAssets(data.AppIconPath, rootPath, AppIconAssetName, false);
-            GenerateAssets(data.AppIconPath, rootPath, AdaptiveIconAssetName, false);
-            GenerateAssets(data.SplashScreenImagePath, rootPath, SplashScreenAssetName, true);
+            var colorFile = Path.Combine(rootPath, _colorFile);
+            FileHelper.ReplaceString(colorFile, AppIconBackgroundColorToken, data.AppIconBackgroundColor);
+            FileHelper.ReplaceString(colorFile, SplashScreenBackgroundColorToken, data.SplashScreenBackgroundColor);
+            GenerateAssets(data.AppIconPath, rootPath, AppIconAssetName, MipmapFolders);
+            GenerateAssets(data.AppIconPath, rootPath, AdaptiveIconAssetName, MipmapFolders);
+            GenerateAssets(data.SplashScreenImagePath, rootPath, SplashScreenAssetName, DrawableFolders);
         }
 
-        private static void GenerateAssets(string sourcePath, string rootPath, string assetName, bool isDrawableAssets)
+        private static void GenerateAssets(string sourcePath, string rootPath, string assetName,
+            IEnumerable<AssetInfo> assets)
         {
-            if (string.IsNullOrEmpty(sourcePath) || !File.Exists(sourcePath))
+            foreach (var asset in assets)
             {
-                return;
+                PngImageHelper.ScaleAndSave(sourcePath, Path.Combine(rootPath, asset.Path, assetName), asset.Scale);
+            }
+        }
+
+        private sealed class AssetInfo
+        {
+            public AssetInfo(string path, double scale)
+            {
+                Path = path;
+                Scale = scale;
             }
 
-            var assetFolders = isDrawableAssets ? DrawableFolders : MipmapFolders;
-
-            foreach (var pair in assetFolders)
-            {
-                var folder = pair.Key;
-                var scaleFactor = pair.Value;
-                PngImageHelper.ScaleAndSave(sourcePath, Path.Combine(rootPath, folder, assetName), scaleFactor);
-            }
+            public string Path { get; }
+            public double Scale { get; }
         }
 
         #region singleton

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ProjectTemplateWizard.Abstractions.Interfaces;
+using SenticodeTemplate.Constants;
 using SenticodeTemplate.Interfaces;
 using SenticodeTemplate.Services.Helpers;
 
@@ -87,30 +88,30 @@ namespace SenticodeTemplate.Services.Managers
                 switch (data.WebDatabaseInfrastructureType)
                 {
                     case WebDatabaseInfrastructureType.MsSql:
-                        token = AppConstants.MsSqlToken;
+                        token = ReplacementTokens.MsSql;
                         connectionString = ConnectionStringHelper.GetMsSqlConnectionString(dbFileName);
                         break;
 
                     case WebDatabaseInfrastructureType.MySql:
-                        token = AppConstants.MySqlToken;
+                        token = ReplacementTokens.MySql;
                         connectionString = ConnectionStringHelper.GetMySqlConnectionString(dbFileName);
                         break;
 
                     case WebDatabaseInfrastructureType.PostgreSql:
-                        token = AppConstants.PostgreToken;
+                        token = ReplacementTokens.Postgre;
                         connectionString = ConnectionStringHelper.GetPostgreConnectionString(dbFileName);
                         break;
 
                     case WebDatabaseInfrastructureType.SqLite:
-                        token = AppConstants.SqLiteToken;
+                        token = ReplacementTokens.SqLite;
                         connectionString = ConnectionStringHelper.GetSqLiteConnectionString(dbFileName);
                         break;
 
                     default: throw new NotSupportedException();
                 }
 
-                FileHelper.UncommentXmlLine(projectFile, token);
-                FileHelper.ReplaceString(jsonConfigFile, AppConstants.ConnectionStringToken, connectionString);
+                FileHelper.UncommentXml(projectFile, token);
+                FileHelper.ReplaceString(jsonConfigFile, ReplacementTokens.ConnectionString, connectionString);
             }
 
             internal static void AddWebProject(ProjectSettings settings)
@@ -127,10 +128,12 @@ namespace SenticodeTemplate.Services.Managers
                     "\n  <ItemGroup>\n    <ProjectReference Include=\"..\\..\\Common\\" + entitiesProjectName + "\\"
                     + entitiesProjectName + ".csproj\" />\n  </ItemGroup>\n\n");
 
-                var controllerPath = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Web, webProjectName,
+                var controllerPath = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Web,
+                    webProjectName,
                     "Controllers", "WeatherForecastApiController.cs");
 
-                FileHelper.ReplaceString(controllerPath, AppConstants.NamespaceToken, settings.SavedProjectName);
+                FileHelper.ReplaceString(controllerPath, ReplacementTokens.TemplateNamespace,
+                    settings.SavedProjectName);
             }
 
             internal static void AddSwagger(ProjectSettings settings)
@@ -151,7 +154,7 @@ namespace SenticodeTemplate.Services.Managers
                     "\n\t\t\tConfigureSwagger(app);\n");
 
                 FileHelper.InsertStringAfter(path, "endpoints.MapControllers();", 2,
-                    $"\t\t{AppConstants.SwaggerMethods.Replace(AppConstants.ProjectNameToken, $"\"{settings.SavedProjectName}\"")}\n");
+                    $"\t\t{AppConstants.SwaggerMethods.Replace(ReplacementTokens.ProjectName, $"\"{settings.SavedProjectName}\"")}\n");
             }
 
             internal static void AddDocker(ProjectSettings settings)
@@ -193,16 +196,16 @@ namespace SenticodeTemplate.Services.Managers
                 var webProjectName = $"{settings.SavedProjectName}.{AppConstants.Web}.{AppConstants.Api}";
 
                 FileHelper.ReplaceString(Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Web,
-                    webProjectName, "Dockerfile"), AppConstants.ProjectNameToken, webProjectName);
+                    webProjectName, "Dockerfile"), ReplacementTokens.ProjectName, webProjectName);
 
                 FileHelper.ReplaceString(Path.Combine(settings.SavedPath, "docker-compose.yml"),
-                    AppConstants.ProjectNameToken, webProjectName.ToLower());
+                    ReplacementTokens.ProjectName, webProjectName.ToLower());
 
                 FileHelper.ReplaceString(Path.Combine(settings.SavedPath, "docker-compose.override.yml"),
-                    AppConstants.ProjectNameToken, webProjectName.ToLower());
+                    ReplacementTokens.ProjectName, webProjectName.ToLower());
 
                 FileHelper.ReplaceString(Path.Combine(settings.SavedPath, "docker-compose.yml"),
-                    AppConstants.ProjectPathToken, webProjectName);
+                    ReplacementTokens.ProjectPath, webProjectName);
             }
 
             internal static void AddModuleAggregator(ProjectSettings settings)
@@ -253,7 +256,7 @@ namespace SenticodeTemplate.Services.Managers
                 var path = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Web, moduleAggregatorName,
                     $"{AppConstants.ModuleAggregator}.cs");
 
-                FileHelper.ReplaceString(path, AppConstants.NamespaceToken, settings.SavedProjectName);
+                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
             }
 
             private static void AddProject(ProjectSettings settings, string folderName, string templateName,
@@ -296,10 +299,12 @@ namespace SenticodeTemplate.Services.Managers
                     AppConstants.Modules, AppConstants.Web);
 
                 var moduleProjectPath = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Web,
-                    AppConstants.Modules, $"{settings.SavedProjectName}.{moduleName}", $"{settings.SavedProjectName}.{moduleName}.csproj");
+                    AppConstants.Modules, $"{settings.SavedProjectName}.{moduleName}",
+                    $"{settings.SavedProjectName}.{moduleName}.csproj");
 
-                FileHelper.InsertString(moduleProjectPath, "</PropertyGroup>", "\n<ItemGroup>\n<ProjectReference Include = \"..\\..\\Common\\" +
-                      webCommonProjectName + "\\" + $"{webCommonProjectName}.csproj\"/>\n</ItemGroup>\n");
+                FileHelper.InsertString(moduleProjectPath, "</PropertyGroup>",
+                    "\n<ItemGroup>\n<ProjectReference Include = \"..\\..\\Common\\" +
+                    webCommonProjectName + "\\" + $"{webCommonProjectName}.csproj\"/>\n</ItemGroup>\n");
 
                 var path = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Web, AppConstants.Modules,
                     $"{settings.SavedProjectName}.{moduleName}", $"{classname}.cs");

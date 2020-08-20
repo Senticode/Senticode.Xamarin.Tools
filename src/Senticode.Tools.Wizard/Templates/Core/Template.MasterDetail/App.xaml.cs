@@ -1,8 +1,8 @@
-﻿using Senticode.Xamarin.Tools.Core.Interfaces.Base;
-using Template.MasterDetail.Views;
+﻿using _template.MasterDetail.Views;
+using Senticode.Xamarin.Tools.Core.Interfaces.Base;
 using Unity;
 
-namespace Template.MasterDetail
+namespace _template.MasterDetail
 {
     public partial class App
     {

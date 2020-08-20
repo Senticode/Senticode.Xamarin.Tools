@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _template.Common.Entities;
 using Senticode.Base.Interfaces;
-using Template.Common.Entities;
 
-namespace Template.Mobile.Interfaces.Services.Web
+namespace _template.Mobile.Interfaces.Services.Web
 {
     public interface IWeatherWebService
     {

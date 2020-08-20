@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Template.Db.Xamarin.Helpers
+namespace _template.Db.Xamarin.Helpers
 {
     internal static class LocalStorageHelper
     {

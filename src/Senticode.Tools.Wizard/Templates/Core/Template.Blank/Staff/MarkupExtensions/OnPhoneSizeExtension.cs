@@ -1,9 +1,9 @@
 ﻿using System;
-using Template.Blank.Staff.Helpers;
+using _template.Blank.Staff.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Template.Blank.Staff.MarkupExtensions
+namespace _template.Blank.Staff.MarkupExtensions
 {
     public class OnPhoneSizeExtension<T> : BindableObject, IMarkupExtension<T>
     {
@@ -18,7 +18,7 @@ namespace Template.Blank.Staff.MarkupExtensions
         /// </summary>
         public T SmallSizeValue
         {
-            get => (T)GetValue(SmallSizeValueProperty);
+            get => (T) GetValue(SmallSizeValueProperty);
             set => SetValue(SmallSizeValueProperty, value);
         }
 
@@ -37,7 +37,7 @@ namespace Template.Blank.Staff.MarkupExtensions
         /// </summary>
         public T DefaultSizeValue
         {
-            get => (T)GetValue(DefaultSizeValueProperty);
+            get => (T) GetValue(DefaultSizeValueProperty);
             set => SetValue(DefaultSizeValueProperty, value);
         }
 
@@ -56,7 +56,7 @@ namespace Template.Blank.Staff.MarkupExtensions
         /// </summary>
         public T BigSizeValue
         {
-            get => (T)GetValue(BigSizeValueProperty);
+            get => (T) GetValue(BigSizeValueProperty);
             set => SetValue(BigSizeValueProperty, value);
         }
 
@@ -65,7 +65,6 @@ namespace Template.Blank.Staff.MarkupExtensions
         /// </summary>
         public static readonly BindableProperty BigSizeValueProperty =
             BindableProperty.Create(nameof(BigSizeValue), typeof(T), typeof(OnPhoneSizeExtension<T>));
-
 
         #endregion
 
@@ -87,10 +86,7 @@ namespace Template.Blank.Staff.MarkupExtensions
             }
         }
 
-        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-        {
-            return ProvideValue(serviceProvider);
-        }
+        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 
         #endregion
     }

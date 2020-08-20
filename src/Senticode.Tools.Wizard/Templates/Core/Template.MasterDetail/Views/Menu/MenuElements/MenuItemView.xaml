@@ -3,17 +3,17 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:markupExtensions="clr-namespace:Senticode.Xamarin.Tools.Core.MarkupExtensions;assembly=Senticode.Xamarin.Tools.Core"
-             xmlns:menuElements="clr-namespace:Template.MasterDetail.Views.Menu.MenuElements;assembly=Template.MasterDetail"
-             xmlns:abstractions="clr-namespace:Template.MasterDetail.ViewModels.Abstractions;assembly=Template.MasterDetail"
-             xmlns:markupExtensions1="clr-namespace:Template.MasterDetail.Staff.MarkupExtensions;assembly=Template.MasterDetail"
-             xmlns:converters="clr-namespace:Template.MasterDetail.Staff.Converters;assembly=Template.MasterDetail"
-             x:Class="Template.MasterDetail.Views.Menu.MenuElements.MenuItemView"
+             xmlns:abstractions1="clr-namespace:_template.MasterDetail.ViewModels.Abstractions;assembly=_template.MasterDetail"
+             xmlns:menuElements1="clr-namespace:_template.MasterDetail.Views.Menu.MenuElements;assembly=_template.MasterDetail"
+             xmlns:converters="clr-namespace:_template.MasterDetail.Staff.Converters;assembly=_template.MasterDetail"
+             xmlns:markupExtensions1="clr-namespace:_template.MasterDetail.Staff.MarkupExtensions;assembly=_template.MasterDetail"
+             x:Class="_template.MasterDetail.Views.Menu.MenuElements.MenuItemView"
              x:Name="Root"
-             x:DataType="{x:Type abstractions:ActionViewModel}">
+             x:DataType="{x:Type abstractions1:ActionViewModel}">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <menuElements:MenuResourceDictionary />
+                <menuElements1:MenuResourceDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ContentView.Resources>
@@ -39,7 +39,8 @@
                 <Label Grid.Column="1"
                        Text="{markupExtensions:Localize Binding={Binding Path=Title}}"
                        VerticalOptions="Center" FontSize="18" Margin="5,0" />
-                <Image Grid.Column="2" IsVisible="{Binding Parameter, Converter={converters:TypeMenuToVisibleConverter}}"
+                <Image Grid.Column="2"
+                       IsVisible="{Binding Parameter, Converter={converters:TypeMenuToVisibleConverter}}"
                        Source="{markupExtensions1:ImageResource Resources.Images.Arrow_left.png}"
                        Rotation="180"
                        Margin="10" HorizontalOptions="End" />

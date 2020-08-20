@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Senticode.Xamarin.Tools.Core.Interfaces.Staff;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail.Staff.Controls
+namespace _template.MasterDetail.Staff.Controls
 {
     /// <summary>
     ///     TODO EM: need refactor this
@@ -66,7 +66,7 @@ namespace Template.MasterDetail.Staff.Controls
         /// </summary>
         public string Text
         {
-            get => (string)GetValue(TextProperty);
+            get => (string) GetValue(TextProperty);
             set
             {
                 _label.Text = value;
@@ -76,7 +76,7 @@ namespace Template.MasterDetail.Staff.Controls
 
         public Color TextColor
         {
-            get => (Color)_label.GetValue(Label.TextColorProperty);
+            get => (Color) _label.GetValue(Label.TextColorProperty);
             set
             {
                 _label.SetValue(Label.TextColorProperty, value);
@@ -89,7 +89,7 @@ namespace Template.MasterDetail.Staff.Controls
         /// </summary>
         public string Uri
         {
-            get => (string)GetValue(UriProperty);
+            get => (string) GetValue(UriProperty);
             set
             {
                 if (value != null)
@@ -109,12 +109,12 @@ namespace Template.MasterDetail.Staff.Controls
 
         private static void HandleTextChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            ((LinkLabel)bindable).Text = newValue?.ToString();
+            ((LinkLabel) bindable).Text = newValue?.ToString();
         }
 
         private static void HandleUriChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
-            ((LinkLabel)bindable).Uri = newvalue?.ToString();
+            ((LinkLabel) bindable).Uri = newvalue?.ToString();
         }
 
         private class DefaultAnimation : IAnimation
@@ -154,7 +154,7 @@ namespace Template.MasterDetail.Staff.Controls
             /// </summary>
             public Uri Uri
             {
-                get => (Uri)GetValue(UriProperty);
+                get => (Uri) GetValue(UriProperty);
                 set => SetValue(UriProperty, value);
             }
         }

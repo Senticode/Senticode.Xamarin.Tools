@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms.Xaml;
 
-namespace Template.MasterDetail.Views.Menu.MenuElements
+namespace _template.MasterDetail.Views.Menu.MenuElements
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuResourceDictionary

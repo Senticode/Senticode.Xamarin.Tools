@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace Template.Mobile.Interfaces.Services.Web
+namespace _template.Mobile.Interfaces.Services.Web
 {
     public interface IWebClientFactory
     {

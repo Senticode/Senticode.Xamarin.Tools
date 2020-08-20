@@ -1,6 +1,5 @@
 ﻿using System.IO;
-using EnvDTE;
-using EnvDTE90;
+using SenticodeTemplate.Constants;
 using SenticodeTemplate.Interfaces;
 using SenticodeTemplate.Services.Helpers;
 
@@ -13,6 +12,7 @@ namespace SenticodeTemplate.Services.Managers
             var settings = ProjectSettings.Instance;
             var data = settings.ProjectTemplateData;
             CommonProjectHelper.AddEntitiesProject(settings);
+
             if (data.IsWebBackendIncluded)
             {
                 CommonProjectHelper.AddWebInfrastructureProject(settings);
@@ -43,7 +43,8 @@ namespace SenticodeTemplate.Services.Managers
 
             public static void AddWebInfrastructureProject(ProjectSettings settings)
             {
-                var projectName = $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Web}.{AppConstants.Infrastructure}";
+                var projectName =
+                    $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Web}.{AppConstants.Infrastructure}";
 
                 AddProject(settings, AppConstants.Common, AppConstants.WebInfrastructureTemplateName, projectName);
             }

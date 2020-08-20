@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using _template.Common.Entities;
+using _template.Common.Web.Infrastructure;
+using _template.Common.Web.Infrastructure.Extensions;
+using _template.Mobile.Interfaces.Services.Web;
+using _template.WebClientModule.Services.Internal;
 using Senticode.Base;
 using Senticode.Base.Interfaces;
 using Senticode.Base.Services;
-using Template.Common.Entities;
-using Template.Common.Web.Infrastructure;
-using Template.Common.Web.Infrastructure.Extensions;
-using Template.Mobile.Interfaces.Services.Web;
-using Template.WebClientModule.Services.Internal;
 using Unity;
 
-namespace Template.WebClientModule.Services
+namespace _template.WebClientModule.Services
 {
     internal class WeatherWebService : ServiceBase, IWeatherWebService
     {
@@ -24,6 +24,7 @@ namespace Template.WebClientModule.Services
             _settings = settings;
             _container = container.RegisterInstance<IWeatherWebService>(this);
         }
+
         public async Task<IResult<IEnumerable<WeatherForecast>>> GetAllAsync()
         {
             var request = WebApi.WeatherForecastApiController.GetAll();
@@ -39,6 +40,7 @@ namespace Template.WebClientModule.Services
                 {
                     return new Result<IEnumerable<WeatherForecast>>(e);
                 }
+
                 if (response.IsSuccessStatusCode)
                 {
                     var forecasts = await response.Content.ReadAsStringAsync();

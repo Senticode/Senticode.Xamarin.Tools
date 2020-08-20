@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using _template.MasterDetail.ViewModels;
+using _template.MasterDetail.ViewModels.Menu;
+using _template.MasterDetail.Views.Pages;
 using Senticode.Xamarin.Tools.Core.Abstractions.Staff;
 using Senticode.Xamarin.Tools.MVVM.Abstractions;
-using Template.MasterDetail.ViewModels;
-using Template.MasterDetail.ViewModels.Menu;
-using Template.MasterDetail.Views.Pages;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.MasterDetail.Commands.Navigation
+namespace _template.MasterDetail.Commands.Navigation
 {
     public enum PageKind
     {

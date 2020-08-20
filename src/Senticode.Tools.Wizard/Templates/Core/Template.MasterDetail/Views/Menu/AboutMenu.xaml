@@ -3,11 +3,11 @@
 <abstractions:ViewBase xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
-                       xmlns:menuElements="clr-namespace:Template.MasterDetail.Views.Menu.MenuElements;assembly=Template.MasterDetail"
-                       xmlns:menu="clr-namespace:Template.MasterDetail.ViewModels.Menu;assembly=Template.MasterDetail"
-                       x:Class="Template.MasterDetail.Views.Menu.AboutMenu"
+                       xmlns:menu1="clr-namespace:_template.MasterDetail.ViewModels.Menu;assembly=_template.MasterDetail"
+                       xmlns:menuElements1="clr-namespace:_template.MasterDetail.Views.Menu.MenuElements;assembly=_template.MasterDetail"
+                       x:Class="_template.MasterDetail.Views.Menu.AboutMenu"
                        x:Name="Root"
-                       x:DataType="{x:Type menu:AboutMenuViewModel}"
+                       x:DataType="{x:Type menu1:AboutMenuViewModel}"
                        Style="{StaticResource MenuContainerStyle}">
     <abstractions:ViewBase.Content>
         <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
@@ -18,9 +18,9 @@
             </Grid.RowDefinitions>
 
             <!--Title-->
-            <menuElements:TitleMenuRegion Grid.Row="0" />
+            <menuElements1:TitleMenuRegion Grid.Row="0" />
             <!--Main region-->
-            
+
         </Grid>
     </abstractions:ViewBase.Content>
 </abstractions:ViewBase>

@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<base:XamarinApplicationBase x:TypeArguments="mobile:AppSettings, mobile:AppCommands, mobile:AppLifeTimeManager"
+<base:XamarinApplicationBase x:TypeArguments="blank:AppSettings, blank:AppCommands, blank:AppLifeTimeManager"
                              xmlns="http://xamarin.com/schemas/2014/forms"
                              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                             xmlns:mobile="clr-namespace:Template.Blank;assembly=Template.Blank"
                              xmlns:base="clr-namespace:Senticode.Xamarin.Tools.Core.Abstractions.Base;assembly=Senticode.Xamarin.Tools.Core"
-                             xmlns:me="clr-namespace:Template.Blank.Staff.MarkupExtensions;assembly=Template.Blank"
+                             xmlns:blank="clr-namespace:_template.Blank;assembly=_template.Blank"
+                             xmlns:markupExtensions="clr-namespace:_template.Blank.Staff.MarkupExtensions;assembly=_template.Blank"
                              mc:Ignorable="d"
-                             x:Class="Template.Blank.App">
+                             x:Class="_template.Blank.App">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -40,26 +40,26 @@
 
             <OnPlatform x:Key="GenericTopContainerMargins" Default="0" x:TypeArguments="Thickness">
                 <On Platform="iOS">
-                    <me:OniPhoneXExtension x:TypeArguments="Thickness"
-                                           Default="0,20,0,0"
-                                           XValue="0,32,0,0" />
+                    <markupExtensions:OniPhoneXExtension x:TypeArguments="Thickness"
+                                                         Default="0,20,0,0"
+                                                         XValue="0,32,0,0" />
                 </On>
             </OnPlatform>
 
             <OnPlatform x:Key="GenericTopContainerPadding" Default="0" x:TypeArguments="Thickness">
                 <On Platform="iOS">
-                    <me:OniPhoneXExtension x:TypeArguments="Thickness"
-                                           Default="0,0,0,0"
-                                           XValue="0,0,0,32" />
+                    <markupExtensions:OniPhoneXExtension x:TypeArguments="Thickness"
+                                                         Default="0,0,0,0"
+                                                         XValue="0,0,0,32" />
                 </On>
             </OnPlatform>
 
 
             <OnPlatform x:Key="GenericTopDialogContainerPadding" Default="0" x:TypeArguments="Thickness">
                 <On Platform="iOS">
-                    <me:OniPhoneXExtension x:TypeArguments="Thickness"
-                                           Default="0,20,0,0"
-                                           XValue="0,32,0,32" />
+                    <markupExtensions:OniPhoneXExtension x:TypeArguments="Thickness"
+                                                         Default="0,20,0,0"
+                                                         XValue="0,32,0,32" />
                 </On>
             </OnPlatform>
 

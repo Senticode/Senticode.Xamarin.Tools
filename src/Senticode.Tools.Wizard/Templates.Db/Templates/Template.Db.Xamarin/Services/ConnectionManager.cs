@@ -6,7 +6,7 @@ using Senticode.Base.Services;
 using Senticode.Database.Tools.Interfaces;
 using Unity;
 
-namespace Template.Db.Xamarin.Services
+namespace _template.Db.Xamarin.Services
 {
     internal class ConnectionManager : ServiceBase, IConnectionManager
     {

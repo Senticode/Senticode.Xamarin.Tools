@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
+using _template.Blank.AppStateMachine;
+using _template.Blank.AppStateMachine.Strategies;
+using _template.Blank.ViewModels;
+using _template.Blank.Views;
 using Senticode.Base.Interfaces;
 using Senticode.Xamarin.Tools.Core.Abstractions.Base;
 using Senticode.Xamarin.Tools.Core.Abstractions.StateMachine;
 using Senticode.Xamarin.Tools.Core.Configuration;
-using Template.Blank.AppStateMachine;
-using Template.Blank.AppStateMachine.Strategies;
-using Template.Blank.ViewModels;
-using Template.Blank.Views;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.Blank
+namespace _template.Blank
 {
     public class AppLifeTimeManager : AppLifeTimeManagerBase<AppSettings, AppCommands, AppState>
     {
@@ -73,7 +72,7 @@ namespace Template.Blank
         {
             try
             {
-                var configPath = $"{GetType().Assembly.GetName().Name}.{AppSettings.CONFIG_FILE}";
+                var configPath = $"{GetType().Assembly.GetName().Name}.{AppSettings.ConfigFile}";
                 using (var config = GetType().Assembly.GetManifestResourceStream(configPath))
                 {
                     ConfigurationManager.Initialize(config);
@@ -92,7 +91,6 @@ namespace Template.Blank
 
         private void InitializeModelController()
         {
-
         }
 
         #endregion

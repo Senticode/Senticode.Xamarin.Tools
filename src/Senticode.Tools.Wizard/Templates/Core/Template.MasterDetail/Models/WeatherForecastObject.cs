@@ -1,15 +1,14 @@
-﻿using Senticode.Xamarin.Tools.MVVM.Abstractions;
-using System;
+﻿using System;
+using Senticode.Xamarin.Tools.MVVM.Abstractions;
 
-namespace Template.MasterDetail.Models
+namespace _template.MasterDetail.Models
 {
     public class WeatherForecastObject : ModelBase
     {
-        public Guid Id { get; set; }
-
         private DateTime _date;
-        private int _temperatureC;
         private string _summary;
+        private int _temperatureC;
+        public Guid Id { get; set; }
 
         public DateTime Date
         {

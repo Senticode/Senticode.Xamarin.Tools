@@ -219,14 +219,17 @@
                         </Button.Style>
                     </Button>
                     <ToggleButton Grid.Row="4"
-                                  Content="Edit"
                                   IsChecked="{Binding IsModuleEditModeOn, Mode=TwoWay}">
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                                <Setter Property="Content" Value="Edit" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding SelectedModule}" Value="{x:Null}">
                                         <Setter Property="IsEnabled" Value="False" />
                                     </DataTrigger>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Content" Value="Save" />
+                                    </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </ToggleButton.Style>

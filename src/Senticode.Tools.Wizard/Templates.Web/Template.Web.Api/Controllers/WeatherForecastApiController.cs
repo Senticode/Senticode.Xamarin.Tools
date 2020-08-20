@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _template.Common.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Senticode.Base;
-using Template.Common.Entities;
 
-namespace Template.Web.Api.Controllers
+namespace _template.Web.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -28,12 +28,14 @@ namespace Template.Web.Api.Controllers
         public Result<IEnumerable<WeatherForecast>> Get()
         {
             var rng = new Random();
+
             var array = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             }).ToList();
+
             return new Result<IEnumerable<WeatherForecast>>(array);
         }
     }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using Senticode.Xamarin.Tools.Core.Abstractions.StateMachine;
 
-namespace Template.MasterDetail.AppStateMachine
+namespace _template.MasterDetail.AppStateMachine
 {
     public partial class AppState : AppStateBase, IComparable<AppState>
     {
-        public int CompareTo(AppState other) => CompareTo((object)other);
+        public int CompareTo(AppState other) => CompareTo((object) other);
 
         public override int CompareTo(object obj)
         {

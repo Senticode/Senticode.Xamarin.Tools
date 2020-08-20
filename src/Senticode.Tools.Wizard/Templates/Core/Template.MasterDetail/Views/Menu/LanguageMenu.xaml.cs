@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Xamarin.Forms.Xaml;
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace Template.MasterDetail.Views.Menu
+namespace _template.MasterDetail.Views.Menu
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LanguageMenu

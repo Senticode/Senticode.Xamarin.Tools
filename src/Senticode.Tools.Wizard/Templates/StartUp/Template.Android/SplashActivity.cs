@@ -2,7 +2,7 @@
 using Android.App;
 using Android.Content;
 
-namespace Template.Android
+namespace _template.Android
 {
     [Activity(Theme = "@style/MainTheme.Splash", MainLauncher = true, NoHistory = true)]
     public class SplashActivity : Activity

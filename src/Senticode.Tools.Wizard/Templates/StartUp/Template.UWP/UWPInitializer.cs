@@ -1,9 +1,9 @@
-﻿using Senticode.Xamarin.Tools.Core;
+﻿using _template.UWP.Services;
+using Senticode.Xamarin.Tools.Core;
 using Senticode.Xamarin.Tools.Core.Interfaces.Services;
-using Template.UWP.Services;
 using Unity;
 
-namespace Template.UWP
+namespace _template.UWP
 {
     public class UwpInitializer : PlatformInitializerBase
     {

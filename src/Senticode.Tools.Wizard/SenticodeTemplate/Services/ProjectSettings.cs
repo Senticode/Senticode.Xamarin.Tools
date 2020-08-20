@@ -2,6 +2,7 @@
 using EnvDTE80;
 using EnvDTE90;
 using ProjectTemplateWizard.Abstractions.Interfaces;
+using SenticodeTemplate.Constants;
 
 namespace SenticodeTemplate.Services
 {
@@ -21,8 +22,8 @@ namespace SenticodeTemplate.Services
             }
 
             ProjectTemplateData = projectTemplateData;
-            SavedPath = replacementsDictionary[AppConstants.SolutionDirectoryToken];
-            SavedProjectName = replacementsDictionary[AppConstants.SafeProjectNameToken];
+            SavedPath = replacementsDictionary[ReplacementTokens.SolutionDirectory];
+            SavedProjectName = replacementsDictionary[ReplacementTokens.SafeProjectName];
         }
 
         #region singleton

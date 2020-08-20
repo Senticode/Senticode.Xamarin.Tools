@@ -3,7 +3,7 @@ using Senticode.Xamarin.Tools.MVVM.Abstractions;
 using Unity;
 using Xamarin.Forms;
 
-namespace Template.Blank.ViewModels.Abstractions
+namespace _template.Blank.ViewModels.Abstractions
 {
     /// <summary>
     ///     Dialog view model.

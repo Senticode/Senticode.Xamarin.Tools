@@ -1,4 +1,4 @@
-﻿namespace Template.WPF
+﻿namespace _template.WPF
 {
     internal partial class App
     {

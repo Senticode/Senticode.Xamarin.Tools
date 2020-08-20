@@ -1,28 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <abstractions:PageBase xmlns="http://xamarin.com/schemas/2014/forms"
-                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
-                       xmlns:mainpages="clr-namespace:Template.Blank.Views"                       
-                       xmlns:viewModels="clr-namespace:Template.Blank.ViewModels;assembly=Template.Blank"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
-                       xmlns:models="clr-namespace:Template.Blank.Models;assembly=Template.Blank"
+                       xmlns:viewModels1="clr-namespace:_template.Blank.ViewModels;assembly=_template.Blank"
+                       xmlns:models1="clr-namespace:_template.Blank.Models;assembly=_template.Blank"
                        Title="Sample"
                        FlowDirection="MatchParent"
-                       x:Class="Template.Blank.Views.MainPage"  
-                       x:DataType="{x:Type viewModels:MainViewModel}" >
+                       x:Class="_template.Blank.Views.MainPage"
+                       x:DataType="{x:Type viewModels1:MainViewModel}">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0"
-               Text="Weather Forecast" 
+               Text="Weather Forecast"
                HorizontalTextAlignment="Center"
-               FontSize="Medium"/>
+               FontSize="Medium" />
         <ListView x:Name="WeatherForecastList"
                   Grid.Row="1"
                   ItemsSource="{Binding Forecasts}">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:WeatherForecastObject">
+                <DataTemplate x:DataType="models1:WeatherForecastObject">
                     <ViewCell>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -39,12 +39,12 @@
             </ListView.ItemTemplate>
         </ListView>
         <Label Grid.Row="1"
-               Text="{Binding WeatherServiceStatusMessage}" 
+               Text="{Binding WeatherServiceStatusMessage}"
                HorizontalTextAlignment="Center"
                IsVisible="False">
             <Label.Triggers>
                 <DataTrigger TargetType="Label"
-                             Binding="{Binding Source={x:Reference WeatherForecastList}, Path=ItemsSource.Count}" 
+                             Binding="{Binding Source={x:Reference WeatherForecastList}, Path=ItemsSource.Count}"
                              Value="0">
                     <Setter Property="IsVisible" Value="True" />
                 </DataTrigger>

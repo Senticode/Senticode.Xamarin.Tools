@@ -17,12 +17,9 @@ namespace SenticodeTemplate.Services.Helpers
         {
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = source;
-            string text;
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                text = reader.ReadToEnd();
-            }
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            using var reader = new StreamReader(stream);
+            var text = reader.ReadToEnd();
             File.WriteAllText(destination, text);
         }
 
@@ -82,17 +79,15 @@ namespace SenticodeTemplate.Services.Helpers
 
         public static string FindStringStartingWith(string path, string stringBeginning)
         {
-            using (var sr = new StreamReader(path))
-            {
-                string line;
-                do
-                {
-                    line = sr.ReadLine();
-                } 
-                while (string.IsNullOrEmpty(line) || !line.Trim().StartsWith(stringBeginning));
+            using var sr = new StreamReader(path);
+            string line;
 
-                return line;
-            }
+            do
+            {
+                line = sr.ReadLine();
+            } while (string.IsNullOrEmpty(line) || !line.Trim().StartsWith(stringBeginning));
+
+            return line;
         }
     }
 }

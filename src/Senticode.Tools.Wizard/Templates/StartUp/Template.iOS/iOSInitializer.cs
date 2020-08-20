@@ -1,9 +1,9 @@
-﻿using Senticode.Xamarin.Tools.Core;
+﻿using _template.iOS.Services;
+using Senticode.Xamarin.Tools.Core;
 using Senticode.Xamarin.Tools.Core.Interfaces.Services;
-using Template.iOS.Services;
 using Unity;
 
-namespace Template.iOS
+namespace _template.iOS
 {
     internal class IosInitializer : PlatformInitializerBase
     {

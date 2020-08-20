@@ -8,12 +8,12 @@ using Xamarin.Forms;
 using Frame = Windows.UI.Xaml.Controls.Frame;
 using UnhandledExceptionEventArgs = Windows.UI.Xaml.UnhandledExceptionEventArgs;
 
-namespace Template.UWP
+namespace _template.UWP
 {
     /// <summary>
     ///     Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App
+    internal sealed partial class App
     {
         /// <summary>
         ///     Initializes the singleton application object.  This is the first line of authored code
