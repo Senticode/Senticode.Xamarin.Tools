@@ -1,5 +1,4 @@
-﻿using System;
-using SenticodeTemplate.Interfaces;
+﻿using SenticodeTemplate.Interfaces;
 
 namespace SenticodeTemplate.Services.AssetsGenerators
 {

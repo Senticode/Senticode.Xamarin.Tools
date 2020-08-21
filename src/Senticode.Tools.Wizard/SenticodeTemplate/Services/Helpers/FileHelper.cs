@@ -16,8 +16,7 @@ namespace SenticodeTemplate.Services.Helpers
         public static void ReplaceText(string source, string destination)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = source;
-            using var stream = assembly.GetManifestResourceStream(resourceName);
+            using var stream = assembly.GetManifestResourceStream(source);
             using var reader = new StreamReader(stream);
             var text = reader.ReadToEnd();
             File.WriteAllText(destination, text);

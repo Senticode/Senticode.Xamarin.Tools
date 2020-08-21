@@ -15,7 +15,7 @@ namespace SenticodeTemplate.Services.AssetsGenerators
         private static readonly string LaunchScreenAssetFolder = Path.Combine("Assets.xcassets", "Splash.imageset");
 
         private static readonly string LaunchScreenStoryboardFile =
-            Path.Combine("Resources", "LaunchScreen.storyboard");
+            Path.Combine(StringLiterals.Resources, "LaunchScreen.storyboard");
 
         private static readonly IReadOnlyList<AssetInfo> AppIconAssets = new List<AssetInfo>
         {
@@ -55,7 +55,7 @@ namespace SenticodeTemplate.Services.AssetsGenerators
         public void GenerateAssets(ProjectSettings settings)
         {
             var data = settings.ProjectTemplateData;
-            var rootProjectPath = AppConstants.GetMobileProjectPath(settings, AppConstants.Ios);
+            var rootProjectPath = StringLiterals.GetMobileProjectPath(settings, StringLiterals.Ios);
             var iconBackground = HexRgbaConverter.ToRgbaColor<System.Drawing.Color>(data.AppIconBackgroundColor);
             var splashScreenBackground = HexRgbaConverter.ToRgbaColor<Color>(data.SplashScreenBackgroundColor);
             SetLaunchScreenBackgroundColor(splashScreenBackground, rootProjectPath);
@@ -70,10 +70,13 @@ namespace SenticodeTemplate.Services.AssetsGenerators
             var launchScreenContent = File.ReadAllText(launchScreenFile);
 
             launchScreenContent = Regex.Replace(launchScreenContent, LaunchScreenBackgroundRegex,
-                @$"<color key=""backgroundColor"" colorSpace=""calibratedRGB"" alpha=""{background.ScA}"" red=""{background.ScR}"" green=""{background.ScG}"" blue=""{background.ScB}"" />");
+                GetLaunchScreenBackgroundColorSectionString(background));
 
             File.WriteAllText(launchScreenFile, launchScreenContent);
         }
+
+        private static string GetLaunchScreenBackgroundColorSectionString(Color color) =>
+            @$"<color key=""backgroundColor"" colorSpace=""calibratedRGB"" alpha=""{color.ScA}"" red=""{color.ScR}"" green=""{color.ScG}"" blue=""{color.ScB}"" />";
 
         private static void GenerateAppIconAssets(string assetSourcePath, string rootPath,
             System.Drawing.Color background)

@@ -103,17 +103,22 @@ namespace SenticodeTemplate.Services.Helpers
         {
             var index = moduleName.LastIndexOf('.') + 1;
             var classname = moduleName.Substring(index, moduleName.Length - index);
-            classname += moduleName.Contains("Module") ? "Initializer" : AppConstants.ModuleInitializer;
 
-            var path = Path.Combine(baseDirectory, AppConstants.Src, moduleType, AppConstants.Modules,
-                $"{projectName}.{moduleName}", $"{AppConstants.ModuleInitializer}.cs");
+            classname += moduleName.Contains(StringLiterals.Module)
+                ? StringLiterals.Initializer
+                : StringLiterals.ModuleInitializer;
+
+            var path = Path.Combine(baseDirectory, StringLiterals.Src, moduleType, StringLiterals.Modules,
+                $"{projectName}.{moduleName}", $"{StringLiterals.ModuleInitializer}.{FileExtensions.Cs}");
 
             FileHelper.ReplaceString(path,
                 File.ReadAllText(path).Contains(ReplacementTokens.ModuleInitializer)
                     ? ReplacementTokens.ModuleInitializer
-                    : AppConstants.ModuleInitializer, classname);
+                    : StringLiterals.ModuleInitializer, classname);
 
-            File.Move(path, path.Replace($"{AppConstants.ModuleInitializer}.cs", $"{classname}.cs"));
+            File.Move(path,
+                path.Replace($"{StringLiterals.ModuleInitializer}.{FileExtensions.Cs}",
+                    $"{classname}.{FileExtensions.Cs}"));
 
             return classname;
         }

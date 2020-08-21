@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using ProjectTemplateWizard.Abstractions.Interfaces;
 using SenticodeTemplate.Constants;
 using SenticodeTemplate.Interfaces;
@@ -11,54 +11,39 @@ namespace SenticodeTemplate.Services.Managers
 {
     internal class XamarinProjectManager : IProjectManager
     {
+        private readonly Dictionary<PlatformType, Action<ProjectSettings>> _startupUpCreationActions =
+            new Dictionary<PlatformType, Action<ProjectSettings>>
+            {
+                {PlatformType.Android, AddAndroidProject},
+                {PlatformType.Ios, AddIosProject},
+                {PlatformType.Uwp, AddUwpProject},
+                {PlatformType.Wpf, AddWpfProject},
+                {PlatformType.GtkSharp, AddGtkProject}
+            };
+
         public void Compose()
         {
             var settings = ProjectSettings.Instance;
             var data = settings.ProjectTemplateData;
-            XamarinProjectHelper.AddXamarinCoreProject(settings);
-
-            if (data.SelectedPlatforms.Contains(PlatformType.Android))
-            {
-                XamarinProjectHelper.AddAndroidProject(settings);
-            }
-
-            if (data.SelectedPlatforms.Contains(PlatformType.Ios))
-            {
-                XamarinProjectHelper.AddIosProject(settings);
-            }
-
-            if (data.SelectedPlatforms.Contains(PlatformType.Uwp))
-            {
-                XamarinProjectHelper.AddUwpProject(settings);
-            }
-
-            if (data.SelectedPlatforms.Contains(PlatformType.Wpf))
-            {
-                XamarinProjectHelper.AddWpfProject(settings);
-            }
-
-            if (data.SelectedPlatforms.Contains(PlatformType.GtkSharp))
-            {
-                XamarinProjectHelper.AddGtkProject(settings);
-            }
+            AddXamarinCoreProject(settings);
+            AddReferenceToEntitiesProject(settings);
+            AddStartupProjects(settings);
+            AddLicensesInfoPage(settings);
 
             if (data.IsModularDesign)
             {
-                XamarinProjectHelper.AddModuleAggregator(settings);
-                XamarinProjectHelper.AddDatabaseModule(settings);
+                AddModuleAggregator(settings);
+                AddDatabaseModule(settings);
                 AddCustomModules();
-
-                if (data.IsWebBackendIncluded)
-                {
-                    XamarinProjectHelper.AddWebClientModule(settings);
-                }
+                AddWebClientModule(settings);
             }
+        }
 
-            XamarinProjectHelper.AddReferenceToEntitiesProject(settings);
-
-            if (data.IsLicensesInfoPageIncluded && data.ProjectTemplateType == ProjectTemplateType.MasterDetail)
+        private void AddStartupProjects(ProjectSettings settings)
+        {
+            foreach (var platform in settings.ProjectTemplateData.SelectedPlatforms)
             {
-                XamarinProjectHelper.AddLicensesInfoPage(settings);
+                _startupUpCreationActions[platform](settings);
             }
         }
 
@@ -76,390 +61,426 @@ namespace SenticodeTemplate.Services.Managers
             {
                 if (module.ModuleType == ModuleType.Xamarin)
                 {
-                    XamarinProjectHelper.AddModule(settings, module.Name);
+                    AddModule(settings, module.Name);
                 }
             }
         }
 
-        private static class XamarinProjectHelper
+        private static void AddDatabaseModule(ProjectSettings settings)
         {
-            internal static void AddDatabaseModule(ProjectSettings settings)
+            var data = settings.ProjectTemplateData;
+
+            if (data.XamarinDatabaseInfrastructureType == XamarinDatabaseInfrastructureType.None)
             {
-                string token;
-                var data = settings.ProjectTemplateData;
-
-                if (data.XamarinDatabaseInfrastructureType == XamarinDatabaseInfrastructureType.None)
-                {
-                    return;
-                }
-
-                AddModule(settings, AppConstants.DataAccessXamarinModule, AppConstants.XamarinDbTemplateName);
-                var dbFileName = ConnectionStringHelper.GetXamarinDbFileName(settings);
-                var projectFile = AppConstants.GetXamarinDatabaseProjectFilePath(settings);
-
-                var dbContextFile =
-                    AppConstants.GetXamarinDatabaseProjectFilePath(settings, AppConstants.DbContextFile);
-
-                switch (data.XamarinDatabaseInfrastructureType)
-                {
-                    case XamarinDatabaseInfrastructureType.SqLite:
-                        token = ReplacementTokens.SqLite;
-                        break;
-
-                    default: throw new NotSupportedException();
-                }
-
-                FileHelper.UncommentCs(dbContextFile, token);
-                FileHelper.UncommentXml(projectFile, token);
-                FileHelper.ReplaceString(dbContextFile, ReplacementTokens.ConnectionString, dbFileName);
+                return;
             }
 
-            internal static void AddXamarinCoreProject(ProjectSettings settings)
+            AddModule(settings, StringLiterals.DataAccessXamarinModule, TemplateProjectNames.XamarinDb);
+
+            var dbFileName = ConnectionStringHelper.GetXamarinDbFileName(settings);
+            var projectFile = StringLiterals.GetXamarinDatabaseProjectFilePath(settings);
+
+            var dbContextFile =
+                StringLiterals.GetXamarinDatabaseProjectFilePath(settings, FileNames.DbContextCs);
+
+            var token = data.XamarinDatabaseInfrastructureType switch
             {
-                var data = settings.ProjectTemplateData;
-                string templateName = null;
+                XamarinDatabaseInfrastructureType.SqLite => ReplacementTokens.SqLite,
+                _ => throw new ArgumentOutOfRangeException()
+            };
 
-                switch (data.ProjectTemplateType)
-                {
-                    case ProjectTemplateType.Blank:
-                        templateName = AppConstants.BlankTemplateName;
-                        break;
+            FileHelper.UncommentCs(dbContextFile, token);
+            FileHelper.UncommentXml(projectFile, token);
+            FileHelper.ReplaceString(dbContextFile, ReplacementTokens.ConnectionString, dbFileName);
+        }
 
-                    case ProjectTemplateType.MasterDetail:
-                        templateName = AppConstants.XamarinCoreTemplateName;
-                        break;
+        private static void AddXamarinCoreProject(ProjectSettings settings)
+        {
+            var data = settings.ProjectTemplateData;
 
-                    case ProjectTemplateType.Shell:
-                        templateName = AppConstants.ShellTemplateName;
-                        break;
-                }
+            var templateName = data.ProjectTemplateType switch
+            {
+                ProjectTemplateType.Blank => TemplateProjectNames.Blank,
+                ProjectTemplateType.MasterDetail => TemplateProjectNames.XamarinCore,
+                ProjectTemplateType.Shell => TemplateProjectNames.Shell,
+                _ => throw new ArgumentOutOfRangeException()
+            };
 
-                AddMobileProject(settings, AppConstants.Core, settings.SavedProjectName,
-                    templateName);
+            AddMobileProject(settings, StringLiterals.Core, settings.SavedProjectName,
+                templateName);
+        }
+
+        private static void AddModule(ProjectSettings settings, string moduleName,
+            string template = TemplateProjectNames.MobileModule)
+        {
+            AddMobileProject(settings, StringLiterals.Modules, $"{settings.SavedProjectName}.{moduleName}", template);
+
+            var classname = ProjectHelper.RenameModuleInitializer(settings.SavedPath, settings.SavedProjectName,
+                StringLiterals.Mobile, moduleName);
+
+            var moduleAggregatorProjectName =
+                $"{settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.ModuleAggregator}";
+
+            // Add modules to module aggregator.
+            var maPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
+                StringLiterals.Core, moduleAggregatorProjectName,
+                $"{StringLiterals.ModuleAggregator}.{FileExtensions.Cs}");
+
+            FileHelper.InsertStringAfter(maPath, "if (!IsRegistered)", 1,
+                $"\t\t\t\t{classname}.Instance.Initialize(container);\n");
+
+            FileHelper.InsertString(maPath, "using Unity;", $"using {settings.SavedProjectName}.{moduleName};\n");
+
+            var moduleAggregatorProject = ProjectHelper.GetProjectByName(settings.Solution,
+                moduleAggregatorProjectName, StringLiterals.Core, StringLiterals.Mobile);
+
+            var moduleProject = ProjectHelper.GetProjectByName(settings.Solution,
+                $"{settings.SavedProjectName}.{moduleName}", StringLiterals.Modules, StringLiterals.Mobile);
+
+            ProjectHelper.AddProjectReference(moduleAggregatorProject, moduleProject);
+        }
+
+        private static void AddModuleAggregator(ProjectSettings settings)
+        {
+            AddMobileProject(settings, StringLiterals.Core,
+                $"{settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.ModuleAggregator}",
+                TemplateProjectNames.MobileModuleAggregator);
+
+            var appInitializerPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
+                StringLiterals.Core,
+                settings.SavedProjectName, $"{StringLiterals.AppInitializer}.{FileExtensions.Cs}");
+
+            FileHelper.InsertString(appInitializerPath, "//1. Register modules",
+                $"\t\t\t\t{StringLiterals.ModuleAggregator}.Instance.Initialize(container);\n");
+
+            FileHelper.InsertString(appInitializerPath, "using Senticode.Base.Interfaces;",
+                $"using {settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.ModuleAggregator};\n");
+
+            var projectFilePath = appInitializerPath.Replace($"{StringLiterals.AppInitializer}.{FileExtensions.Cs}",
+                $"{settings.SavedProjectName}.{FileExtensions.CsProj}");
+
+            FileHelper.InsertString(projectFilePath, StringLiterals.ItemGroupTag,
+                $"\n<ItemGroup>\n<ProjectReference Include=\"..\\{settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.ModuleAggregator}\\{settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.ModuleAggregator}.{FileExtensions.CsProj}\"/>\n</ItemGroup>\n\n");
+        }
+
+        private static void AddAndroidProject(ProjectSettings settings)
+        {
+            AddMobileProject(settings, StringLiterals.Startup, $"{settings.SavedProjectName}.{StringLiterals.Android}",
+                TemplateProjectNames.Android);
+
+            var path = StringLiterals.GetMobileProjectFilePath(settings, StringLiterals.Android,
+                FileNames.MainActivityCs);
+
+            FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
+
+            AddReferenceToCoreProject(settings, StringLiterals.Android);
+            AndroidAssetsGenerator.Instance.GenerateAssets(settings);
+        }
+
+        private static void AddIosProject(ProjectSettings settings)
+        {
+            AddMobileProject(settings, StringLiterals.Startup, $"{settings.SavedProjectName}.{StringLiterals.Ios}",
+                TemplateProjectNames.Ios);
+
+            var path = StringLiterals.GetMobileProjectFilePath(settings, StringLiterals.Ios, FileNames.AppDelegateCs);
+            FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
+
+            AddReferenceToCoreProject(settings, StringLiterals.Ios);
+            IosAssetsGenerator.Instance.GenerateAssets(settings);
+        }
+
+        private static void AddWpfProject(ProjectSettings settings)
+        {
+            AddMobileProject(settings, StringLiterals.Startup, $"{settings.SavedProjectName}.{StringLiterals.Wpf}",
+                TemplateProjectNames.Wpf);
+
+            var path = StringLiterals.GetMobileProjectFilePath(settings, StringLiterals.Wpf,
+                FileNames.MainWindowXamlCs);
+            FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
+
+            AddReferenceToCoreProject(settings, StringLiterals.Wpf);
+            WpfAssetsGenerator.Instance.GenerateAssets(settings);
+        }
+
+        private static void AddGtkProject(ProjectSettings settings)
+        {
+            AddMobileProject(settings, StringLiterals.Startup, $"{settings.SavedProjectName}.{StringLiterals.Gtk}",
+                TemplateProjectNames.GtkSharp);
+
+            var path = StringLiterals.GetMobileProjectFilePath(settings, StringLiterals.Gtk, FileNames.ProgramCs);
+            FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
+
+            AddReferenceToCoreProject(settings, StringLiterals.Gtk);
+            GtkSharpAssetsGenerator.Instance.GenerateAssets(settings);
+        }
+
+        private static void AddUwpProject(ProjectSettings settings)
+        {
+            AddMobileProject(settings, StringLiterals.Startup, $"{settings.SavedProjectName}.{StringLiterals.Uwp}",
+                TemplateProjectNames.Uwp);
+
+            var path = StringLiterals.GetMobileProjectFilePath(settings, StringLiterals.Uwp, FileNames.MainPageXamlCs);
+            FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
+
+            AddReferenceToCoreProject(settings, StringLiterals.Uwp);
+            UwpAssetsGenerator.Instance.GenerateAssets(settings);
+        }
+
+        private static void AddMobileProject(ProjectSettings settings, string solutionFolderName,
+            string projectName, string templateName)
+        {
+            var templatePath =
+                settings.Solution.GetProjectTemplate($"{templateName}.{FileExtensions.Zip}", LanguageNames.CSharp);
+
+            var mobileFolder = ProjectHelper.AddSolutionFolder(settings.Solution, StringLiterals.Mobile);
+            var solutionFolder = ProjectHelper.AddSolutionFolder(mobileFolder, solutionFolderName);
+
+            var projectPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
+                solutionFolderName, projectName);
+
+            ProjectHelper.AddProjectToSolutionFolder(solutionFolder, templatePath, projectPath, projectName);
+        }
+
+        private static void AddReferenceToCoreProject(ProjectSettings settings, string projectType)
+        {
+            var xamCoreProject = ProjectHelper.GetProjectByName(settings.Solution, settings.SavedProjectName,
+                StringLiterals.Core, StringLiterals.Mobile);
+
+            var mobileProject = ProjectHelper.GetProjectByName(settings.Solution,
+                $"{settings.SavedProjectName}.{projectType}",
+                StringLiterals.Startup, StringLiterals.Mobile);
+
+            ProjectHelper.AddProjectReference(mobileProject, xamCoreProject);
+        }
+
+        private static void AddWebClientModule(ProjectSettings settings)
+        {
+            if (!settings.ProjectTemplateData.IsWebBackendIncluded)
+            {
+                return;
             }
 
-            internal static void AddModule(ProjectSettings settings, string moduleName,
-                string template = AppConstants.MobileModuleTemplateName)
+            var interfacesProjectName =
+                $"{settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.Interfaces}";
+
+            AddMobileProject(settings, StringLiterals.Common, interfacesProjectName,
+                TemplateProjectNames.MobileInterfaces);
+
+            var interfacesProject = ProjectHelper.GetProjectByName(settings.Solution, interfacesProjectName,
+                StringLiterals.Common, StringLiterals.Mobile);
+
+            var entitiesProjectName = $"{settings.SavedProjectName}.{StringLiterals.Common}.{StringLiterals.Entities}";
+
+            var entitiesProject =
+                ProjectHelper.GetProjectByName(settings.Solution, entitiesProjectName, StringLiterals.Common);
+
+            var clientProjectName = $"{settings.SavedProjectName}.{StringLiterals.WebClientModule}";
+
+            AddModule(settings, StringLiterals.WebClientModule, TemplateProjectNames.WebClient);
+
+            var clientProject = ProjectHelper.GetProjectByName(settings.Solution, clientProjectName,
+                StringLiterals.Modules, StringLiterals.Mobile);
+
+            var infrastructureProjectName =
+                $"{settings.SavedProjectName}.{StringLiterals.Common}.{StringLiterals.Web}.{StringLiterals.Infrastructure}";
+
+            var infrastructureProject =
+                ProjectHelper.GetProjectByName(settings.Solution, infrastructureProjectName, StringLiterals.Common);
+
+            ProjectHelper.AddProjectReference(clientProject, interfacesProject);
+            ProjectHelper.AddProjectReference(clientProject, infrastructureProject);
+            ProjectHelper.AddProjectReference(interfacesProject, entitiesProject);
+
+            EditWebClientNamespaces(settings);
+            EditCoreProjectFiles(settings);
+        }
+
+        private static void EditCoreProjectFiles(ProjectSettings settings)
+        {
+            // AppSettings.cs
+            var appSettingsPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
+                StringLiterals.Core, settings.SavedProjectName, FileNames.AppSettingsCs);
+
+            FileHelper.InsertString(appSettingsPath, "using System;",
+                $"using {settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.Interfaces}.Services.Web;\n");
+
+            FileHelper.ReplaceString(appSettingsPath, "public class AppSettings : AppSettingsBase",
+                "public class AppSettings : AppSettingsBase, IWebClientSettings");
+
+            FileHelper.UncommentCs(appSettingsPath, ReplacementTokens.WebClientRegistration);
+
+            // AppLifeTimeManager.cs
+            var appLifeTimeManagerPath =
+                appSettingsPath.Replace(FileNames.AppSettingsCs, FileNames.AppLifeTimeManagerCs);
+
+            FileHelper.InsertString(appLifeTimeManagerPath, "using Unity;",
+                $"using {settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.Interfaces}.Services.Web;\n");
+
+            FileHelper.ReplaceString(appLifeTimeManagerPath, "private void InitializeModelController()",
+                CodeConstants.InitializeModelControllerMethod);
+
+            FileHelper.InsertStringAfter(appLifeTimeManagerPath, CodeConstants.InitializeModelControllerMethod, 1,
+                CodeConstants.InitializeModelController);
+        }
+
+        private static void EditWebClientNamespaces(ProjectSettings settings)
+        {
+            var files = new[]
             {
-                AddMobileProject(settings, AppConstants.Modules, $"{settings.SavedProjectName}.{moduleName}", template);
+                FileNames.WebClientModuleInitializerCs,
+                Path.Combine(StringLiterals.Services, FileNames.WeatherWebServiceCs),
+                Path.Combine(StringLiterals.Services, StringLiterals.Internal, FileNames.WebClientFactoryCs)
+            };
 
-                var classname = ProjectHelper.RenameModuleInitializer(settings.SavedPath, settings.SavedProjectName,
-                    AppConstants.Mobile, moduleName);
+            var webClientModulePath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
+                StringLiterals.Modules, $"{settings.SavedProjectName}.{StringLiterals.WebClientModule}");
 
-                var moduleAggregatorProjectName =
-                    $"{settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.ModuleAggregator}";
-
-                // Add modules to module aggregator.
-                var maPath = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile, AppConstants.Core,
-                    moduleAggregatorProjectName, $"{AppConstants.ModuleAggregator}.cs");
-
-                FileHelper.InsertStringAfter(maPath, "if (!IsRegistered)", 1,
-                    $"\t\t\t\t{classname}.Instance.Initialize(container);\n");
-
-                FileHelper.InsertString(maPath, "using Unity;", $"using {settings.SavedProjectName}.{moduleName};\n");
-
-                var moduleAggregatorProject = ProjectHelper.GetProjectByName(settings.Solution,
-                    moduleAggregatorProjectName, AppConstants.Core, AppConstants.Mobile);
-
-                var moduleProject = ProjectHelper.GetProjectByName(settings.Solution,
-                    $"{settings.SavedProjectName}.{moduleName}", AppConstants.Modules, AppConstants.Mobile);
-
-                ProjectHelper.AddProjectReference(moduleAggregatorProject, moduleProject);
+            foreach (var file in files)
+            {
+                FileHelper.ReplaceString(Path.Combine(webClientModulePath, file), ReplacementTokens.TemplateNamespace,
+                    settings.SavedProjectName);
             }
 
-            internal static void AddModuleAggregator(ProjectSettings settings)
+            var weatherWebServiceInterfacePath = Path.Combine(settings.SavedPath, StringLiterals.Src,
+                StringLiterals.Mobile,
+                StringLiterals.Common,
+                $"{settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.Interfaces}",
+                StringLiterals.Services, StringLiterals.Web, FileNames.IWeatherWebServiceCs);
+
+            FileHelper.ReplaceString(weatherWebServiceInterfacePath, ReplacementTokens.TemplateNamespace,
+                settings.SavedProjectName);
+        }
+
+        private static void AddReferenceToEntitiesProject(ProjectSettings settings)
+        {
+            var path = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile, StringLiterals.Core,
+                settings.SavedProjectName, $"{settings.SavedProjectName}.{FileExtensions.CsProj}");
+
+            var entitiesProjectName = $"{settings.SavedProjectName}.{StringLiterals.Common}.{StringLiterals.Entities}";
+
+            FileHelper.InsertString(path, StringLiterals.ItemGroupTag,
+                $"\n<ItemGroup>\n<ProjectReference Include=\"..\\..\\..\\Common\\{entitiesProjectName}\\{entitiesProjectName}.{FileExtensions.CsProj}\"/>\n</ItemGroup>\n\n");
+        }
+
+        private static void AddLicensesInfoPage(ProjectSettings settings)
+        {
+            var data = settings.ProjectTemplateData;
+
+            if (!(data.IsLicensesInfoPageIncluded && data.ProjectTemplateType == ProjectTemplateType.MasterDetail))
             {
-                AddMobileProject(settings, AppConstants.Core,
-                    $"{settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.ModuleAggregator}",
-                    AppConstants.MobileModuleAggregatorTemplateName);
-
-                var path = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile, AppConstants.Core,
-                    settings.SavedProjectName, $"{AppConstants.AppInitializer}.cs");
-
-                FileHelper.InsertString(path, "//1. Register modules",
-                    $"\t\t\t\t{AppConstants.ModuleAggregator}.Instance.Initialize(container);\n");
-
-                FileHelper.InsertString(path, "using Senticode.Base.Interfaces;",
-                    $"using {settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.ModuleAggregator};\n");
-
-                path = path.Replace($"{AppConstants.AppInitializer}.cs", $"{settings.SavedProjectName}.csproj");
-
-                FileHelper.InsertString(path, "</ItemGroup>",
-                    "\n  <ItemGroup>\n    <ProjectReference Include=\"..\\"
-                    + settings.SavedProjectName + $".{AppConstants.Mobile}.{AppConstants.ModuleAggregator}\\" +
-                    settings.SavedProjectName +
-                    $".{AppConstants.Mobile}.{AppConstants.ModuleAggregator}.csproj\" />\n  </ItemGroup>\n\n");
+                return;
             }
 
-            internal static void AddAndroidProject(ProjectSettings settings)
+            var baseDirectory = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
+                StringLiterals.Core, $"{settings.SavedProjectName}");
+
+            var viewsDirectory = Path.Combine(baseDirectory, StringLiterals.Views, StringLiterals.Menu);
+            var viewCsPathPath =
+                Path.Combine(viewsDirectory, $"{StringLiterals.LicensesInfoMenu}.{FileExtensions.XamlCs}");
+
+            using (File.Create(viewCsPathPath))
             {
-                AddMobileProject(settings, AppConstants.Startup, $"{settings.SavedProjectName}.{AppConstants.Android}",
-                    AppConstants.AndroidTemplateName);
-
-                var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Android, "MainActivity.cs");
-                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
-
-                AddReferenceToCoreProject(settings, AppConstants.Android);
-                AndroidAssetsGenerator.Instance.GenerateAssets(settings);
             }
 
-            internal static void AddIosProject(ProjectSettings settings)
+            FileHelper.ReplaceText(
+                $"SenticodeTemplate.TemplateFiles.{StringLiterals.LicensesInfoMenu}.{FileExtensions.Template}",
+                viewCsPathPath);
+
+            FileHelper.ReplaceString(viewCsPathPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
+
+            var viewXamlPath = Path.Combine(viewsDirectory, $"{StringLiterals.LicensesInfoMenu}.{FileExtensions.Xaml}");
+
+            using (File.Create(viewXamlPath))
             {
-                AddMobileProject(settings, AppConstants.Startup, $"{settings.SavedProjectName}.{AppConstants.Ios}",
-                    AppConstants.IosTemplateName);
-
-                var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Ios, "AppDelegate.cs");
-                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
-
-                AddReferenceToCoreProject(settings, AppConstants.Ios);
-                IosAssetsGenerator.Instance.GenerateAssets(settings);
             }
 
-            internal static void AddWpfProject(ProjectSettings settings)
+            FileHelper.ReplaceText(
+                $"SenticodeTemplate.TemplateFiles.{StringLiterals.LicensesInfoMenu}.{FileExtensions.Template}",
+                viewXamlPath);
+
+            FileHelper.ReplaceString(viewXamlPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
+
+            var vmsDirectory = Path.Combine(baseDirectory, StringLiterals.ViewModels, StringLiterals.Menu);
+            var vmPath = Path.Combine(vmsDirectory, $"{StringLiterals.LicensesMenuViewModel}.{FileExtensions.Cs}");
+
+            using (File.Create(vmPath))
             {
-                AddMobileProject(settings, AppConstants.Startup, $"{settings.SavedProjectName}.{AppConstants.Wpf}",
-                    AppConstants.WpfTemplateName);
-
-                var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Wpf, "MainWindow.xaml.cs");
-                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
-
-                AddReferenceToCoreProject(settings, AppConstants.Wpf);
-                WpfAssetsGenerator.Instance.GenerateAssets(settings);
             }
 
-            internal static void AddGtkProject(ProjectSettings settings)
+            FileHelper.ReplaceText(
+                $"SenticodeTemplate.TemplateFiles.{StringLiterals.LicensesMenuViewModel}.{FileExtensions.Template}",
+                vmPath);
+
+            FileHelper.ReplaceString(vmPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
+
+            var resourcesDirectory = Path.Combine(baseDirectory, StringLiterals.Resources);
+            var resourcesPath = Path.Combine(resourcesDirectory, FileNames.LicensesXml);
+
+            using (File.Create(resourcesPath))
             {
-                AddMobileProject(settings, AppConstants.Startup, $"{settings.SavedProjectName}.{AppConstants.Gtk}",
-                    AppConstants.GtkTemplateName);
-
-                var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Gtk, "Program.cs");
-                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
-
-                AddReferenceToCoreProject(settings, AppConstants.Gtk);
-                GtkSharpAssetsGenerator.Instance.GenerateAssets(settings);
             }
 
-            internal static void AddUwpProject(ProjectSettings settings)
+            FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{FileNames.LicensesXml}", resourcesPath);
+
+            FileHelper.InsertString(Path.Combine(baseDirectory, $"{settings.SavedProjectName}.{FileExtensions.CsProj}"),
+                $"<EmbeddedResource Include=\"{StringLiterals.Configuration}\\{FileNames.AppConfigCs}\"/>",
+                $"<EmbeddedResource Include=\"{StringLiterals.Resources}\\{FileNames.LicensesXml}\"/>");
+
+            AddCodeForLicensesInApp(settings);
+        }
+
+        private static void AddCodeForLicensesInApp(ProjectSettings settings)
+        {
+            var baseDirectory = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
+                StringLiterals.Core, $"{settings.SavedProjectName}");
+
+            var navigateCommandPath = Path.Combine(baseDirectory, StringLiterals.Commands, StringLiterals.Navigation,
+                FileNames.NavigateToMenuCommandCs);
+
+            FileHelper.InsertStringAfter(navigateCommandPath,
+                "_menuViews = new Dictionary<MenuKind, Func<ViewViewModelPair>>", 1,
+                $"{CodeConstants.NavigateToLicenses}\n");
+
+            var aboutMenuPath = Path.Combine(baseDirectory, StringLiterals.Views, StringLiterals.Menu,
+                FileNames.AboutMenuXaml);
+
+            FileHelper.InsertString(aboutMenuPath, StringLiterals.MainRegionXamlComment,
+                $"\t\t\t{CodeConstants.LicensesMenuItem}");
+
+            var aboutVmPath = Path.Combine(baseDirectory, StringLiterals.ViewModels, StringLiterals.Menu,
+                FileNames.AboutMenuViewModelCs);
+
+            FileHelper.InsertString(aboutVmPath, "container.RegisterInstance(this);", CodeConstants.LicenseInfo);
+
+            FileHelper.InsertStringAfter(aboutVmPath, "Title = ResourceKeys.About;", 2,
+                "\t\tpublic ActionViewModel LicenseInfo { get; }\n");
+
+            var appInitializerPath = Path.Combine(baseDirectory, FileNames.AppInitializerCs);
+
+            FileHelper.InsertString(appInitializerPath, "//3. ViewModels",
+                "\t\t\t\t\t.RegisterType<LicensesMenuViewModel>()\n");
+
+            FileHelper.InsertString(appInitializerPath, "//4. Views",
+                "\t\t\t\t\t.RegisterType<LicensesInfoMenu>()\n");
+
+            AddAdditionalLicenses(settings);
+        }
+
+        private static void AddAdditionalLicenses(ProjectSettings settings)
+        {
+            var path = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile, StringLiterals.Core,
+                settings.SavedProjectName, StringLiterals.Resources, FileNames.LicensesXml);
+
+            var data = settings.ProjectTemplateData;
+
+            if (data.IsWebBackendIncluded)
             {
-                AddMobileProject(settings, AppConstants.Startup, $"{settings.SavedProjectName}.{AppConstants.Uwp}",
-                    AppConstants.UwpTemplateName);
-
-                var path = AppConstants.GetMobileProjectFilePath(settings, AppConstants.Uwp, "MainPage.xaml.cs");
-                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
-
-                AddReferenceToCoreProject(settings, AppConstants.Uwp);
-                UwpAssetsGenerator.Instance.GenerateAssets(settings);
+                FileHelper.InsertString(path, StringLiterals.LicenseInfoViewModelTag, CodeConstants.WebLicense);
             }
 
-            private static void AddMobileProject(ProjectSettings settings, string solutionFolderName,
-                string projectName, string templateName)
+            if (data.XamarinDatabaseInfrastructureType != XamarinDatabaseInfrastructureType.None)
             {
-                var templatePath = settings.Solution.GetProjectTemplate($"{templateName}.zip", "CSharp");
-                var mobileFolder = ProjectHelper.AddSolutionFolder(settings.Solution, AppConstants.Mobile);
-                var solutionFolder = ProjectHelper.AddSolutionFolder(mobileFolder, solutionFolderName);
-
-                var projectPath = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile,
-                    solutionFolderName, projectName);
-
-                ProjectHelper.AddProjectToSolutionFolder(solutionFolder, templatePath, projectPath, projectName);
-            }
-
-            private static void AddReferenceToCoreProject(ProjectSettings settings, string projectType)
-            {
-                var xamCoreProject = ProjectHelper.GetProjectByName(settings.Solution, settings.SavedProjectName,
-                    AppConstants.Core, AppConstants.Mobile);
-
-                var mobileProject = ProjectHelper.GetProjectByName(settings.Solution,
-                    $"{settings.SavedProjectName}.{projectType}",
-                    AppConstants.Startup, AppConstants.Mobile);
-
-                ProjectHelper.AddProjectReference(mobileProject, xamCoreProject);
-            }
-
-            public static void AddWebClientModule(ProjectSettings settings)
-            {
-                var interfacesProjectName =
-                    $"{settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.Interfaces}";
-
-                AddMobileProject(settings, AppConstants.Common, interfacesProjectName,
-                    AppConstants.MobileInterfacesTemplateName);
-
-                var interfacesProject = ProjectHelper.GetProjectByName(settings.Solution, interfacesProjectName,
-                    AppConstants.Common, AppConstants.Mobile);
-
-                var entitiesProjectName = $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Entities}";
-
-                var entitiesProject =
-                    ProjectHelper.GetProjectByName(settings.Solution, entitiesProjectName, AppConstants.Common);
-
-                var clientProjectName = $"{settings.SavedProjectName}.{AppConstants.WebClientModule}";
-
-                AddModule(settings, AppConstants.WebClientModule, AppConstants.WebClientTemplateName);
-
-                var clientProject = ProjectHelper.GetProjectByName(settings.Solution, clientProjectName,
-                    AppConstants.Modules, AppConstants.Mobile);
-
-                var infrastructureProjectName =
-                    $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Web}.{AppConstants.Infrastructure}";
-
-                var infrastructureProject =
-                    ProjectHelper.GetProjectByName(settings.Solution, infrastructureProjectName, AppConstants.Common);
-
-                ProjectHelper.AddProjectReference(clientProject, interfacesProject);
-                ProjectHelper.AddProjectReference(clientProject, infrastructureProject);
-                ProjectHelper.AddProjectReference(interfacesProject, entitiesProject);
-
-                EditWebClientNamespaces(settings);
-                EditCoreProjectFiles(settings);
-            }
-
-            private static void EditCoreProjectFiles(ProjectSettings settings)
-            {
-                //AppSettings.cs
-                var path = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile,
-                    AppConstants.Core, settings.SavedProjectName, "AppSettings.cs");
-
-                FileHelper.InsertString(path, "using System;",
-                    $"using {settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.Interfaces}.Services.Web;\n");
-
-                FileHelper.ReplaceString(path, "public class AppSettings : AppSettingsBase",
-                    "public class AppSettings : AppSettingsBase, IWebClientSettings");
-
-                FileHelper.UncommentCs(path, ReplacementTokens.WebClientRegistration);
-
-                //AppLifeTimeManager.cs
-                path = path.Replace("AppSettings.cs", "AppLifeTimeManager.cs");
-
-                FileHelper.InsertString(path, "using Unity;",
-                    $"using {settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.Interfaces}.Services.Web;\n");
-
-                FileHelper.ReplaceString(path, "private void InitializeModelController()",
-                    AppConstants.InitializeModelControllerMethod);
-
-                FileHelper.InsertStringAfter(path, AppConstants.InitializeModelControllerMethod, 1,
-                    AppConstants.InitializeModelController);
-            }
-
-            private static void EditWebClientNamespaces(ProjectSettings settings)
-            {
-                var files = new[]
-                {
-                    "WebClientModuleInitializer.cs", Path.Combine("Services", "WeatherWebService.cs"),
-                    Path.Combine("Services", "Internal", "WebClientFactory.cs")
-                };
-
-                var path = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile,
-                    AppConstants.Modules, $"{settings.SavedProjectName}.{AppConstants.WebClientModule}");
-
-                foreach (var file in files)
-                {
-                    FileHelper.ReplaceString(Path.Combine(path, file), ReplacementTokens.TemplateNamespace,
-                        settings.SavedProjectName);
-                }
-
-                path = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile,
-                    AppConstants.Common, $"{settings.SavedProjectName}.{AppConstants.Mobile}.{AppConstants.Interfaces}",
-                    "Services", "Web", "IWeatherWebService.cs");
-
-                FileHelper.ReplaceString(path, ReplacementTokens.TemplateNamespace, settings.SavedProjectName);
-            }
-
-            public static void AddReferenceToEntitiesProject(ProjectSettings settings)
-            {
-                var path = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile, AppConstants.Core,
-                    settings.SavedProjectName, $"{settings.SavedProjectName}.csproj");
-
-                var entitiesProjectName = $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Entities}";
-
-                FileHelper.InsertString(path, "</ItemGroup>",
-                    "\n <ItemGroup>\n <ProjectReference Include =\"..\\..\\..\\Common\\" + entitiesProjectName + "\\"
-                    + entitiesProjectName + ".csproj\" />\n  </ItemGroup>\n\n");
-            }
-
-            public static void AddLicensesInfoPage(ProjectSettings settings)
-            {
-                var baseDirectory = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile,
-                    AppConstants.Core, $"{settings.SavedProjectName}");
-
-                var viewsDirectory = Path.Combine(baseDirectory, "Views", "Menu");
-                var licensesViewName = "LicensesInfoMenu";
-                var viewCsPathPath = Path.Combine(viewsDirectory, $"{licensesViewName}.xaml.cs");
-                var stream = File.Create(viewCsPathPath);
-                stream.Close();
-                FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{licensesViewName}cs.template",
-                    viewCsPathPath);
-                FileHelper.ReplaceString(viewCsPathPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
-
-                var viewXamlPath = Path.Combine(viewsDirectory, $"{licensesViewName}.xaml");
-                stream = File.Create(viewXamlPath);
-                stream.Close();
-                FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{licensesViewName}.template", viewXamlPath);
-                FileHelper.ReplaceString(viewXamlPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
-
-                var vmsDirectory = Path.Combine(baseDirectory, "ViewModels", "Menu");
-                var licensesVmName = "LicensesMenuViewModel";
-                var vmPath = Path.Combine(vmsDirectory, $"{licensesVmName}.cs");
-                stream = File.Create(vmPath);
-                stream.Close();
-                FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{licensesVmName}.template", vmPath);
-                FileHelper.ReplaceString(vmPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
-
-                var resourcesDirectory = Path.Combine(baseDirectory, "Resources");
-                var resourcesName = "Licenses.xml";
-                var resourcesPath = Path.Combine(resourcesDirectory, resourcesName);
-                stream = File.Create(resourcesPath);
-                stream.Close();
-                FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{resourcesName}", resourcesPath);
-                FileHelper.InsertString(Path.Combine(baseDirectory, $"{settings.SavedProjectName}.csproj"),
-                    "<EmbeddedResource Include=\"Configuration\\app.config\" />",
-                    $"<EmbeddedResource Include=\"Resources\\{resourcesName}\" />");
-
-                AddCodeForLicensesInApp(settings);
-            }
-
-            private static void AddCodeForLicensesInApp(ProjectSettings settings)
-            {
-                var baseDirectory = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile,
-                    AppConstants.Core, $"{settings.SavedProjectName}");
-
-                var navigateCommandPath = Path.Combine(baseDirectory, "Commands", "Navigation",
-                    "NavigateToMenuCommand.cs");
-                FileHelper.InsertStringAfter(navigateCommandPath,
-                    "_menuViews = new Dictionary<MenuKind, Func<ViewViewModelPair>>", 1,
-                    $"{AppConstants.NavigateToLicenses}\n");
-
-                var aboutMenuPath = Path.Combine(baseDirectory, "Views", "Menu", "AboutMenu.xaml");
-                FileHelper.InsertString(aboutMenuPath, "<!--Main region-->", $"\t\t\t{AppConstants.LicensesMenuItem}");
-
-                var aboutVmPath = Path.Combine(baseDirectory, "ViewModels", "Menu", "AboutMenuViewModel.cs");
-                FileHelper.InsertString(aboutVmPath, "container.RegisterInstance(this);", AppConstants.LicenseInfo);
-                FileHelper.InsertStringAfter(aboutVmPath, "Title = ResourceKeys.About;", 2,
-                    "\t\tpublic ActionViewModel LicenseInfo { get; }\n");
-
-                var appInitializerPath = Path.Combine(baseDirectory, "AppInitializer.cs");
-                FileHelper.InsertString(appInitializerPath, "//3. ViewModels",
-                    "\t\t\t\t\t.RegisterType<LicensesMenuViewModel>()\n");
-                FileHelper.InsertString(appInitializerPath, "//4. Views",
-                    "\t\t\t\t\t.RegisterType<LicensesInfoMenu>()\n");
-
-                AddAdditionalLicenses(settings);
-            }
-
-            private static void AddAdditionalLicenses(ProjectSettings settings)
-            {
-                var path = Path.Combine(settings.SavedPath, AppConstants.Src, AppConstants.Mobile, AppConstants.Core,
-                    settings.SavedProjectName, "Resources", "Licenses.xml");
-                var data = settings.ProjectTemplateData;
-
-                if (data.IsWebBackendIncluded)
-                {
-                    FileHelper.InsertString(path, "</LicenseInfoViewModel>", AppConstants.WebLicense);
-                }
-
-                if (data.XamarinDatabaseInfrastructureType != XamarinDatabaseInfrastructureType.None)
-                {
-                    FileHelper.InsertString(path, "</LicenseInfoViewModel>", AppConstants.DatabaseLicenses);
-                }
+                FileHelper.InsertString(path, StringLiterals.LicenseInfoViewModelTag, CodeConstants.DatabaseLicenses);
             }
         }
 

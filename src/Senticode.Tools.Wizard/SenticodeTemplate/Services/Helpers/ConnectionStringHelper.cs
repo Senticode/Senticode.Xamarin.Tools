@@ -5,13 +5,13 @@ namespace SenticodeTemplate.Services.Helpers
     internal static class ConnectionStringHelper
     {
         private static string GetDbFileName(ProjectSettings settings, string scope) =>
-            $"Default.{settings.SavedProjectName}.{scope}.db";
+            $"Default.{settings.SavedProjectName}.{scope}.{FileExtensions.Db}";
 
         public static string GetXamarinDbFileName(ProjectSettings settings) =>
-            GetDbFileName(settings, AppConstants.Mobile);
+            GetDbFileName(settings, StringLiterals.Mobile);
 
         public static string GetWebDbFileName(ProjectSettings settings) =>
-            GetDbFileName(settings, AppConstants.Web);
+            GetDbFileName(settings, StringLiterals.Web);
 
         public static string GetSqLiteConnectionString(string dbFileName) => $"Data Source={dbFileName}";
         public static string GetPostgreConnectionString(string dbFileName) => $"Database={dbFileName}";

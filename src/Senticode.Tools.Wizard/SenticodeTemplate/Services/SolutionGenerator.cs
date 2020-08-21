@@ -10,7 +10,7 @@ namespace SenticodeTemplate.Services
             CommonProjectManager.Instance,
             XamarinProjectManager.Instance,
             WebProjectManager.Instance,
-            SolutionwideProjectManager.Instance
+            SolutionProjectManager.Instance
         };
 
         public void Run()

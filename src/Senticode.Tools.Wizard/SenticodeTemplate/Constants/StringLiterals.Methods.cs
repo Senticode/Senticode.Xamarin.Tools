@@ -3,20 +3,20 @@ using SenticodeTemplate.Services;
 
 namespace SenticodeTemplate.Constants
 {
-    internal static partial class AppConstants
+    internal static partial class StringLiterals
     {
         public static string GetWebApiProjectFilePath(ProjectSettings settings, string fileName) => Path.Combine(
             settings.SavedPath, Src, Web, $"{settings.SavedProjectName}.{Web}.{Api}", fileName);
 
         public static string GetWebDatabaseProjectFilePath(ProjectSettings settings) =>
-            GetWebDatabaseProjectFilePath(settings, $"{settings.SavedProjectName}.{DataAccessWebModule}.csproj");
+            GetWebDatabaseProjectFilePath(settings, $"{settings.SavedProjectName}.{DataAccessWebModule}.{FileExtensions.CsProj}");
 
         public static string GetWebDatabaseProjectFilePath(ProjectSettings settings, string fileName) => Path.Combine(
             settings.SavedPath, Src, Web, Modules, $"{settings.SavedProjectName}.{DataAccessWebModule}", fileName);
 
         public static string GetXamarinDatabaseProjectFilePath(ProjectSettings settings) =>
             GetXamarinDatabaseProjectFilePath(settings,
-                $"{settings.SavedProjectName}.{DataAccessXamarinModule}.csproj");
+                $"{settings.SavedProjectName}.{DataAccessXamarinModule}.{FileExtensions.CsProj}");
 
         public static string GetXamarinDatabaseProjectFilePath(ProjectSettings settings, string fileName) =>
             Path.Combine(settings.SavedPath, Src, Mobile, Modules,

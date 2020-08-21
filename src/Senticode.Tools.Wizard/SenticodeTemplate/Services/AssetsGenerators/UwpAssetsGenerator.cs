@@ -20,8 +20,8 @@ namespace SenticodeTemplate.Services.AssetsGenerators
         public void GenerateAssets(ProjectSettings settings)
         {
             var data = settings.ProjectTemplateData;
-            var rootPath = AppConstants.GetMobileProjectPath(settings, AppConstants.Uwp);
-            var manifestFile = Path.Combine(rootPath, "Package.appxmanifest");
+            var rootPath = StringLiterals.GetMobileProjectPath(settings, StringLiterals.Uwp);
+            var manifestFile = Path.Combine(rootPath, FileNames.PackageAppXManifest);
             var manifestContent = File.ReadAllText(manifestFile);
             var splashColor = HexRgbaConverter.ToHexWithNoAlpha(data.SplashScreenBackgroundColor);
             var iconColor = HexRgbaConverter.ToHexWithNoAlpha(data.AppIconBackgroundColor);

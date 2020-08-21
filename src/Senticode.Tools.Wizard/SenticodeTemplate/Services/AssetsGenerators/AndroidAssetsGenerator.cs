@@ -8,7 +8,6 @@ namespace SenticodeTemplate.Services.AssetsGenerators
 {
     internal sealed class AndroidAssetsGenerator : IAssetsGenerator
     {
-        private const string ResourceFolder = "Resources";
         private const string AppIconBackgroundColorToken = "@color/colorIconDefaultBackground";
         private const string SplashScreenBackgroundColorToken = "@color/colorSplashScreenDefaultBackground";
         private const string AppIconAssetName = "icon.png";
@@ -18,29 +17,29 @@ namespace SenticodeTemplate.Services.AssetsGenerators
         private static readonly IReadOnlyList<AssetInfo> MipmapFolders = new List<AssetInfo>
         {
             //{Path.Combine(ResourcesFolder, "drawable-ldpi"), 0.75d / 4d}, //todo VDE: deal with it
-            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-mdpi"), 1d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-hdpi"), 1.5d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-xhdpi"), 2d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-xxhdpi"), 3d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "mipmap-xxxhdpi"), 1)
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-mdpi"), 1d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-hdpi"), 1.5d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-xhdpi"), 2d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-xxhdpi"), 3d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-xxxhdpi"), 1)
         };
 
         private static readonly IReadOnlyList<AssetInfo> DrawableFolders = new List<AssetInfo>
         {
-            new AssetInfo(Path.Combine(ResourceFolder, "drawable-ldpi"), 0.75d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "drawable-mdpi"), 1d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "drawable-hdpi"), 1.5d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "drawable-xhdpi"), 2d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "drawable-xxhdpi"), 3d / 4d),
-            new AssetInfo(Path.Combine(ResourceFolder, "drawable-xxxhdpi"), 1)
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "drawable-ldpi"), 0.75d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "drawable-mdpi"), 1d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "drawable-hdpi"), 1.5d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "drawable-xhdpi"), 2d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "drawable-xxhdpi"), 3d / 4d),
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "drawable-xxxhdpi"), 1)
         };
 
-        private readonly string _colorFile = Path.Combine(ResourceFolder, "values", "colors.xml");
+        private readonly string _colorFile = Path.Combine(StringLiterals.Resources, "values", "colors.xml");
 
         public void GenerateAssets(ProjectSettings settings)
         {
             var data = settings.ProjectTemplateData;
-            var rootPath = AppConstants.GetMobileProjectPath(settings, AppConstants.Android);
+            var rootPath = StringLiterals.GetMobileProjectPath(settings, StringLiterals.Android);
             var colorFile = Path.Combine(rootPath, _colorFile);
             FileHelper.ReplaceString(colorFile, AppIconBackgroundColorToken, data.AppIconBackgroundColor);
             FileHelper.ReplaceString(colorFile, SplashScreenBackgroundColorToken, data.SplashScreenBackgroundColor);

@@ -10,52 +10,56 @@ namespace SenticodeTemplate.Services.Managers
         public void Compose()
         {
             var settings = ProjectSettings.Instance;
-            var data = settings.ProjectTemplateData;
-            CommonProjectHelper.AddEntitiesProject(settings);
-
-            if (data.IsWebBackendIncluded)
-            {
-                CommonProjectHelper.AddWebInfrastructureProject(settings);
-            }
-
-            if (data.IsReadmeIncluded)
-            {
-                CommonProjectHelper.IncludeReadme(settings);
-            }
+            AddEntitiesProject(settings);
+            AddWebInfrastructureProject(settings);
+            AddReadme(settings);
         }
 
-        private static class CommonProjectHelper
+        private static void AddEntitiesProject(ProjectSettings settings)
         {
-            internal static void AddEntitiesProject(ProjectSettings settings)
+            var projectName = $"{settings.SavedProjectName}.{StringLiterals.Common}.{StringLiterals.Entities}";
+            AddProject(settings, StringLiterals.Common, TemplateProjectNames.CommonEntities, projectName);
+        }
+
+        private static void AddProject(ProjectSettings settings, string folderName, string templateName,
+            string projectName)
+        {
+            var templatePath =
+                settings.Solution.GetProjectTemplate($"{templateName}.{FileExtensions.Zip}", LanguageNames.CSharp);
+
+            var projectPath = Path.Combine(settings.SavedPath, StringLiterals.Src, folderName, projectName);
+            var solutionFolder = ProjectHelper.AddSolutionFolder(settings.Solution, folderName);
+
+            ProjectHelper.AddProjectToSolutionFolder(solutionFolder, templatePath, projectPath, projectName);
+        }
+
+        private static void AddWebInfrastructureProject(ProjectSettings settings)
+        {
+            if (!settings.ProjectTemplateData.IsWebBackendIncluded)
             {
-                var projectName = $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Entities}";
-                AddProject(settings, AppConstants.Common, AppConstants.CommonEntitiesTemplateName, projectName);
+                return;
             }
 
-            private static void AddProject(ProjectSettings settings, string folderName, string templateName,
-                string projectName)
+            var projectName =
+                $"{settings.SavedProjectName}.{StringLiterals.Common}.{StringLiterals.Web}.{StringLiterals.Infrastructure}";
+
+            AddProject(settings, StringLiterals.Common, TemplateProjectNames.WebInfrastructure, projectName);
+        }
+
+        private static void AddReadme(ProjectSettings settings)
+        {
+            if (!settings.ProjectTemplateData.IsReadmeIncluded)
             {
-                var templatePath = settings.Solution.GetProjectTemplate($"{templateName}.zip", "CSharp");
-                var projectPath = Path.Combine(settings.SavedPath, AppConstants.Src, folderName, projectName);
-                var solutionFolder = ProjectHelper.AddSolutionFolder(settings.Solution, folderName);
-                ProjectHelper.AddProjectToSolutionFolder(solutionFolder, templatePath, projectPath, projectName);
+                return;
             }
 
-            public static void AddWebInfrastructureProject(ProjectSettings settings)
-            {
-                var projectName =
-                    $"{settings.SavedProjectName}.{AppConstants.Common}.{AppConstants.Web}.{AppConstants.Infrastructure}";
+            var path = Path.Combine(settings.SavedPath, FileNames.ReadmeMd);
 
-                AddProject(settings, AppConstants.Common, AppConstants.WebInfrastructureTemplateName, projectName);
+            using (File.Create(path))
+            {
             }
 
-            public static void IncludeReadme(ProjectSettings settings)
-            {
-                var path = Path.Combine(settings.SavedPath, "README.md");
-                var stream = File.Create(path);
-                stream.Close();
-                FileHelper.ReplaceText("SenticodeTemplate.TemplateFiles.README.md", path);
-            }
+            FileHelper.ReplaceText(FileNames.SenticodeTemplateTemplateFilesReadmeMd, path);
         }
 
         #region singleton
