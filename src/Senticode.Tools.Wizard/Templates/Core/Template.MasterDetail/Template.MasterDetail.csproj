@@ -6,7 +6,7 @@
     <RootNamespace>_template.MasterDetail</RootNamespace>
     <AssemblyName>_template.MasterDetail</AssemblyName>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>RELEASE</DefineConstants>
     <OutputPath>..\..\..\..\..\out\_release\templates\mobile\</OutputPath>
@@ -24,14 +24,15 @@
     <None Remove="Resources\Images\Arrow_left.png" />
   </ItemGroup>
 
- <ItemGroup>
- <ProjectReference Include="..\..\..\Templates.Common\Template.Common.Entities\Template.Common.Entities.csproj" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Templates.Common\Template.Common.Entities\Template.Common.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Configuration\app.config" />
+    <!--_licenses_--><!--<EmbeddedResource Include="Resources\Licenses.xml" />-->
     <EmbeddedResource Include="Resources\Images\Arrow_left.png" />
-  </ItemGroup>  
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Senticode.Base" Version="1.0.0.15" />

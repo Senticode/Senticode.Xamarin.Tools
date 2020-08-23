@@ -18,5 +18,10 @@ namespace SenticodeTemplate.Constants
         public const string MsSql = "_mssql_";
         public const string Postgre = "_postgre_";
         public const string WebClientRegistration = "_webclientregistration_";
+        public const string ConfigureSwagger = "_configureSwagger_";
+        public const string AddSwagger = "_addSwagger_";
+        public const string Licenses = "_licenses_";
+        public const string LicensesInfo = "_licensesInfo_";
+        public const string LicensesInfoProperty = "_licensesInfoProperty_";
     }
 }

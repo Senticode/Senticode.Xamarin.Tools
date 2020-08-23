@@ -4,7 +4,7 @@
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:abstractions="clr-namespace:Senticode.Xamarin.Tools.MVVM.Abstractions;assembly=Senticode.Xamarin.Tools.MVVM"
                        xmlns:menu1="clr-namespace:_template.MasterDetail.ViewModels.Menu;assembly=_template.MasterDetail"
-                       xmlns:menuElements1="clr-namespace:_template.MasterDetail.Views.Menu.MenuElements;assembly=_template.MasterDetail"
+                       xmlns:menuElements="clr-namespace:_template.MasterDetail.Views.Menu.MenuElements;assembly=_template.MasterDetail"
                        x:Class="_template.MasterDetail.Views.Menu.AboutMenu"
                        x:Name="Root"
                        x:DataType="{x:Type menu1:AboutMenuViewModel}"
@@ -18,7 +18,7 @@
             </Grid.RowDefinitions>
 
             <!--Title-->
-            <menuElements1:TitleMenuRegion Grid.Row="0" />
+            <menuElements:TitleMenuRegion Grid.Row="0" />
             <!--Main region-->
 
         </Grid>

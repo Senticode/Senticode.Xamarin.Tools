@@ -10,10 +10,10 @@ namespace _template.WebClientModule
     {
         public IUnityContainer Initialize(IUnityContainer container)
         {
-            //Internal
+            // Internal.
             container.RegisterType<IWebClientFactory, WebClientFactory>();
 
-            //External
+            // External.
             container.RegisterType<IWeatherWebService, WeatherWebService>();
 
             return container;

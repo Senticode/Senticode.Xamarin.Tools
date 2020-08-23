@@ -22,6 +22,12 @@ namespace SenticodeTemplate.Services.Helpers
             File.WriteAllText(destination, text);
         }
 
+        public static void InsertStringAtStart(string path, string text)
+        {
+            var contents = File.ReadAllText(path);
+            File.WriteAllText(path, $"{text}{contents}");
+        }
+
         public static void InsertString(string path, string position, string text)
         {
             var sb = new StringBuilder();

@@ -190,8 +190,8 @@
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="TemplateFiles\Dockerfile" />
-    <EmbeddedResource Include="TemplateFiles\LicensesInfoMenucs.template" />
-    <EmbeddedResource Include="TemplateFiles\LicensesInfoMenu.template" />
+    <EmbeddedResource Include="TemplateFiles\LicensesInfoMenuCs.template" />
+    <EmbeddedResource Include="TemplateFiles\LicensesInfoMenuXaml.template" />
     <EmbeddedResource Include="TemplateFiles\LicensesMenuViewModel.template" />
     <EmbeddedResource Include="TemplateFiles\README.md" />
   </ItemGroup>

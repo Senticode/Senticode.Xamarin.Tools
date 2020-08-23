@@ -18,6 +18,7 @@ namespace _template.Web.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            /*_addSwagger_*/ /*AddSwagger(services);*/
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -25,13 +26,16 @@ namespace _template.Web.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                /*_configureSwagger_*/ /*ConfigureSwagger(app);*/
             }
 
             app
                 .UseHttpsRedirection()
                 .UseRouting()
                 .UseAuthorization()
-                .UseEndpoints(endpoints => { endpoints.MapControllers(); });
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
+
+        // Swagger methods.
     }
 }

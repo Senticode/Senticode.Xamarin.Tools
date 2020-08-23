@@ -37,18 +37,16 @@ namespace SenticodeTemplate.Services.Managers
         {
             var settings = ProjectSettings.Instance;
             var data = settings.ProjectTemplateData;
+            var webCustomModules = data.CustomModules.Where(x => x.ModuleType == ModuleType.Web).ToList();
 
-            if (data.CustomModules.Count == 0)
+            if (webCustomModules.Count == 0)
             {
                 return;
             }
 
-            foreach (var module in data.CustomModules)
+            foreach (var module in webCustomModules)
             {
-                if (module.ModuleType == ModuleType.Web)
-                {
-                    AddModule(settings, module.Name);
-                }
+                AddModule(settings, module.Name);
             }
         }
 
@@ -134,13 +132,11 @@ namespace SenticodeTemplate.Services.Managers
                 $"{settings.SavedProjectName}.{StringLiterals.Web}.{StringLiterals.Api}.{FileExtensions.CsProj}",
                 FileNames.StartupCs);
 
-            FileHelper.InsertString(startupPath, "using System;", "using Microsoft.OpenApi.Models;\n");
-            FileHelper.InsertString(startupPath, "services.AddControllers();", "\t\t\tAddSwagger(services);\n");
+            FileHelper.InsertStringAtStart(startupPath, "using Microsoft.OpenApi.Models;\n");
+            FileHelper.UncommentCs(startupPath, ReplacementTokens.AddSwagger);
+            FileHelper.UncommentCs(startupPath, ReplacementTokens.ConfigureSwagger);
 
-            FileHelper.InsertStringAfter(startupPath, "app.UseDeveloperExceptionPage();", 1,
-                "\n\t\t\tConfigureSwagger(app);\n");
-
-            FileHelper.InsertStringAfter(startupPath, "endpoints.MapControllers();", 2,
+            FileHelper.ReplaceString(startupPath, StringLiterals.SwaggerMethodsComment,
                 $"\t\t{CodeConstants.SwaggerMethods.Replace(ReplacementTokens.ProjectName, $"\"{settings.SavedProjectName}\"")}\n");
         }
 
@@ -190,7 +186,7 @@ namespace SenticodeTemplate.Services.Managers
             {
             }
 
-            FileHelper.ReplaceText(FileNames.SenticodeTemplateTemplateFilesDockerfile,
+            FileHelper.ReplaceText(FileNames.DockerfileTemplate,
                 Path.Combine(webProjectPath, StringLiterals.Dockerfile));
         }
 
@@ -294,7 +290,8 @@ namespace SenticodeTemplate.Services.Managers
             AddProject(settings, StringLiterals.Web, StringLiterals.Modules,
                 template, $"{settings.SavedProjectName}.{moduleName}");
 
-            var classname = ProjectHelper.RenameModuleInitializer(settings.SavedPath, settings.SavedProjectName,
+            var moduleInitializerName = ProjectHelper.RenameModuleInitializer(settings.SavedPath,
+                settings.SavedProjectName,
                 StringLiterals.Web, moduleName);
 
             var webCommonProjectName =
@@ -311,12 +308,14 @@ namespace SenticodeTemplate.Services.Managers
             FileHelper.InsertString(moduleProjectPath, StringLiterals.PropertyGroupTag,
                 $"\n<ItemGroup>\n<ProjectReference Include=\"..\\..\\Common\\{webCommonProjectName}\\{webCommonProjectName}.{FileExtensions.CsProj}\"/>\n</ItemGroup>\n");
 
-            var path = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Web,
+            var moduleInitializerPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Web,
                 StringLiterals.Modules, $"{settings.SavedProjectName}.{moduleName}",
-                $"{classname}.{FileExtensions.Cs}");
+                $"{moduleInitializerName}.{FileExtensions.Cs}");
 
-            FileHelper.InsertString(path, "using Microsoft.Extensions.DependencyInjection;",
-                $"using {webCommonProjectName}.Core;\n");
+            FileHelper.InsertStringAtStart(moduleInitializerPath, $"using {webCommonProjectName}.Core;\n");
+
+            FileHelper.ReplaceString(moduleInitializerPath, ReplacementTokens.TemplateNamespace,
+                settings.SavedProjectName);
 
             var moduleAggregatorName =
                 $"{settings.SavedProjectName}.{StringLiterals.Web}.{StringLiterals.ModuleAggregator}";
@@ -326,15 +325,13 @@ namespace SenticodeTemplate.Services.Managers
 
             ProjectHelper.AddProjectReference(moduleAggregatorProject, module);
 
-            var maPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Web,
+            var moduleAggregatorPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Web,
                 moduleAggregatorName, $"{StringLiterals.ModuleAggregator}.{FileExtensions.Cs}");
 
-            FileHelper.InsertString(maPath, "using Microsoft.Extensions.DependencyInjection;",
-                $"using {settings.SavedProjectName}.{moduleName};\n");
+            FileHelper.InsertStringAtStart(moduleAggregatorPath, $"using {settings.SavedProjectName}.{moduleName};\n");
 
-            FileHelper.InsertStringAfter(maPath,
-                "public IServiceCollection Initialize(IServiceCollection services)", 1,
-                $"\t\t\t{classname}.Instance.Initialize(services);\n");
+            FileHelper.InsertString(moduleAggregatorPath, StringLiterals.ModulesRegistrationComment,
+                $"\t\t\t{moduleInitializerName}.Instance.Initialize(services);\n");
         }
 
         private static void AddModulesToDockerfile(ProjectSettings settings, IEnumerable<string> modules)

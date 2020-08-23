@@ -11,6 +11,7 @@ namespace _template.Mobile.ModuleAggregator
         {
             if (!IsRegistered)
             {
+                // Modules registration.
                 IsRegistered = true;
             }
 

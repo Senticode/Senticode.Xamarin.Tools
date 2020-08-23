@@ -12,7 +12,7 @@ namespace SenticodeTemplate.Services.Managers
         {
             var settings = ProjectSettings.Instance;
             AddTestProjects(settings);
-            IncludeVersioningSystem(settings);
+            AddVersioningSystem(settings);
         }
 
         private static void AddProject(ProjectSettings settings, string folderName, string templateName,
@@ -61,7 +61,7 @@ namespace SenticodeTemplate.Services.Managers
             }
         }
 
-        private static void IncludeVersioningSystem(ProjectSettings settings)
+        private static void AddVersioningSystem(ProjectSettings settings)
         {
             if (!settings.ProjectTemplateData.IsVersioningSystemIncluded)
             {
@@ -75,7 +75,8 @@ namespace SenticodeTemplate.Services.Managers
             {
             }
 
-            FileHelper.ReplaceText(FileNames.SenticodeTemplateTemplateFilesAssemblyInfoTemplate, path);
+            FileHelper.ReplaceText(FileNames.AssemblyInfoTemplate, path);
+
             var projects = Directory.GetFiles(settings.SavedPath, $"*.{FileExtensions.CsProj}",
                 SearchOption.AllDirectories);
 

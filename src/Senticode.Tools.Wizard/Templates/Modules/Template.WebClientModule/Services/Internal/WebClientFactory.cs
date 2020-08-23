@@ -10,8 +10,7 @@ namespace _template.WebClientModule.Services.Internal
 
         public WebClientFactory(IUnityContainer container)
         {
-            container.RegisterInstance(this);
-            _container = container;
+            _container = container.RegisterInstance(this);
         }
 
         public IWebClientSettings WebClientSettings => _container.Resolve<IWebClientSettings>();

@@ -59,7 +59,7 @@ namespace SenticodeTemplate.Services.Managers
             {
             }
 
-            FileHelper.ReplaceText(FileNames.SenticodeTemplateTemplateFilesReadmeMd, path);
+            FileHelper.ReplaceText(FileNames.ReadmeTemplate, path);
         }
 
         #region singleton

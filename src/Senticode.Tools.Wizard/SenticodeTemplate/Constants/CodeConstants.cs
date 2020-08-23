@@ -59,14 +59,6 @@
         public const string LicensesMenuItem =
             "<menuElements:MenuItemView Grid.Row=\"2\" BindingContext=\"{Binding LicenseInfo}\" />";
 
-        public const string LicenseInfo = @"
-        LicenseInfo =
-            new ActionViewModel(ResourceKeys.Licenses)
-            {
-                Command = Container.Resolve<NavigateToMenuCommand>(),
-                Parameter = MenuKind.Licenses
-            };";
-
         public const string DatabaseLicenses = @"
         <LicenseInfoViewModel>
             <Name>Microsoft.EntityFrameworkCore.Sqlite</Name>

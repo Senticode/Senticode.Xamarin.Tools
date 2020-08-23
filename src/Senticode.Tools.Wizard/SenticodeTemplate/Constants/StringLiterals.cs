@@ -2,7 +2,6 @@
 {
     internal static partial class StringLiterals
     {
-        public static readonly string Configuration = nameof(Configuration);
         public static readonly string Internal = nameof(Internal);
         public static readonly string Navigation = nameof(Navigation);
         public static readonly string Commands = nameof(Commands);
@@ -33,7 +32,6 @@
         public static readonly string DataAccessXamarinModule = nameof(DataAccessXamarinModule);
         public static readonly string DataAccessWebModule = nameof(DataAccessWebModule);
         public static readonly string LicensesInfoMenu = nameof(LicensesInfoMenu);
-        public static readonly string LicensesMenuViewModel = nameof(LicensesMenuViewModel);
         public static readonly string Uwp = "UWP";
         public static readonly string Ios = "iOS";
         public static readonly string Android = "Android";
@@ -48,5 +46,7 @@
         public const string ItemGroupTag = "</ItemGroup>";
         public const string LicenseInfoViewModelTag = "</LicenseInfoViewModel>";
         public const string MainRegionXamlComment = "<!--Main region-->";
+        public const string ModulesRegistrationComment = "// Modules registration.";
+        public const string SwaggerMethodsComment = "// Swagger methods.";
     }
 }

@@ -115,21 +115,22 @@ namespace SenticodeTemplate.Services.Managers
         {
             AddMobileProject(settings, StringLiterals.Modules, $"{settings.SavedProjectName}.{moduleName}", template);
 
-            var classname = ProjectHelper.RenameModuleInitializer(settings.SavedPath, settings.SavedProjectName,
+            var moduleInitializerName = ProjectHelper.RenameModuleInitializer(settings.SavedPath,
+                settings.SavedProjectName,
                 StringLiterals.Mobile, moduleName);
 
             var moduleAggregatorProjectName =
                 $"{settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.ModuleAggregator}";
 
             // Add modules to module aggregator.
-            var maPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
+            var moduleAggregatorPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
                 StringLiterals.Core, moduleAggregatorProjectName,
                 $"{StringLiterals.ModuleAggregator}.{FileExtensions.Cs}");
 
-            FileHelper.InsertStringAfter(maPath, "if (!IsRegistered)", 1,
-                $"\t\t\t\t{classname}.Instance.Initialize(container);\n");
+            FileHelper.InsertString(moduleAggregatorPath, StringLiterals.ModulesRegistrationComment,
+                $"\t\t\t\t{moduleInitializerName}.Instance.Initialize(container);\n");
 
-            FileHelper.InsertString(maPath, "using Unity;", $"using {settings.SavedProjectName}.{moduleName};\n");
+            FileHelper.InsertStringAtStart(moduleAggregatorPath, $"using {settings.SavedProjectName}.{moduleName};\n");
 
             var moduleAggregatorProject = ProjectHelper.GetProjectByName(settings.Solution,
                 moduleAggregatorProjectName, StringLiterals.Core, StringLiterals.Mobile);
@@ -153,7 +154,7 @@ namespace SenticodeTemplate.Services.Managers
             FileHelper.InsertString(appInitializerPath, "//1. Register modules",
                 $"\t\t\t\t{StringLiterals.ModuleAggregator}.Instance.Initialize(container);\n");
 
-            FileHelper.InsertString(appInitializerPath, "using Senticode.Base.Interfaces;",
+            FileHelper.InsertStringAtStart(appInitializerPath,
                 $"using {settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.ModuleAggregator};\n");
 
             var projectFilePath = appInitializerPath.Replace($"{StringLiterals.AppInitializer}.{FileExtensions.Cs}",
@@ -301,7 +302,7 @@ namespace SenticodeTemplate.Services.Managers
             var appSettingsPath = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
                 StringLiterals.Core, settings.SavedProjectName, FileNames.AppSettingsCs);
 
-            FileHelper.InsertString(appSettingsPath, "using System;",
+            FileHelper.InsertStringAtStart(appSettingsPath,
                 $"using {settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.Interfaces}.Services.Web;\n");
 
             FileHelper.ReplaceString(appSettingsPath, "public class AppSettings : AppSettingsBase",
@@ -313,7 +314,7 @@ namespace SenticodeTemplate.Services.Managers
             var appLifeTimeManagerPath =
                 appSettingsPath.Replace(FileNames.AppSettingsCs, FileNames.AppLifeTimeManagerCs);
 
-            FileHelper.InsertString(appLifeTimeManagerPath, "using Unity;",
+            FileHelper.InsertStringAtStart(appLifeTimeManagerPath,
                 $"using {settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.Interfaces}.Services.Web;\n");
 
             FileHelper.ReplaceString(appLifeTimeManagerPath, "private void InitializeModelController()",
@@ -345,7 +346,7 @@ namespace SenticodeTemplate.Services.Managers
                 StringLiterals.Mobile,
                 StringLiterals.Common,
                 $"{settings.SavedProjectName}.{StringLiterals.Mobile}.{StringLiterals.Interfaces}",
-                StringLiterals.Services, StringLiterals.Web, FileNames.IWeatherWebServiceCs);
+                StringLiterals.Services, StringLiterals.Web, FileNames.InterfaceWeatherWebServiceCs);
 
             FileHelper.ReplaceString(weatherWebServiceInterfacePath, ReplacementTokens.TemplateNamespace,
                 settings.SavedProjectName);
@@ -372,59 +373,55 @@ namespace SenticodeTemplate.Services.Managers
             }
 
             var baseDirectory = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
-                StringLiterals.Core, $"{settings.SavedProjectName}");
+                StringLiterals.Core, settings.SavedProjectName);
 
             var viewsDirectory = Path.Combine(baseDirectory, StringLiterals.Views, StringLiterals.Menu);
-            var viewCsPathPath =
+
+            var licensesInfoMenuCsPath =
                 Path.Combine(viewsDirectory, $"{StringLiterals.LicensesInfoMenu}.{FileExtensions.XamlCs}");
 
-            using (File.Create(viewCsPathPath))
+            using (File.Create(licensesInfoMenuCsPath))
             {
             }
 
-            FileHelper.ReplaceText(
-                $"SenticodeTemplate.TemplateFiles.{StringLiterals.LicensesInfoMenu}.{FileExtensions.Template}",
-                viewCsPathPath);
+            FileHelper.ReplaceText(FileNames.LicensesInfoMenuCsTemplate, licensesInfoMenuCsPath);
 
-            FileHelper.ReplaceString(viewCsPathPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
+            FileHelper.ReplaceString(licensesInfoMenuCsPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
 
-            var viewXamlPath = Path.Combine(viewsDirectory, $"{StringLiterals.LicensesInfoMenu}.{FileExtensions.Xaml}");
+            var licensesInfoMenuXamlPath =
+                Path.Combine(viewsDirectory, $"{StringLiterals.LicensesInfoMenu}.{FileExtensions.Xaml}");
 
-            using (File.Create(viewXamlPath))
+            using (File.Create(licensesInfoMenuXamlPath))
             {
             }
 
-            FileHelper.ReplaceText(
-                $"SenticodeTemplate.TemplateFiles.{StringLiterals.LicensesInfoMenu}.{FileExtensions.Template}",
-                viewXamlPath);
+            FileHelper.ReplaceText(FileNames.LicensesInfoMenuXamlTemplate, licensesInfoMenuXamlPath);
 
-            FileHelper.ReplaceString(viewXamlPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
+            FileHelper.ReplaceString(licensesInfoMenuXamlPath, ReplacementTokens.ProjectName,
+                settings.SavedProjectName);
 
-            var vmsDirectory = Path.Combine(baseDirectory, StringLiterals.ViewModels, StringLiterals.Menu);
-            var vmPath = Path.Combine(vmsDirectory, $"{StringLiterals.LicensesMenuViewModel}.{FileExtensions.Cs}");
+            var viewModelPath = Path.Combine(baseDirectory, StringLiterals.ViewModels, StringLiterals.Menu,
+                FileNames.LicensesMenuViewModelCs);
 
-            using (File.Create(vmPath))
+            using (File.Create(viewModelPath))
             {
             }
 
-            FileHelper.ReplaceText(
-                $"SenticodeTemplate.TemplateFiles.{StringLiterals.LicensesMenuViewModel}.{FileExtensions.Template}",
-                vmPath);
+            FileHelper.ReplaceText(FileNames.LicensesMenuViewModelTemplate,
+                viewModelPath);
 
-            FileHelper.ReplaceString(vmPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
+            FileHelper.ReplaceString(viewModelPath, ReplacementTokens.ProjectName, settings.SavedProjectName);
 
-            var resourcesDirectory = Path.Combine(baseDirectory, StringLiterals.Resources);
-            var resourcesPath = Path.Combine(resourcesDirectory, FileNames.LicensesXml);
+            var resourcesPath = Path.Combine(baseDirectory, StringLiterals.Resources, FileNames.LicensesXml);
 
             using (File.Create(resourcesPath))
             {
             }
 
-            FileHelper.ReplaceText($"SenticodeTemplate.TemplateFiles.{FileNames.LicensesXml}", resourcesPath);
+            FileHelper.ReplaceText(FileNames.LicensesXmlTemplate, resourcesPath);
 
-            FileHelper.InsertString(Path.Combine(baseDirectory, $"{settings.SavedProjectName}.{FileExtensions.CsProj}"),
-                $"<EmbeddedResource Include=\"{StringLiterals.Configuration}\\{FileNames.AppConfigCs}\"/>",
-                $"<EmbeddedResource Include=\"{StringLiterals.Resources}\\{FileNames.LicensesXml}\"/>");
+            FileHelper.UncommentXml(Path.Combine(baseDirectory, $"{settings.SavedProjectName}.{FileExtensions.CsProj}"),
+                ReplacementTokens.Licenses);
 
             AddCodeForLicensesInApp(settings);
         }
@@ -432,36 +429,40 @@ namespace SenticodeTemplate.Services.Managers
         private static void AddCodeForLicensesInApp(ProjectSettings settings)
         {
             var baseDirectory = Path.Combine(settings.SavedPath, StringLiterals.Src, StringLiterals.Mobile,
-                StringLiterals.Core, $"{settings.SavedProjectName}");
+                StringLiterals.Core, settings.SavedProjectName);
 
             var navigateCommandPath = Path.Combine(baseDirectory, StringLiterals.Commands, StringLiterals.Navigation,
                 FileNames.NavigateToMenuCommandCs);
 
             FileHelper.InsertStringAfter(navigateCommandPath,
                 "_menuViews = new Dictionary<MenuKind, Func<ViewViewModelPair>>", 1,
-                $"{CodeConstants.NavigateToLicenses}\n");
+                CodeConstants.NavigateToLicenses);
 
             var aboutMenuPath = Path.Combine(baseDirectory, StringLiterals.Views, StringLiterals.Menu,
                 FileNames.AboutMenuXaml);
 
             FileHelper.InsertString(aboutMenuPath, StringLiterals.MainRegionXamlComment,
-                $"\t\t\t{CodeConstants.LicensesMenuItem}");
+                CodeConstants.LicensesMenuItem);
 
-            var aboutVmPath = Path.Combine(baseDirectory, StringLiterals.ViewModels, StringLiterals.Menu,
+            var aboutViewModelPath = Path.Combine(baseDirectory, StringLiterals.ViewModels, StringLiterals.Menu,
                 FileNames.AboutMenuViewModelCs);
 
-            FileHelper.InsertString(aboutVmPath, "container.RegisterInstance(this);", CodeConstants.LicenseInfo);
+            FileHelper.UncommentCs(aboutViewModelPath, ReplacementTokens.LicensesInfo);
+            FileHelper.UncommentCs(aboutViewModelPath, ReplacementTokens.LicensesInfoProperty);
 
-            FileHelper.InsertStringAfter(aboutVmPath, "Title = ResourceKeys.About;", 2,
-                "\t\tpublic ActionViewModel LicenseInfo { get; }\n");
+            FileHelper.InsertStringAtStart(aboutViewModelPath,
+                $"using {settings.SavedProjectName}.Commands.Navigation;");
+
+            FileHelper.InsertStringAtStart(aboutViewModelPath,
+                $"using {settings.SavedProjectName}.ViewModels.Abstractions;");
 
             var appInitializerPath = Path.Combine(baseDirectory, FileNames.AppInitializerCs);
 
             FileHelper.InsertString(appInitializerPath, "//3. ViewModels",
-                "\t\t\t\t\t.RegisterType<LicensesMenuViewModel>()\n");
+                ".RegisterType<LicensesMenuViewModel>()");
 
             FileHelper.InsertString(appInitializerPath, "//4. Views",
-                "\t\t\t\t\t.RegisterType<LicensesInfoMenu>()\n");
+                ".RegisterType<LicensesInfoMenu>()");
 
             AddAdditionalLicenses(settings);
         }

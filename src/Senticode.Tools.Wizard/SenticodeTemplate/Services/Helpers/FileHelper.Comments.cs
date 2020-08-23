@@ -9,10 +9,10 @@ namespace SenticodeTemplate.Services.Helpers
         public static readonly string CapturingGroup = nameof(CapturingGroup);
 
         private static Regex GetCsFileCommentRegex(string token) =>
-            new Regex($@"\/\*{token}\*\/\s*\/\*(?<{CapturingGroup}>[\s\S]*)\*\/");
+            new Regex($@"\/\*{token}\*\/\s*\/\*(?<{CapturingGroup}>[\s\S]*?)\*\/");
 
         private static Regex GetXmlFileCommentRegex(string token) =>
-            new Regex($@"<!--{token}-->\s*<!--(?<{CapturingGroup}>[\s\S]*)-->");
+            new Regex($@"<!--{token}-->\s*<!--(?<{CapturingGroup}>[\s\S]*?)-->");
 
         private static void Uncomment(string path, string token, Func<string, Regex> getRegex)
         {

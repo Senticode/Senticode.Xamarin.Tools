@@ -24,13 +24,18 @@
         public const string AppLifeTimeManagerCs = "AppLifeTimeManager.cs";
         public const string PackageAppXManifest = "Package.appxmanifest";
         public const string WeatherForecastApiControllerCs = "WeatherForecastApiController.cs";
-        public const string IWeatherWebServiceCs = "IWeatherWebService.cs";
+        public const string InterfaceWeatherWebServiceCs = "IWeatherWebService.cs";
         public const string WeatherWebServiceCs = "WeatherWebService.cs";
         public const string WebClientFactoryCs = "WebClientFactory.cs";
         public const string WebClientModuleInitializerCs = "WebClientModuleInitializer.cs";
-        public const string AppConfigCs = "app.config";
-        public const string SenticodeTemplateTemplateFilesReadmeMd = "SenticodeTemplate.TemplateFiles.README.md";
-        public const string SenticodeTemplateTemplateFilesAssemblyInfoTemplate = "SenticodeTemplate.TemplateFiles.AssemblyInfo.template";
-        public const string SenticodeTemplateTemplateFilesDockerfile = "SenticodeTemplate.TemplateFiles.Dockerfile";
+        public const string LicensesMenuViewModelCs = "LicensesMenuViewModel.cs";
+
+        public const string AssemblyInfoTemplate = "SenticodeTemplate.TemplateFiles.AssemblyInfo.template";
+        public const string LicensesXmlTemplate = "SenticodeTemplate.TemplateFiles.Licenses.xml";
+        public const string ReadmeTemplate = "SenticodeTemplate.TemplateFiles.README.md";
+        public const string DockerfileTemplate = "SenticodeTemplate.TemplateFiles.Dockerfile";
+        public const string LicensesInfoMenuCsTemplate = "SenticodeTemplate.TemplateFiles.LicensesInfoMenuCs.template";
+        public const string LicensesInfoMenuXamlTemplate = "SenticodeTemplate.TemplateFiles.LicensesInfoMenuXaml.template";
+        public const string LicensesMenuViewModelTemplate = "SenticodeTemplate.TemplateFiles.LicensesMenuViewModel.template";
     }
 }

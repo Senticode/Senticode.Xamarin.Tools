@@ -5,7 +5,7 @@ namespace SenticodeTemplate.Services.Helpers
     internal static class ConnectionStringHelper
     {
         private static string GetDbFileName(ProjectSettings settings, string scope) =>
-            $"Default.{settings.SavedProjectName}.{scope}.{FileExtensions.Db}";
+            $"Default.{settings.SavedProjectName}.{scope}.db";
 
         public static string GetXamarinDbFileName(ProjectSettings settings) =>
             GetDbFileName(settings, StringLiterals.Mobile);

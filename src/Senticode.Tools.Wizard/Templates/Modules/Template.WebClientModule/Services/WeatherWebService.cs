@@ -21,8 +21,8 @@ namespace _template.WebClientModule.Services
 
         public WeatherWebService(IUnityContainer container, IWebClientSettings settings)
         {
-            _settings = settings;
             _container = container.RegisterInstance<IWeatherWebService>(this);
+            _settings = settings;
         }
 
         public async Task<IResult<IEnumerable<WeatherForecast>>> GetAllAsync()

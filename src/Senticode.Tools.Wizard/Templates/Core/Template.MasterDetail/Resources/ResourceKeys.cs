@@ -7,5 +7,6 @@
         public static string About = nameof(About);
         public static string Main = nameof(Main);
         public static string Sample = nameof(Sample);
+        public static readonly string Licenses = nameof(Licenses);
     }
 }

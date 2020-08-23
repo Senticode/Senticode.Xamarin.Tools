@@ -5,7 +5,18 @@ namespace _template.Web.ModuleAggregator
 {
     public class ModuleAggregator : IInitializer
     {
-        public IServiceCollection Initialize(IServiceCollection services) => services;
+        public bool IsRegistered { get; private set; }
+
+        public IServiceCollection Initialize(IServiceCollection services)
+        {
+            if (!IsRegistered)
+            {
+                // Modules registration.
+                IsRegistered = true;
+            }
+
+            return services;
+        }
 
         #region singleton
 
