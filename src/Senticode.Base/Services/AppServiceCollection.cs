@@ -17,14 +17,17 @@ namespace Senticode.Base.Services
         public IResult Initialize()
         {
             var exceptions = new List<Exception>();
+
             lock (_locker)
             {
-                if (!IsInitialized)
+                if (!IsInitialized && !IsInitializing)
                 {
                     IsInitializing = true;
+
                     foreach (var service in this)
                     {
                         var r = service.Initialize();
+
                         if (!r.IsSuccessful)
                         {
                             exceptions.Add(r.Exception);
@@ -44,14 +47,17 @@ namespace Senticode.Base.Services
         public IResult Release()
         {
             var exceptions = new List<Exception>();
+
             lock (_locker)
             {
-                if (IsInitialized)
+                if (IsInitialized && !IsReleasing)
                 {
                     IsReleasing = true;
+
                     foreach (var service in this)
                     {
                         var r = service.Release();
+
                         if (!r.IsSuccessful)
                         {
                             exceptions.Add(r.Exception);
@@ -76,10 +82,11 @@ namespace Senticode.Base.Services
         {
             lock (_locker)
             {
-                if (IsInitialized && !service.IsInitialized)
+                if (IsInitialized)
                 {
                     service.Initialize();
                 }
+
                 base.Add(service);
             }
         }

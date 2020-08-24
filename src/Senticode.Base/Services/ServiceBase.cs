@@ -14,68 +14,62 @@ namespace Senticode.Base.Services
 
         public bool IsReleasing { get; private set; }
 
-        public virtual IResult Initialize()
-        {
-            return Initialize(null);
-        }
+        public virtual IResult Initialize() => Initialize(null);
 
-        public virtual IResult Release()
-        {
-            return Release(null);
-        }
+        public virtual IResult Release() => Release(null);
 
         protected virtual IResult Initialize(Action initAction)
         {
-            Result result = null;
+            Exception exception = null;
+
             lock (_locker)
             {
-                if (!IsInitialized)
+                if (!IsInitialized && !IsInitializing)
                 {
+                    IsInitializing = true;
+
                     try
                     {
-                        IsInitializing = true;
                         initAction?.Invoke();
-                        IsInitialized = true;
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
-                        result = new Result(new ServiceInitializeException(ex, GetType()));
+                        exception = new ServiceInitializeException(e, GetType());
                     }
-                    finally
-                    {
-                        IsInitializing = false;
-                    }
+
+                    IsInitializing = false;
+                    IsInitialized = exception == null;
                 }
             }
 
-            return result ?? new Result();
+            return new Result(exception);
         }
 
         protected virtual IResult Release(Action releaseAction)
         {
-            Result result = null;
+            Exception exception = null;
+
             lock (_locker)
             {
-                if (IsInitialized)
+                if (IsInitialized && !IsReleasing)
                 {
+                    IsReleasing = true;
+
                     try
                     {
-                        IsReleasing = true;
                         releaseAction?.Invoke();
-                        IsInitialized = false;
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
-                        result = new Result(new ServiceReleaseException(ex, GetType()));
+                        exception = new ServiceReleaseException(e, GetType());
                     }
-                    finally
-                    {
-                        IsReleasing = false;
-                    }
+
+                    IsReleasing = false;
+                    IsInitialized = exception != null;
                 }
             }
 
-            return result ?? new Result();
+            return new Result(exception);
         }
     }
 }
