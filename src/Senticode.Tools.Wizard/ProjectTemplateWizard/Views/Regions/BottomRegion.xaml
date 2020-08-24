@@ -194,17 +194,26 @@
         <CheckBox Grid.Row="1"
                   Grid.Column="8"
                   Content="Include Readme"
-                  IsEnabled="True"
                   IsChecked="{Binding IsReadmeIncluded, Mode=TwoWay}" />
         <CheckBox Grid.Row="2"
                   Grid.Column="8"
                   Content="Integrate versioning system"
-                  IsEnabled="True"
                   IsChecked="{Binding IsVersioningSystemIncluded, Mode=TwoWay}" />
         <CheckBox Grid.Row="3"
                   Grid.Column="8"
                   Content="Include Licenses Info Page"
-                  IsEnabled="True"
-                  IsChecked="{Binding IsLicensesInfoPageIncluded, Mode=TwoWay}" />
+                  IsChecked="{Binding IsLicensesInfoPageIncluded, Mode=TwoWay}">
+            <CheckBox.Style>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ProjectTemplateType}"
+                                     Value="{x:Static interfaces:ProjectTemplateType.MasterDetail}">
+                            <Setter Property="IsEnabled" Value="True" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </CheckBox.Style>
+        </CheckBox>
     </Grid>
 </UserControl>

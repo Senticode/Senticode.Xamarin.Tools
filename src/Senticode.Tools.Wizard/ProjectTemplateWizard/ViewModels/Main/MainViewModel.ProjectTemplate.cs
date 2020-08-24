@@ -40,6 +40,10 @@ namespace ProjectTemplateWizard.ViewModels.Main
             {
                 ProjectTemplateType = ProjectTemplateType.MasterDetail;
             }
+            else
+            {
+                IsLicensesInfoPageIncluded = false;
+            }
         }
 
         /// <summary>
