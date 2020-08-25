@@ -41,6 +41,9 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\sln\Wizard\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -48,6 +51,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\sln\Wizard\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -80,6 +86,7 @@
     <Compile Include="Abstractions\Interfaces\IObservableObject.cs" />
     <Compile Include="Abstractions\Interfaces\IProjectTemplateData.cs" />
     <Compile Include="Abstractions\ObservableObjectBase.cs" />
+    <Compile Include="Behaviors\TextBoxFocusBehavior.cs" />
     <Compile Include="Constants\DialogFilters.cs" />
     <Compile Include="Constants\Locations.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
@@ -89,13 +96,17 @@
     <Compile Include="Core\Command.cs" />
     <Compile Include="ExtensionMethods\EnumExtension.cs" />
     <Compile Include="ExtensionMethods\MainViewModelExtension.cs" />
+    <Compile Include="ExtensionMethods\ModuleEditingViewModelExtension.cs" />
+    <Compile Include="ExtensionMethods\ModuleViewModelExtension.cs" />
     <Compile Include="Helpers\GtkSharpReferenceHelper.cs" />
     <Compile Include="Models\ProjectTemplateData.cs" />
     <Compile Include="ViewModels\AssetPickerViewModel.cs" />
     <Compile Include="ViewModels\Main\MainViewModel.Commands.cs" />
     <Compile Include="ViewModels\Main\MainViewModel.cs" />
+    <Compile Include="ViewModels\Main\MainViewModel.ModuleEditing.cs" />
     <Compile Include="ViewModels\Main\MainViewModel.Modules.cs" />
     <Compile Include="ViewModels\Main\MainViewModel.ProjectTemplate.cs" />
+    <Compile Include="ViewModels\ModuleEditingViewModel.cs" />
     <Compile Include="ViewModels\ModuleViewModel.cs" />
     <Compile Include="ViewModels\SpecificModuleViewModel.cs" />
     <Compile Include="Views\Controls\AssetPicker.xaml.cs">
@@ -103,6 +114,12 @@
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Regions\ModuleListRegion.xaml.cs">
+      <DependentUpon>ModuleListRegion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Regions\ModuleEditingRegion.xaml.cs">
+      <DependentUpon>ModuleEditingRegion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProjectTemplateDialog.xaml.cs">
       <DependentUpon>ProjectTemplateDialog.xaml</DependentUpon>
@@ -126,6 +143,14 @@
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Regions\ModuleListRegion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Regions\ModuleEditingRegion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ProjectTemplateDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -174,5 +199,6 @@
   <ItemGroup>
     <Resource Include="Views\ResourceDictionaries\Resources\transparency100.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

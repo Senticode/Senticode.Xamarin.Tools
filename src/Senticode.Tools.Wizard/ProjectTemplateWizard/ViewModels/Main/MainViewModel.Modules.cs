@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ProjectTemplateWizard.Abstractions.Interfaces;
 
 namespace ProjectTemplateWizard.ViewModels.Main
 {
     internal partial class MainViewModel
     {
-        public ObservableCollection<ModuleViewModel> Modules { get; private set; }
+        public ObservableCollection<ModuleViewModel> CustomModules { get; private set; }
         public IReadOnlyCollection<SpecificModuleViewModel> SpecialModules { get; private set; }
         public SpecificModuleViewModel SignalRModule { get; private set; }
         public SpecificModuleViewModel WebBackendModule { get; private set; }
@@ -16,25 +17,25 @@ namespace ProjectTemplateWizard.ViewModels.Main
         {
             SignalRModule = new SpecificModuleViewModel
             {
-                IsWebModule = true,
+                ModuleType = ModuleType.Web,
                 Name = "SignalRModule"
             };
 
             WebBackendModule = new SpecificModuleViewModel
             {
-                IsWebModule = true,
+                ModuleType = ModuleType.Web,
                 Name = "WebApiClientModule"
             };
 
             DatabaseXamarinModule = new SpecificModuleViewModel
             {
-                IsXamarinModule = true,
+                ModuleType = ModuleType.Xamarin,
                 Name = "DataAccessXamarinModule"
             };
 
             DatabaseWebModule = new SpecificModuleViewModel
             {
-                IsWebModule = true,
+                ModuleType = ModuleType.Web,
                 Name = "DataAccessWebModule"
             };
 
@@ -43,7 +44,7 @@ namespace ProjectTemplateWizard.ViewModels.Main
                 WebBackendModule, SignalRModule, DatabaseWebModule, DatabaseXamarinModule
             };
 
-            Modules = new ObservableCollection<ModuleViewModel>();
+            CustomModules = new ObservableCollection<ModuleViewModel>();
         }
 
         #region SelectedModule: ModuleViewModel

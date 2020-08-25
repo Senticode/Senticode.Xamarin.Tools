@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="ProjectTemplateWizard.Views.Regions.ModuleEditingRegion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:main="clr-namespace:ProjectTemplateWizard.ViewModels.Main"
+             xmlns:viewModels="clr-namespace:ProjectTemplateWizard.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:ProjectTemplateWizard.Behaviors"
+             mc:Ignorable="d"
+             x:ClassModifier="internal">
+
+    <d:UserControl.DataContext>
+        <main:MainViewModel />
+    </d:UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/ProjectTemplateWizard;component/Views/ResourceDictionaries/RootDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{StaticResource InnerSpacing}" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource AncestorType=Grid}}"
+                  MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource AncestorType=Grid}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="{StaticResource InnerSpacing}" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0"
+                         Text="{Binding ModuleEditingViewModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:TextBoxFocusBehavior />
+                    </i:Interaction.Behaviors>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ModuleEditingViewModel.EditingProcessType}"
+                                             Value="{x:Static viewModels:ModuleEditingProcessType.Edit}">
+                                    <Setter Property="ToolTip"
+                                            Value="{Binding ModuleEditingViewModel.SelectedModule.Name}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Border Grid.Row="2"
+                        Grid.Column="0">
+                    <Border.Style>
+                        <Style BasedOn="{StaticResource RadioGroupBorder}"
+                               TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding IsWebBackendIncluded}"
+                                    Value="False">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <RadioButton Grid.Row="0"
+                                     Content="Xamarin"
+                                     GroupName="ModuleType"
+                                     IsChecked="{Binding ModuleEditingViewModel.IsXamarinModule, Mode=TwoWay}" />
+                        <RadioButton Grid.Row="1"
+                                     Content="Web"
+                                     GroupName="ModuleType"
+                                     IsChecked="{Binding ModuleEditingViewModel.IsWebModule, Mode=TwoWay}" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="{StaticResource InnerSpacing}" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="{StaticResource InnerSpacing}" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0"
+                    Content="Save"
+                    Command="{Binding ModuleEditingViewModel.SaveCommand, Mode=OneWay}" />
+            <Button Grid.Row="2"
+                    Content="Cancel"
+                    Command="{Binding CancelEditModuleCommand, Mode=OneTime}" />
+            <Button Grid.Row="4"
+                    Content="IT USED ONLY FOR SPACING"
+                    Visibility="Hidden" />
+        </Grid>
+    </Grid>
+</UserControl>

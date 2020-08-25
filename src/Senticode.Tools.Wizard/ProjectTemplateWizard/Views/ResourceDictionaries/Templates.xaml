@@ -18,18 +18,6 @@
                             </MultiBinding>
                         </Setter.Value>
                     </Setter>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Name, Converter={converters:StringTrimmingConverter}}"
-                                     Value="{x:Null}">
-                            <Setter Property="Foreground"
-                                    Value="{StaticResource AlertBrush}" />
-                            <Setter Property="Text">
-                                <Setter.Value>
-                                    <Binding Path="ModuleType" StringFormat="{}- ({0})" />
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
                 </Style>
             </TextBlock.Style>
         </TextBlock>

@@ -10,28 +10,11 @@ namespace ProjectTemplateWizard.ViewModels.Main
         {
             InitializeModules();
             InitializeAssetPickers();
+            InitializeModuleEditing();
             IsMasterDetailProjectSelected = true;
             WebDatabaseInfrastructureType = WebDatabaseInfrastructureType.MsSql;
             XamarinDatabaseInfrastructureType = XamarinDatabaseInfrastructureType.SqLite;
         }
-
-        #region IsModuleEditModeOn: bool
-
-        /// <summary>
-        ///     Gets or sets the IsModuleEditModeOn value.
-        /// </summary>
-        public bool IsModuleEditModeOn
-        {
-            get => _isModuleEditModeOn;
-            set => SetProperty(ref _isModuleEditModeOn, value);
-        }
-
-        /// <summary>
-        ///     IsModuleEditModeOn property data.
-        /// </summary>
-        private bool _isModuleEditModeOn;
-
-        #endregion
 
         #region IsModularDesign: bool
 
@@ -180,7 +163,7 @@ namespace ProjectTemplateWizard.ViewModels.Main
         public bool IsWebBackendIncluded
         {
             get => _isWebBackendIncluded;
-            set => SetProperty(ref _isWebBackendIncluded, value, 
+            set => SetProperty(ref _isWebBackendIncluded, value,
                 this.UpdateWebBackendSelection, null, nameof(IsWebBackendIncluded));
         }
 

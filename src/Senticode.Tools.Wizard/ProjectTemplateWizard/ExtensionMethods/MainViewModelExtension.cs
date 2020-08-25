@@ -53,6 +53,21 @@ namespace ProjectTemplateWizard.ExtensionMethods
                 throw new NotSupportedException($"Asset source does not exist {nameof(splashScreenImagePath)}");
             }
 
+            IReadOnlyList<ModuleInfo> customModules = null;
+
+            if (viewModel.IsModularDesign)
+            {
+                if (viewModel.IsWebBackendIncluded)
+                {
+                    customModules = viewModel.CustomModules.Select(x => x.ToModelInfo()).ToList();
+                }
+                else
+                {
+                    customModules = viewModel.CustomModules.Where(x => x.ModuleType != ModuleType.Web)
+                        .Select(x => x.ToModelInfo()).ToList();
+                }
+            }
+
             var result = new ProjectTemplateData
             {
                 SplashScreenImagePath = splashScreenImagePath,
@@ -60,12 +75,7 @@ namespace ProjectTemplateWizard.ExtensionMethods
                 SplashScreenBackgroundColor = viewModel.SplashScreenImagePickerViewModel.SelectedColor.ToString(),
                 AppIconBackgroundColor = viewModel.IconPickerViewModel.SelectedColor.ToString(),
                 ProjectTemplateType = viewModel.ProjectTemplateType,
-
-                CustomModules = viewModel.Modules
-                    .Where(x => !string.IsNullOrWhiteSpace(x.Name))
-                    .Select(x => new ModuleInfo(x.Name.Trim(), x.ModuleType))
-                    .ToList(),
-
+                CustomModules = customModules,
                 IsModularDesign = viewModel.IsModularDesign,
                 SelectedPlatforms = selectedPlatforms,
                 IsNUnitIncluded = viewModel.IsNUnitIncluded,
@@ -109,22 +119,25 @@ namespace ProjectTemplateWizard.ExtensionMethods
                 return;
             }
 
+            if (viewModel.SelectedModule?.ModuleType == ModuleType.Web)
+            {
+                viewModel.SelectedModule = null;
+            }
+
             viewModel.IsDockerComposeIncluded = false;
             viewModel.IsSwaggerIncluded = false;
             viewModel.IsIdentityServerIncluded = false;
             viewModel.DatabaseWebModule.IsApplied = false;
             viewModel.SignalRModule.IsApplied = false;
 
-            foreach (var module in viewModel.Modules)
+            if (viewModel.IsModuleEditModeOn)
             {
-                module.IsXamarinModule = true;
+                viewModel.ModuleEditingViewModel.IsXamarinModule = true;
             }
         }
 
         public static void UpdateArchitecturePatterSelection(this MainViewModel viewModel)
         {
-            viewModel.Modules.Clear();
-
             if (viewModel.IsModularDesign)
             {
                 return;
