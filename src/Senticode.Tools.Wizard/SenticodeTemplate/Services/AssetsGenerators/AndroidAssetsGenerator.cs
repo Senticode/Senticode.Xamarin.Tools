@@ -10,13 +10,13 @@ namespace SenticodeTemplate.Services.AssetsGenerators
     {
         private const string AppIconBackgroundColorToken = "@color/colorIconDefaultBackground";
         private const string SplashScreenBackgroundColorToken = "@color/colorSplashScreenDefaultBackground";
-        private const string AppIconAssetName = "icon.png";
-        private const string AdaptiveIconAssetName = "icon_foreground.png";
-        private const string SplashScreenAssetName = "splash.png";
+        private const string AppIconForeground = "icon_foreground.png";
+        private const string AppIconRoundForeground = "icon_round_foreground.png";
+        private const string SplashScreenAsset = "splash.png";
 
         private static readonly IReadOnlyList<AssetInfo> MipmapFolders = new List<AssetInfo>
         {
-            //{Path.Combine(ResourcesFolder, "drawable-ldpi"), 0.75d / 4d}, //todo VDE: deal with it
+            new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-ldpi"), 0.75d / 4d),
             new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-mdpi"), 1d / 4d),
             new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-hdpi"), 1.5d / 4d),
             new AssetInfo(Path.Combine(StringLiterals.Resources, "mipmap-xhdpi"), 2d / 4d),
@@ -43,9 +43,9 @@ namespace SenticodeTemplate.Services.AssetsGenerators
             var colorFile = Path.Combine(rootPath, _colorFile);
             FileHelper.ReplaceString(colorFile, AppIconBackgroundColorToken, data.AppIconBackgroundColor);
             FileHelper.ReplaceString(colorFile, SplashScreenBackgroundColorToken, data.SplashScreenBackgroundColor);
-            GenerateAssets(data.AppIconPath, rootPath, AppIconAssetName, MipmapFolders);
-            GenerateAssets(data.AppIconPath, rootPath, AdaptiveIconAssetName, MipmapFolders);
-            GenerateAssets(data.SplashScreenImagePath, rootPath, SplashScreenAssetName, DrawableFolders);
+            GenerateAssets(data.AppIconPath, rootPath, AppIconForeground, MipmapFolders);
+            GenerateAssets(data.AppIconPath, rootPath, AppIconRoundForeground, MipmapFolders);
+            GenerateAssets(data.SplashScreenImagePath, rootPath, SplashScreenAsset, DrawableFolders);
         }
 
         private static void GenerateAssets(string sourcePath, string rootPath, string assetName,

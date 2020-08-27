@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:main="clr-namespace:ProjectTemplateWizard.ViewModels.Main"
              xmlns:viewModels="clr-namespace:ProjectTemplateWizard.ViewModels"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:behaviors="clr-namespace:ProjectTemplateWizard.Behaviors"
              mc:Ignorable="d"
              x:ClassModifier="internal">
 
@@ -38,10 +36,8 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="0"
+                         x:Name="ModuleNameTextBox"
                          Text="{Binding ModuleEditingViewModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:TextBoxFocusBehavior />
-                    </i:Interaction.Behaviors>
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                             <Style.Triggers>

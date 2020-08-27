@@ -15,7 +15,7 @@ namespace _template.Android
             {
                 var intent = new Intent(this, typeof(MainActivity));
 
-                if (Intent.Extras != null)
+                if (Intent?.Extras != null)
                 {
                     intent.PutExtras(Intent.Extras);
                 }

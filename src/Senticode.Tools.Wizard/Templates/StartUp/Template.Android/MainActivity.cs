@@ -15,8 +15,7 @@ using Platform = Xamarin.Essentials.Platform;
 
 namespace _template.Android
 {
-    [Activity(Label = "Sample", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false,
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : FormsAppCompatActivity
     {
         private const int PermissionsRequest = 101;
@@ -63,7 +62,7 @@ namespace _template.Android
 
         private void CheckAndRequestPermissions()
         {
-            if (int.Parse(Build.VERSION.Sdk) < 23)
+            if ((int) Build.VERSION.SdkInt < 23)
             {
                 return;
             }
