@@ -41,5 +41,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Senticode.Base\Senticode.Base.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
 
 </Project>
