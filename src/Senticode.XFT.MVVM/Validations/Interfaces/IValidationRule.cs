@@ -1,10 +1,10 @@
 ﻿namespace Senticode.Xamarin.Tools.MVVM.Validations.Interfaces
 {
     /// <summary>
-    ///     Incapsulates way of validation.
+    ///     Encapsulates way of validation.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IValidationRule<T>
+    public interface IValidationRule<in T>
     {
         /// <summary>
         ///      Gets or sets the ValidationMessage property.

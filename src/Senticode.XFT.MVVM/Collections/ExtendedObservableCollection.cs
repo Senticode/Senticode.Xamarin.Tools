@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 namespace Senticode.Xamarin.Tools.MVVM.Collections
 {
     /// <summary>
-    ///     Abstract class that adds thread safe event raising to the <see cref="ObservableCollection<T>"/>.
+    ///     Abstract class that adds thread safe event raising to the <see cref="ObservableCollection{T}"/>.
     /// </summary>
     public abstract class ExtendedObservableCollection<T> : ObservableCollection<T>
     {

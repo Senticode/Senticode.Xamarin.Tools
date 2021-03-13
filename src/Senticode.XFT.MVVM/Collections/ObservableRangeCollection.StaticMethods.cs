@@ -60,6 +60,16 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
         private static void OnMove<TOut>(ObservableRangeCollection<T> myCollection, Func<T, TOut> translator,
             ObservableRangeCollection<TOut> outCollection)
         {
+            if (myCollection == null)
+            {
+                throw new ArgumentNullException(nameof(myCollection));
+            }
+
+            if (outCollection == null)
+            {
+                throw new ArgumentNullException(nameof(outCollection));
+            }
+
             //TODO implement this
             outCollection.ReplaceAll(myCollection.Select(translator).ToList());
         }
@@ -67,6 +77,16 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
         private static void OnReplace<TOut>(ObservableRangeCollection<T> myCollection, Func<T, TOut> translator,
             NotifyCollectionChangedEventArgs args, ObservableRangeCollection<TOut> outCollection)
         {
+            if (myCollection == null)
+            {
+                throw new ArgumentNullException(nameof(myCollection));
+            }
+
+            if (outCollection == null)
+            {
+                throw new ArgumentNullException(nameof(outCollection));
+            }
+
             try
             {
                 if (args.OldItems.Cast<T>() is IEnumerable<T> oldReplacedItems &&
@@ -88,6 +108,11 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
         private static void OnRemove<TOut>(Func<T, TOut> translator, NotifyCollectionChangedEventArgs args,
             ObservableRangeCollection<TOut> outCollection)
         {
+            if (outCollection == null)
+            {
+                throw new ArgumentNullException(nameof(outCollection));
+            }
+
             if (args.OldItems.Cast<T>() is IEnumerable<T> oldItems)
             {
                 try
@@ -113,6 +138,11 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
         private static void OnAdd<TOut>(Func<T, TOut> translator, NotifyCollectionChangedEventArgs args,
             ObservableRangeCollection<TOut> outCollection)
         {
+            if (outCollection == null)
+            {
+                throw new ArgumentNullException(nameof(outCollection));
+            }
+
             if (args.NewItems.Cast<T>() is IEnumerable<T> newItems)
             {
                 try
@@ -138,6 +168,16 @@ namespace Senticode.Xamarin.Tools.MVVM.Collections
         private static void OnReset<TOut>(ObservableRangeCollection<T> myCollection, Func<T, TOut> translator,
             ObservableRangeCollection<TOut> outCollection)
         {
+            if (myCollection == null)
+            {
+                throw new ArgumentNullException(nameof(myCollection));
+            }
+
+            if (outCollection == null)
+            {
+                throw new ArgumentNullException(nameof(outCollection));
+            }
+
             outCollection.ReplaceAll(myCollection.Select(translator).ToList());
         }
     }

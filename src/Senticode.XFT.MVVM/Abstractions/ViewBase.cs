@@ -20,9 +20,8 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
         private bool _isAppeared;
         private bool _isInitialized;
 
-        private MasterDetailPage _masterDetailPage;
-
         private IViewModel _vm;
+        private FlyoutPage _flyoutPage;
 
         protected ViewBase()
         {
@@ -60,10 +59,10 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
             if (RealParent is Page page)
             {
                 Page = page;
-                if (page.RealParent is MasterDetailPage masterDetailPage)
+                if (page.RealParent is FlyoutPage flyoutPage)
                 {
-                    _masterDetailPage = masterDetailPage;
-                    masterDetailPage.IsPresentedChanged += MasterDetailPageOnIsPresentedChanged;
+                    _flyoutPage = flyoutPage;
+                    flyoutPage.IsPresentedChanged += MasterDetailPageOnIsPresentedChanged;
                 }
                 else
                 {
@@ -84,7 +83,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
 
         private async void MasterDetailPageOnIsPresentedChanged(object sender, EventArgs eventArgs)
         {
-            if (_masterDetailPage.IsPresented)
+            if (_flyoutPage.IsPresented)
             {
                 _vm.IsBusy = true;
                 await _vm.OnInitializedAsync(this, new ViewBaseEventArgs(Page));
@@ -103,7 +102,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
                     Debug.WriteLine(e);
                 }
 
-                _masterDetailPage.IsPresentedChanged += MasterDetailPageOnIsPresentedChanged;
+                _flyoutPage.IsPresentedChanged += MasterDetailPageOnIsPresentedChanged;
                 _vm.IsBusy = false;
             }
         }

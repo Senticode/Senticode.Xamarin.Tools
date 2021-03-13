@@ -5,7 +5,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Validations
     /// <summary>
     ///     Struct that contains validation errors.
     /// </summary>
-    public struct ErrorInfo
+    public readonly struct ErrorInfo
     {
         public ErrorInfo(Guid handleId, string message)
         {

@@ -24,6 +24,11 @@ namespace Senticode.Xamarin.Tools.MVVM
             // Do nothing because this method is only intended for debugging mode
 #if DEBUG
             var key = obj.GetType().FullName;
+            if (key == null)
+            {
+                return;
+            }
+
             if (MemoryObjectCountDictionary.ContainsKey(key))
             {
                 MemoryObjectCountDictionary[key]++;
@@ -44,7 +49,7 @@ namespace Senticode.Xamarin.Tools.MVVM
             // Do nothing because this method is only intended for debugging mode
 #if DEBUG
             var key = obj.GetType().FullName;
-            if (MemoryObjectCountDictionary.ContainsKey(key))
+            if (key != null && MemoryObjectCountDictionary.ContainsKey(key))
             {
                 MemoryObjectCountDictionary[key]--;
             }

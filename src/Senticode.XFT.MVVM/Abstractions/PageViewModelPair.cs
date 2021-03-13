@@ -5,7 +5,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
     /// <summary>
     ///     Struct that holds Page and ViewModel.
     /// </summary>
-    public struct PageViewModelPair
+    public readonly struct PageViewModelPair
     {
         public PageViewModelPair(Page page, ViewModelBase viewModel)
         {

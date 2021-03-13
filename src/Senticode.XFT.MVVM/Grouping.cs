@@ -84,7 +84,7 @@ namespace Senticode.Xamarin.Tools.MVVM
                 if (_isActive != value)
                 {
                     _isActive = value;
-                    ActivateChildrens(value);
+                    ActivateChildren(value);
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsActive)));
                 }
             }
@@ -115,7 +115,7 @@ namespace Senticode.Xamarin.Tools.MVVM
             }
         }
 
-        private void ActivateChildrens(bool value)
+        private void ActivateChildren(bool value)
         {
             foreach (var model in Items)
             {

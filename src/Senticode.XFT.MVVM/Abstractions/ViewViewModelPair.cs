@@ -5,7 +5,7 @@ namespace Senticode.Xamarin.Tools.MVVM.Abstractions
     /// <summary>
     ///     Struct that holds View and ViewModel.
     /// </summary>
-    public struct ViewViewModelPair
+    public readonly struct ViewViewModelPair
     {
         public ViewViewModelPair(View view, ViewModelBase viewModel)
         {

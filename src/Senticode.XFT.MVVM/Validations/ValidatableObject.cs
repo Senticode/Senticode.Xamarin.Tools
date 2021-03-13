@@ -59,22 +59,14 @@ namespace Senticode.Xamarin.Tools.MVVM.Validations
         {
             if (_viewmodel.TryGetTarget(out var vm))
             {
-                var removeElements = new List<ErrorInfo>();
-                foreach (var err in Errors)
-                {
-                    if (err.HandleId == HandleId)
-                    {
-                        removeElements.Add(err);
-                    }
-                }
+                var removeElements = Errors.Where(err => err.HandleId == HandleId).ToList();
 
                 foreach (var err in removeElements)
                 {
-                    vm?.Errors.Remove(err);
+                    vm.Errors.Remove(err);
                 }
 
-
-                vm?.Errors.AddRange(Errors);
+                vm.Errors.AddRange(Errors);
                 vm.OnValidate();
             }
         }
