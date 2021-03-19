@@ -14,10 +14,14 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
         All = 3
     }
 
+    public class OnDeviceOrientationExtension : OnDeviceOrientationExtension<object>
+    {
+    }
+
     /// <summary>
     ///     Sets bindable property value based on device orientation.
     /// </summary>
-    public class OnDeviceOrientationExtension : WeakMarkupExtensionBase, IMarkupExtension
+    public class OnDeviceOrientationExtension<T> : WeakMarkupExtensionBase, IMarkupExtension<T>
     {
         private BindableObject _bo;
         private BindableProperty _property;
@@ -30,34 +34,39 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
         /// <summary>
         ///     Gets or sets the Landscape property.
         /// </summary>
-        public object Landscape { get; set; }
+        public T Landscape { get; set; }
 
         /// <summary>
         ///     Gets or sets the Portrait property.
         /// </summary>
-        public object Portrait { get; set; }
+        public T Portrait { get; set; }
 
         /// <summary>
         ///     Gets or sets the Default property.
         /// </summary>
-        public object Default { get; set; }
+        public T Default { get; set; }
 
         /// <summary>
         ///     Gets or sets the TargetDevice property.
         /// </summary>
         public TargetDevice TargetDevice { get; set; }
 
-        public object ProvideValue(IServiceProvider serviceProvider)
+        public T ProvideValue(IServiceProvider serviceProvider)
         {
             SetProvideValue(serviceProvider);
             SetBindableObject(serviceProvider);
             SetProperty(DeviceOrientationInfo.Orientation);
             DeviceOrientationInfo.DeviceOrientationChanged += OnDeviceOrientation_Changed;
-            return _bo.GetValue(_property);
+            return (T)_bo.GetValue(_property);
+        }
+
+        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
+        {
+            return ProvideValue(serviceProvider);
         }
 
         /// <summary>
-        ///     Subscribes to the <see cref="DeviceOrientationInfo.DeviceOrientationChanged"/> event.
+        ///     Subscribes to the <see cref="DeviceOrientationInfo.DeviceOrientationChanged" /> event.
         /// </summary>
         public override void Subscribe()
         {
@@ -65,7 +74,7 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
         }
 
         /// <summary>
-        ///     Unsubscribes from the <see cref="DeviceOrientationInfo.DeviceOrientationChanged"/> event.
+        ///     Unsubscribes from the <see cref="DeviceOrientationInfo.DeviceOrientationChanged" /> event.
         /// </summary>
         public override void Unsubscribe()
         {
@@ -84,6 +93,17 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
 
         private void SetProperty(DeviceOrientation.DeviceOrientation orientation)
         {
+            if (_bo == null)
+            {
+                var ex = new NullReferenceException(
+                    $"Parent bindable object is nod found for {nameof(OnDeviceOrientationExtension)}");
+#if DEBUG
+                throw ex;
+#else
+                return;
+#endif
+            }
+
             switch (TargetDevice)
             {
                 case TargetDevice.Phone:
@@ -119,20 +139,20 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
                 switch (orientation)
                 {
                     case DeviceOrientation.DeviceOrientation.Landscape:
-                    {
-                        _bo.SetValue(_property, Landscape);
-                        break;
-                    }
+                        {
+                            _bo.SetValue(_property, Landscape);
+                            break;
+                        }
                     case DeviceOrientation.DeviceOrientation.Portrait:
-                    {
-                        _bo.SetValue(_property, Portrait);
-                        break;
-                    }
+                        {
+                            _bo.SetValue(_property, Portrait);
+                            break;
+                        }
                     default:
-                    {
-                        _bo.SetValue(_property, Default);
-                        break;
-                    }
+                        {
+                            _bo.SetValue(_property, Default);
+                            break;
+                        }
                 }
             }
             catch (Exception exception)
@@ -142,9 +162,10 @@ namespace Senticode.Xamarin.Tools.Core.MarkupExtensions
             }
         }
 
+
         private void SetBindableObject(IServiceProvider serviceProvider)
         {
-            var pvt = (IProvideValueTarget) serviceProvider.GetService(typeof(IProvideValueTarget));
+            var pvt = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
             _bo = pvt.TargetObject as BindableObject;
             _property = pvt.TargetProperty as BindableProperty;
         }

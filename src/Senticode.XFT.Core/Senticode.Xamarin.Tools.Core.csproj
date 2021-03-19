@@ -35,6 +35,7 @@
   
   <ItemGroup>
     <PackageReference Include="Unity.Container" Version="5.11.11" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
   </ItemGroup>
   
